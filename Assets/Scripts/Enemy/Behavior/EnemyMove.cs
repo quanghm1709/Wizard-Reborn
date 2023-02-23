@@ -6,6 +6,24 @@ public class EnemyMove : State
 {
     public override CharacterState GetState()
     {
-        throw new System.NotImplementedException();
+        return CharacterState.Moving;
+    }
+
+    public override void Action() {
+        Move();
+    }
+
+    private void Move()
+    {
+        if (!_agent.Detect() && _agent.canMove)
+        {
+            _agent.transform.position = Vector2.MoveTowards(_agent.transform.position, _agent.tar.position, _agent.currentSpd * Time.deltaTime);
+            _agent.anim.SetBool("isMove", true);
+        }
+        else
+        {
+            _agent.ChangeState(CharacterState.Attack);
+        }
+        
     }
 }

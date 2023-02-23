@@ -14,8 +14,8 @@ public enum CharacterState
 
 public abstract class State : MonoBehaviour
 {
-    protected Core _agent = null;
-    public void Init(Core character)
+    protected EnemyCore _agent = null;
+    public void Init(EnemyCore character)
     {
         _agent = character;
     }

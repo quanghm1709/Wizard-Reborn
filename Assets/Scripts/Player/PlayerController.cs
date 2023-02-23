@@ -58,9 +58,11 @@ public class PlayerController : Core
         if(dirX > 0)
         {
             transform.localScale = new Vector3(1, 1, 1);
+            isFacingRight = true;
         }else if(dirX  < 0)
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            isFacingRight = false;
         }
     }
 
@@ -85,16 +87,31 @@ public class PlayerController : Core
 
     private void TestAttack()
     {
-        RaycastHit2D[] hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2(attackPoint.position.x + damageRange, attackPoint.position.y));
-        foreach(var i in hit)
+        float direct;
+        if (isFacingRight)
+        {
+            direct = 1;
+        }
+        else
+        {
+            direct = -1;
+        }
+
+        RaycastHit2D[] hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange)*direct, attackPoint.position.y));
+        Debug.Log((attackPoint.position.x + damageRange) * direct);
+        
+        foreach (var i in hit)
         {
             Debug.Log(i.collider.name);
         }
     }
+
     private void OnDrawGizmos()
     {
+        float direct;
+
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(attackPoint.position, new Vector3(attackPoint.position.x + damageRange, attackPoint.position.y, attackPoint.position.z));
+        Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
         //Gizmos.DrawWireCube(attackPoint.position, new Vector3(attackPoint.position.x+damageRange, attackPoint.position.y+ damageRange, attackPoint.position.z));
     }
 }

@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 464061006}
   - component: {fileID: 464061005}
   - component: {fileID: 464061004}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,6 +283,7 @@ MonoBehaviour:
   rb: {fileID: 464061006}
   anim: {fileID: 273206872}
   canMove: 1
+  canAttack: 0
   attackPoint: {fileID: 1884928999}
   damageRange: 1.5
   timeBtwHitCD: 0
@@ -420,6 +421,7 @@ GameObject:
   - component: {fileID: 1551946859}
   - component: {fileID: 1551946858}
   - component: {fileID: 1551946857}
+  - component: {fileID: 1551946860}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -458,17 +460,24 @@ MonoBehaviour:
   objName: Flying Eye
   currentHp: 0
   currentAtk: 0
-  currentSpd: 0
+  currentSpd: 1
   rb: {fileID: 1551946858}
   anim: {fileID: 1862074139}
-  canMove: 0
+  canMove: 1
+  canAttack: 1
+  tar: {fileID: 464061003}
+  detectRange: 0.3
+  detectLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  detect: {fileID: 1551946860}
   states:
   - {fileID: 591001242310519717, guid: 650430b694b2b734598f454c93db0de5, type: 3}
   - {fileID: 1324376694300098362, guid: 59b41364d06efe64e8cc62b3b3fc084a, type: 3}
   - {fileID: 3581276762699177350, guid: 7f0aa27b44ae1c948b22e731a5c05af8, type: 3}
   - {fileID: 4252229841848449869, guid: 013e34038f7f0cb4397842f1573551a6, type: 3}
   - {fileID: 4409473338377954797, guid: b3522132722317d4798d101ee5ab221f, type: 3}
-  _characterState: 0
+  _characterState: 1
 --- !u!50 &1551946858
 Rigidbody2D:
   serializedVersion: 4
@@ -506,6 +515,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.25
+--- !u!114 &1551946860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1551946855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9648c988e02355409c39a0bf26fabcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1862074137
 GameObject:
   m_ObjectHideFlags: 0

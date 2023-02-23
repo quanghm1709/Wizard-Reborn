@@ -6,6 +6,10 @@ public class EnemyCrowdControl : State
 {
     public override CharacterState GetState()
     {
-        throw new System.NotImplementedException();
+        return CharacterState.CrowControl;
+    }
+    public override void Action()
+    {
+        
     }
 }

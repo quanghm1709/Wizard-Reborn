@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : Core
+public class EnemyController : EnemyCore
 {
     [Header("Behavior")]
     [SerializeField] public List<State> states;
-    [HideInInspector] public CharacterState _characterState;
+     public CharacterState _characterState;
 
     private void Update()
     {
         var curState = GetState(_characterState);
         curState.Init(this);
         curState.Action();
+
+        Flip();
     }
 
     private State GetState(CharacterState characterState)
@@ -25,4 +27,26 @@ public class EnemyController : Core
         return null;
     }
 
+    public override void ChangeState(CharacterState enemyState)
+    {
+        _characterState = enemyState;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectRange);
+    }
+
+    public override void Flip()
+    {
+        if(tar.position.x > transform.position.x)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+    }
 }

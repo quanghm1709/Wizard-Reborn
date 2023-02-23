@@ -5,19 +5,21 @@ using UnityEngine;
 public abstract class Core : MonoBehaviour
 {
     [Header("Data")]
-    [SerializeField] protected string objName;
-    [SerializeField] protected int currentHp;
-    [SerializeField] protected int currentAtk;
-    [SerializeField] protected float currentSpd;
+    public string objName;
+    public int currentHp;
+    public int currentAtk;
+    public float currentSpd;
     protected int maxHp;
     protected int maxAtk;
     protected float maxSpd;
 
     [Header("Component")]
-    [SerializeField] protected Rigidbody2D rb;
-    [SerializeField] protected Animator anim;
+    public Rigidbody2D rb;
+    public Animator anim;
 
-    [SerializeField] protected bool canMove;
+    public bool canMove;
+    public bool canAttack;
+    
 
     protected void Start()
     {
