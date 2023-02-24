@@ -8,7 +8,6 @@ public class PlayerController : Core
     [Header("Combat")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float damageRange;
-    [SerializeField] private float timeBtwHitCD;
 
     [HideInInspector] public bool isFacingRight = true;
     private float dirX;
@@ -88,17 +87,21 @@ public class PlayerController : Core
     private void TestAttack()
     {
         float direct;
+        RaycastHit2D[] hit;
+
         if (isFacingRight)
         {
-            direct = 1;
+            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange), attackPoint.position.y));
+
         }
         else
         {
-            direct = -1;
+            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2(-(attackPoint.position.x + damageRange), attackPoint.position.y));
+
         }
 
-        RaycastHit2D[] hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange)*direct, attackPoint.position.y));
-        Debug.Log((attackPoint.position.x + damageRange) * direct);
+        //hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange)*direct, attackPoint.position.y));
+        //Debug.Log(hit.Length);
         
         foreach (var i in hit)
         {
@@ -108,10 +111,17 @@ public class PlayerController : Core
 
     private void OnDrawGizmos()
     {
-        float direct;
-
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
+        if (isFacingRight)
+        {
+            Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
+        }
+        else
+        {
+            Gizmos.DrawLine(attackPoint.position, new Vector3(-(attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
+        }
+       
+       
         //Gizmos.DrawWireCube(attackPoint.position, new Vector3(attackPoint.position.x+damageRange, attackPoint.position.y+ damageRange, attackPoint.position.z));
     }
 }

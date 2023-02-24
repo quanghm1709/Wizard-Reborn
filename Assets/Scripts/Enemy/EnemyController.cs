@@ -15,6 +15,7 @@ public class EnemyController : EnemyCore
         curState.Action();
 
         Flip();
+        ReloadHit();
     }
 
     private State GetState(CharacterState characterState)

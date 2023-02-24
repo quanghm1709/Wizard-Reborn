@@ -17,8 +17,9 @@ public class EnemyAttack : State
     {
         if(_agent.Detect() && _agent.canAttack)
         {
-            _agent.anim.SetTrigger("isAttack");
+            _agent.anim.SetBool("isAttack", true);
             _agent.anim.SetBool("isMove", false);
+            _agent.LoadHit();
         }
         else
         {

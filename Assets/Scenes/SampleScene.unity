@@ -280,13 +280,13 @@ MonoBehaviour:
   currentHp: 0
   currentAtk: 0
   currentSpd: 10
+  timeBtwHitCD: 0
   rb: {fileID: 464061006}
   anim: {fileID: 273206872}
   canMove: 1
   canAttack: 0
   attackPoint: {fileID: 1884928999}
   damageRange: 1.5
-  timeBtwHitCD: 0
   isFacingRight: 1
 --- !u!70 &464061005
 CapsuleCollider2D:
@@ -461,6 +461,7 @@ MonoBehaviour:
   currentHp: 0
   currentAtk: 0
   currentSpd: 1
+  timeBtwHitCD: 2
   rb: {fileID: 1551946858}
   anim: {fileID: 1862074139}
   canMove: 1

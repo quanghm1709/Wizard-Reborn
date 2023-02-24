@@ -13,6 +13,10 @@ public abstract class Core : MonoBehaviour
     protected int maxAtk;
     protected float maxSpd;
 
+    [Header("Combat")]
+    [SerializeField] protected float timeBtwHitCD;
+    protected float timeBtwHit;
+
     [Header("Component")]
     public Rigidbody2D rb;
     public Animator anim;
@@ -31,6 +35,20 @@ public abstract class Core : MonoBehaviour
         maxHp = currentHp;
         maxAtk = currentAtk;
         maxSpd = currentSpd;
+        timeBtwHit = timeBtwHitCD;
+    }
+
+    protected void ReloadHit()
+    {
+        if (timeBtwHitCD > 0)
+        {
+            timeBtwHitCD -= Time.deltaTime;
+            canAttack = false;
+        }
+        else
+        {
+            canAttack = true;
+        }
     }
 
 }
