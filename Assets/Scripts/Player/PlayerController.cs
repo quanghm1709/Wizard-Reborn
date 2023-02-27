@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 
-public class PlayerController : Core
+public class PlayerController : Core, IDamage
 {
     [Header("Combat")]
     [SerializeField] private Transform attackPoint;
@@ -96,16 +96,14 @@ public class PlayerController : Core
         }
         else
         {
-            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2(-(attackPoint.position.x + damageRange), attackPoint.position.y));
+            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x - damageRange), attackPoint.position.y));
 
         }
-
-        //hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange)*direct, attackPoint.position.y));
-        //Debug.Log(hit.Length);
         
         foreach (var i in hit)
         {
             Debug.Log(i.collider.name);
+            StartCoroutine(i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0));        
         }
     }
 
@@ -118,10 +116,23 @@ public class PlayerController : Core
         }
         else
         {
-            Gizmos.DrawLine(attackPoint.position, new Vector3(-(attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
+            Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x - damageRange), attackPoint.position.y, attackPoint.position.z));
         }
-       
-       
-        //Gizmos.DrawWireCube(attackPoint.position, new Vector3(attackPoint.position.x+damageRange, attackPoint.position.y+ damageRange, attackPoint.position.z));
+    }
+
+    public IEnumerator TakeDamage(int atk, int maxAtk, float bonusDmg)
+    {
+        float damage = atk + maxAtk * bonusDmg;
+        yield return new WaitForSeconds(.1f);
+        currentHp -= (int)damage;
+        if (currentHp <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void TakeSusDamage(int totalDmg, float time)
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : EnemyCore
+public class EnemyController : EnemyCore, IDamage
 {
     [Header("Behavior")]
     [SerializeField] public List<State> states;
@@ -37,6 +37,8 @@ public class EnemyController : EnemyCore
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectRange);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(dmgPoint.position, detectRange);
     }
 
     public override void Flip()
@@ -49,5 +51,21 @@ public class EnemyController : EnemyCore
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    public IEnumerator TakeDamage(int atk, int maxAtk, float bonusDmg)
+    {
+        float damage = atk + maxAtk * bonusDmg;
+        yield return new WaitForSeconds(.1f);
+        currentHp -= (int)damage;
+        if (currentHp <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
+
+    public void TakeSusDamage(int totalDmg, float time)
+    {
+        throw new System.NotImplementedException();
     }
 }

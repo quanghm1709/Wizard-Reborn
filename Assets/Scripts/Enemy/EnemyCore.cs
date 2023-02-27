@@ -11,6 +11,10 @@ public abstract class EnemyCore : Core
     public LayerMask detectLayer;
     public Detect detect;
 
+    [Header("Attack")]
+    public float dmgRange;
+    public Transform dmgPoint;
+
     public virtual bool Detect()
     {
         return detect.Detecting(detectRange, detectLayer);

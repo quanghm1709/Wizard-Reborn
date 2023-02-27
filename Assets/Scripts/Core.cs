@@ -10,7 +10,7 @@ public abstract class Core : MonoBehaviour
     public int currentAtk;
     public float currentSpd;
     protected int maxHp;
-    protected int maxAtk;
+    public int maxAtk;
     protected float maxSpd;
 
     [Header("Combat")]
