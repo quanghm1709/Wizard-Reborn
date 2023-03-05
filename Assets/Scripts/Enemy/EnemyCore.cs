@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class EnemyCore : Core
 {
-    public Transform tar;
+    public GameObject tar;
 
     [Header("Radar")]
     public float detectRange;
@@ -14,6 +14,11 @@ public abstract class EnemyCore : Core
     [Header("Attack")]
     public float dmgRange;
     public Transform dmgPoint;
+
+    private void OnEnable()
+    {
+        tar = GameObject.Find("Player");
+    }
 
     public virtual bool Detect()
     {

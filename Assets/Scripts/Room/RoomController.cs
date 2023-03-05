@@ -6,7 +6,7 @@ public class RoomController : MonoBehaviour
 {
     [SerializeField] private int totalWave;
     [SerializeField] private bool isClear;
-
+    private bool playerIn = false;
     private void Start()
     {
         totalWave = Random.Range(1, 4);    
@@ -15,6 +15,11 @@ public class RoomController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.name);
-        EnemyGenerator.instance.GenerateEnemy(transform, totalWave);
+        if(collision.tag == "Player" && !playerIn)
+        {
+            Vector3 spawnPoint = new Vector3(transform.position.x + 4.75f, transform.position.y + 4.25f, transform.position.z);
+            StartCoroutine(EnemyGenerator.instance.GenerateEnemy(spawnPoint, totalWave));
+            playerIn = true;
+        }
     }
 }

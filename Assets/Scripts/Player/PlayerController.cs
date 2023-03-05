@@ -8,6 +8,7 @@ public class PlayerController : Core, IDamage
     [Header("Combat")]
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float damageRange;
+    [SerializeField] private LayerMask hitLayer;
 
     [HideInInspector] public bool isFacingRight = true;
     private float dirX;
@@ -91,20 +92,24 @@ public class PlayerController : Core, IDamage
 
         if (isFacingRight)
         {
-            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange), attackPoint.position.y));
+            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange), attackPoint.position.y), hitLayer);
 
         }
         else
         {
-            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x - damageRange), attackPoint.position.y));
+            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x - damageRange), attackPoint.position.y), hitLayer);
 
         }
         
-        foreach (var i in hit)
+        if(hit.Length > 0)
         {
-            Debug.Log(i.collider.name);
-            StartCoroutine(i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0));        
+            foreach (var i in hit)
+            {
+                Debug.Log(i.collider.name);
+                StartCoroutine(i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0));
+            }
         }
+
     }
 
     private void OnDrawGizmos()

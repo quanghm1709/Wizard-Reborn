@@ -43,7 +43,7 @@ public class EnemyController : EnemyCore, IDamage
 
     public override void Flip()
     {
-        if(tar.position.x > transform.position.x)
+        if(tar.transform.position.x > transform.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
