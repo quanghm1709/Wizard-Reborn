@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class EnemyCore : Core
 {
     public GameObject tar;
-
+    public int id;
     [Header("Radar")]
     public float detectRange;
     public LayerMask detectLayer;

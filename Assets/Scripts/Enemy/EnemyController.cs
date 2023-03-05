@@ -38,7 +38,7 @@ public class EnemyController : EnemyCore, IDamage
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectRange);
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(dmgPoint.position, detectRange);
+        Gizmos.DrawWireSphere(dmgPoint.position, dmgRange);
     }
 
     public override void Flip()
@@ -60,7 +60,7 @@ public class EnemyController : EnemyCore, IDamage
         currentHp -= (int)damage;
         if (currentHp <= 0)
         {
-            gameObject.SetActive(false);
+            ChangeState(CharacterState.Death);
         }
     }
 

@@ -105,7 +105,7 @@ public class PlayerController : Core, IDamage
         {
             foreach (var i in hit)
             {
-                Debug.Log(i.collider.name);
+               // Debug.Log(i.collider.name);
                 StartCoroutine(i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0));
             }
         }
@@ -130,6 +130,7 @@ public class PlayerController : Core, IDamage
         float damage = atk + maxAtk * bonusDmg;
         yield return new WaitForSeconds(.1f);
         currentHp -= (int)damage;
+        Debug.Log("hit");
         if (currentHp <= 0)
         {
             gameObject.SetActive(false);

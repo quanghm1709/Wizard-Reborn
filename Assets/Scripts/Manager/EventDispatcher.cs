@@ -6,6 +6,7 @@ using System;
 public enum EventID
 {
 	None = 0,
+	OnEnemyDead,
 }
 
 public class EventDispatcher : MonoBehaviour

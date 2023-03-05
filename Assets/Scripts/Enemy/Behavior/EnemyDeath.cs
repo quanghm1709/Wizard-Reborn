@@ -6,6 +6,13 @@ public class EnemyDeath : State
 {
     public override CharacterState GetState()
     {
-        throw new System.NotImplementedException();
+        return CharacterState.Death;
+    }
+
+    public override void Action()
+    {
+        EnemyGenerator.instance.activeEnemy.Remove(_agent.gameObject);
+        this.PostEvent(EventID.OnEnemyDead);
+        _agent.gameObject.SetActive(false);
     }
 }

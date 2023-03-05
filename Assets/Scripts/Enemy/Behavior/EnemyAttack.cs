@@ -17,17 +17,20 @@ public class EnemyAttack : State
     {
         if(_agent.Detect())
         {
+            _agent.rb.velocity = Vector2.zero;
             if (_agent.canAttack)
             {
                 _agent.anim.SetBool("isAttack", true);
                 _agent.anim.SetBool("isMove", false);
-                Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.dmgRange, _agent.detectLayer);
+                Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
+                Debug.Log(hit.Length);
                 if (hit != null)
                 {
-                    StartCoroutine(hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0));
+                    hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
                 }
                 _agent.LoadHit();
-           }
+                _agent.ChangeState(CharacterState.Idle);
+            }
         }
         else
         {

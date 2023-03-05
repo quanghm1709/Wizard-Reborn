@@ -129,13 +129,15 @@ MonoBehaviour:
   canMove: 1
   canAttack: 1
   tar: {fileID: 9205294164926948050, guid: e759d518b16581448b2cd12f55d2fc90, type: 3}
-  detectRange: 0.3
+  id: 0
+  detectRange: 1
   detectLayer:
     serializedVersion: 2
     m_Bits: 64
   detect: {fileID: 315136479538705738}
   dmgRange: 0.3
   dmgPoint: {fileID: 315136479280784015}
+  movement: {x: 0, y: 0}
   states:
   - {fileID: 591001242310519717, guid: 650430b694b2b734598f454c93db0de5, type: 3}
   - {fileID: 1324376694300098362, guid: 59b41364d06efe64e8cc62b3b3fc084a, type: 3}
