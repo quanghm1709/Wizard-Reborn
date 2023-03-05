@@ -15,6 +15,8 @@ public abstract class EnemyCore : Core
     public float dmgRange;
     public Transform dmgPoint;
 
+    public Vector2 movement;
+
     private void OnEnable()
     {
         tar = GameObject.Find("Player");

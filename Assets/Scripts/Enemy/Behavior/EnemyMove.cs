@@ -17,7 +17,26 @@ public class EnemyMove : State
     {
         if (!_agent.Detect() && _agent.canMove)
         {
-            _agent.transform.position = Vector2.MoveTowards(_agent.transform.position, _agent.tar.transform.position, _agent.currentSpd * Time.deltaTime);
+            if (_agent.tar.transform.position.x > _agent.transform.position.x)
+            {
+                _agent.movement.x = 1;
+            }
+            else if (_agent.tar.transform.position.x < _agent.transform.position.x)
+            {
+                _agent.movement.x = -1;
+            }
+
+            if (_agent.tar.transform.position.y > _agent.transform.position.y)
+            {
+                _agent.movement.y = 1;
+            }
+            else if (_agent.tar.transform.position.y < _agent.transform.position.y)
+            {
+                _agent.movement.y = -1;
+            }
+
+            //_agent.transform.position = Vector2.MoveTowards(_agent.transform.position, _agent.tar.transform.position, _agent.currentSpd * Time.deltaTime);
+            _agent.rb.velocity = _agent.movement * _agent.currentSpd;// * Time.deltaTime;
             _agent.anim.SetBool("isMove", true);
             _agent.anim.SetBool("isAttack", false);
         }

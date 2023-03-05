@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class RoomController : MonoBehaviour
 {
+    public int roomId;
+
     [SerializeField] private int totalWave;
     [SerializeField] private bool isClear;
     private bool playerIn = false;
