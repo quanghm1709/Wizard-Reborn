@@ -24,16 +24,16 @@ public class TeleportPoint : MonoBehaviour
             switch (direct)
             {
                 case Direct.up:
-                    pointY += 10;
+                    pointY += 5;
                     break;
                 case Direct.down:
-                    pointY -= 10;
+                    pointY -= 5;
                     break;
                 case Direct.left:
-                    pointX -= 12;
+                    pointX -= 6;
                     break;
                 case Direct.right:
-                    pointX += 12;
+                    pointX += 6;
                     break;
             }
 

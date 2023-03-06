@@ -28,8 +28,10 @@ public class PlayerController : Core, IDamage
 
     private void SetMove()
     {
-        dirX = Input.GetAxisRaw("Horizontal");//CrossPlatformInputManager.GetAxis("Horizontal") * currentSpd;
-        dirY = Input.GetAxisRaw("Vertical");//CrossPlatformInputManager.GetAxis("Vertical") * currentSpd;
+        //dirX = Input.GetAxisRaw("Horizontal");
+        //dirY = Input.GetAxisRaw("Vertical");
+        dirX = CrossPlatformInputManager.GetAxisRaw("Horizontal");
+        dirY = CrossPlatformInputManager.GetAxisRaw("Vertical");
 
         if (dirX != 0 || dirY != 0)
         {

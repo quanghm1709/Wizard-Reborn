@@ -20,6 +20,7 @@ public abstract class EnemyCore : Core
     private void OnEnable()
     {
         tar = GameObject.Find("Player");
+        currentHp = maxHp;
     }
 
     private void OnDisable()
@@ -33,6 +34,11 @@ public abstract class EnemyCore : Core
     public void LoadHit()
     {
         timeBtwHitCD = timeBtwHit;
+    }
+
+    public void ResetData()
+    {
+       
     }
 
     public abstract void ChangeState(CharacterState enemyState);

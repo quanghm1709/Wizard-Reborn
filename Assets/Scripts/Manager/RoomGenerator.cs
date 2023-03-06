@@ -16,10 +16,11 @@ public class RoomGenerator : MonoBehaviour
 
     private List<GameObject> listRoom = new List<GameObject>();
     private Direct direct;
-    private int currentRoomId = 0;
+    private int currentRoomId = 1;
 
     private void Start()
     {
+        CreateStartRoom();
         GenerateRoom();
     }
 
@@ -27,6 +28,18 @@ public class RoomGenerator : MonoBehaviour
     {
         
 
+    }
+
+    private void CreateStartRoom()
+    {
+        GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+        newRoom.transform.parent = gridParent;
+        newRoom.GetComponent<RoomController>().roomId = 0;
+        this.PostEvent(EventID.OnRoomClear, 0);
+        listRoom.Add(newRoom);
+
+        direct = (Direct)Random.Range(0, 4);
+        MoveGenerationPoint();
     }
 
     private void GenerateRoom()

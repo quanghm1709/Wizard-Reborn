@@ -26,7 +26,8 @@ public class EnemyAttack : State
 
                 if (hit != null)
                 {
-                    hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
+                    Debug.Log(hit[0].name);
+                    StartCoroutine( hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0));
                 }
 
                 _agent.LoadHit();

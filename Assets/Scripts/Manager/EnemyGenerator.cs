@@ -47,6 +47,7 @@ public class EnemyGenerator : MonoBehaviour
             Vector3 spawnPoint = new Vector3(Random.Range(room.x + 5, room.x - 5), Random.Range(room.y + 3, room.y - 3), room.z);
             GameObject enemy = enemyPool.GetObject("Enemy");
             enemy.transform.position = spawnPoint;
+            enemy.GetComponent<EnemyCore>().ResetData();
 
             activeEnemy.Add(enemy);
         }
