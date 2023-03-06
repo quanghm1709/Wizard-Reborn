@@ -12,7 +12,7 @@ public class EnemyDeath : State
     public override void Action()
     {
         EnemyGenerator.instance.activeEnemy.Remove(_agent.gameObject);
-        this.PostEvent(EventID.OnEnemyDead);
+        //_agent.PostEvent(EventID.OnEnemyDead);
         _agent.gameObject.SetActive(false);
     }
 }

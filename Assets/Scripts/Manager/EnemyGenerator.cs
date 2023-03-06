@@ -28,6 +28,7 @@ public class EnemyGenerator : MonoBehaviour
     {
         if (activeEnemy.Count <= 0)
         {
+            this.PostEvent(EventID.OnRoomClear, currentRoom.roomId);
             Debug.Log("Wave end");
             currentRoom.isClear = true;
         }

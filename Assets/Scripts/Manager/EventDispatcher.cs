@@ -7,6 +7,7 @@ public enum EventID
 {
 	None = 0,
 	OnEnemyDead,
+	OnRoomClear,
 }
 
 public class EventDispatcher : MonoBehaviour

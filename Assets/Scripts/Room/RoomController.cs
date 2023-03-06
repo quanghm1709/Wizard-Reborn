@@ -8,10 +8,37 @@ public class RoomController : MonoBehaviour
 
     [SerializeField] private int totalWave;
     [SerializeField] public bool isClear;
+
+    [SerializeField] private Transform[] detectRoom;
+    [SerializeField] private GameObject[] teleportPoint;
+
     private bool playerIn = false;
     private void Start()
     {
+        RegisterEvent();
         totalWave = Random.Range(1, 4);    
+    }
+
+    private void RegisterEvent()
+    {
+        this.RegisterListener(EventID.OnRoomClear, (param) => OnRoomClear((int)param));
+    }
+
+    private void OnRoomClear(int param)
+    {
+        Debug.Log("Clear");
+        if(param == roomId)
+        {
+            for (int i = 0; i < detectRoom.Length; i++)
+            {
+                Collider2D[] hit = Physics2D.OverlapCircleAll(detectRoom[i].position, 1);
+                Debug.Log(hit.Length);
+                if (hit.Length > 0)
+                {
+                    teleportPoint[i].SetActive(true);
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

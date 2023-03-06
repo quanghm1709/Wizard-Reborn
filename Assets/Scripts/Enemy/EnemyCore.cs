@@ -22,6 +22,10 @@ public abstract class EnemyCore : Core
         tar = GameObject.Find("Player");
     }
 
+    private void OnDisable()
+    {
+        this.PostEvent(EventID.OnEnemyDead);
+    }
     public virtual bool Detect()
     {
         return detect.Detecting(detectRange, detectLayer);

@@ -23,11 +23,12 @@ public class EnemyAttack : State
                 _agent.anim.SetBool("isAttack", true);
                 _agent.anim.SetBool("isMove", false);
                 Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
-                Debug.Log(hit.Length);
+
                 if (hit != null)
                 {
                     hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
                 }
+
                 _agent.LoadHit();
                 _agent.ChangeState(CharacterState.Idle);
             }
