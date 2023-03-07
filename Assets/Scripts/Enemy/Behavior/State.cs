@@ -12,7 +12,7 @@ public enum CharacterState
     Death,
 }
 
-public abstract class State : MonoBehaviour
+public abstract class State : ScriptableObject
 {
     protected EnemyCore _agent = null;
     public void Init(EnemyCore character)

@@ -24,10 +24,10 @@ public class EnemyAttack : State
                 _agent.anim.SetBool("isMove", false);
                 Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
 
-                if (hit != null)
+                if (hit.Length>0)
                 {
                     Debug.Log(hit[0].name);
-                    StartCoroutine( hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0));
+                    hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
                 }
 
                 _agent.LoadHit();

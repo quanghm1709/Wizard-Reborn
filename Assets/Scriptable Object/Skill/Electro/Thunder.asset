@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba4d0dec4b968245b0011ffcba1b176, type: 3}
   m_Name: Thunder
   m_EditorClassIdentifier: 
-  skillLevel: 0
-  skillName: 
-  cdTime: 0
-  dmgRange: 0
-  atk: []
+  skillLevel: 1
+  skillName: Thunder
+  cdTime: 1
+  dmgRange: 1
+  atk:
+  - 100
+  - 0
+  - 0
+  layerToDamage:
+    serializedVersion: 2
+    m_Bits: 128
   skillToUnlock: {fileID: 0}
-  skillAnim: {fileID: 0}
+  skillAnim: {fileID: 8107452400589720137, guid: d753a1e62d7915c46b04d2bafa0e24cb, type: 3}

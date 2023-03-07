@@ -53,10 +53,9 @@ public class EnemyController : EnemyCore, IDamage
         }
     }
 
-    public IEnumerator TakeDamage(int atk, int maxAtk, float bonusDmg)
+    public void TakeDamage(int atk, int maxAtk, float bonusDmg)
     {
         float damage = atk + maxAtk * bonusDmg;
-        yield return new WaitForSeconds(.1f);
         currentHp -= (int)damage;
         if (currentHp <= 0)
         {

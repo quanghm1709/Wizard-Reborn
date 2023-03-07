@@ -9,6 +9,8 @@ public class SkillCore : ScriptableObject
     public float cdTime;
     public float dmgRange;
     public float[] atk;
+    public LayerMask layerToDamage;
+
     public SkillCore skillToUnlock;
     public GameObject skillAnim;
 

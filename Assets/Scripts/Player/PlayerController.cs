@@ -9,6 +9,8 @@ public class PlayerController : Core, IDamage
     [SerializeField] private Transform attackPoint;
     [SerializeField] private float damageRange;
     [SerializeField] private LayerMask hitLayer;
+    [SerializeField] private float detectRange;
+    public List<GameObject> enemyInRange;
 
     [HideInInspector] public bool isFacingRight = true;
     private float dirX;
@@ -17,6 +19,8 @@ public class PlayerController : Core, IDamage
 
     private void Update()
     {
+        //GetEnemyInRange();
+        //RemoveEnemyOutRange();
         SetMove();
         Attack();
     }
@@ -70,8 +74,8 @@ public class PlayerController : Core, IDamage
 
     private void Attack()
     {
-        
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        if (Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButtonDown("Contact Btn")) 
         {
             TestAttack();
             canMove = false;
@@ -108,10 +112,30 @@ public class PlayerController : Core, IDamage
             foreach (var i in hit)
             {
                // Debug.Log(i.collider.name);
-                StartCoroutine(i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0));
+               i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0);
             }
         }
 
+    }
+
+    private void GetEnemyInRange()
+    {
+        Collider2D[] multiEnemy = Physics2D.OverlapCircleAll(transform.position, detectRange, hitLayer);
+        foreach(Collider2D c in multiEnemy)
+        {
+            enemyInRange.Add(c.gameObject);
+        }
+    }
+
+    private void RemoveEnemyOutRange()
+    {
+        foreach(GameObject t in enemyInRange)
+        {
+            if(Vector3.Distance(transform.position, t.transform.position) > detectRange)
+            {
+                enemyInRange.Remove(t);
+            }
+        }
     }
 
     private void OnDrawGizmos()
@@ -125,12 +149,15 @@ public class PlayerController : Core, IDamage
         {
             Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x - damageRange), attackPoint.position.y, attackPoint.position.z));
         }
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, detectRange);
     }
 
-    public IEnumerator TakeDamage(int atk, int maxAtk, float bonusDmg)
+    public void TakeDamage(int atk, int maxAtk, float bonusDmg)
     {
         float damage = atk + maxAtk * bonusDmg;
-        yield return new WaitForSeconds(.1f);
+       // yield return new WaitForSeconds(.1f);
         currentHp -= (int)damage;
         Debug.Log("hit");
         if (currentHp <= 0)
