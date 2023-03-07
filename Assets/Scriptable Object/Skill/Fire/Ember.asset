@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ce56fd52cdc4904aad2e71eab435480, type: 3}
+  m_Name: Ember
+  m_EditorClassIdentifier: 
+  skillLevel: 1
+  skillName: Ember
+  cdTime: 1
+  dmgRange: 1
+  atk:
+  - 100
+  - 0
+  - 0
+  layerToDamage:
+    serializedVersion: 2
+    m_Bits: 128
+  skillToUnlock: {fileID: 0}
+  skillAnim: {fileID: 7337802815829432227, guid: 254a0198ca94d2c469954dc371d78b00, type: 3}

@@ -17,11 +17,17 @@ public class SkillHolder : MonoBehaviour
     [SerializeField] private SkillCore currentSkill;
     [SerializeField] private SkillUI currentSkillUI;
     [SerializeField] private SkillState skillState = SkillState.Ready;
-    
+
+    [SerializeField] private float cdTime2;
+    [SerializeField] private SkillCore currentSkill2;
+    [SerializeField] private SkillUI currentSkillUI2;
+    [SerializeField] private SkillState skillState2 = SkillState.Ready;
+
     private void Start()
     {
         AddSkillToUI();
         currentSkill.Init(GetComponent<PlayerController>());
+        currentSkill2.Init(GetComponent<PlayerController>());
     }
 
     private void Update()
@@ -46,10 +52,33 @@ public class SkillHolder : MonoBehaviour
                 }
                 break;
         }
+
+        switch (skillState2)
+        {
+            case SkillState.Ready:
+                if (CrossPlatformInputManager.GetButtonDown("Skill 2"))
+                {
+                    currentSkill2.Action();
+                    skillState2 = SkillState.Cooldown;
+                    cdTime2 = currentSkill2.cdTime;
+                }
+                break;
+            case SkillState.Cooldown:
+                if (cdTime2 > 0)
+                {
+                    cdTime2 -= Time.deltaTime;
+                }
+                else
+                {
+                    skillState2 = SkillState.Ready;
+                }
+                break;
+        }
     }
 
     private void AddSkillToUI()
     {
         SkillUIManager.instance.activeSkillBtn[0].sprite = currentSkillUI.skillIcon;
+        SkillUIManager.instance.activeSkillBtn[1].sprite = currentSkillUI2.skillIcon;
     }
 }

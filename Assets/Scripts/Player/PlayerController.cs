@@ -12,7 +12,7 @@ public class PlayerController : Core, IDamage
     [SerializeField] private float detectRange;
     public List<GameObject> enemyInRange;
 
-    [HideInInspector] public bool isFacingRight = true;
+    public bool isFacingRight = true;
     private float dirX;
     private float dirY;
     private float attackDuration;
