@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Behaviour/Dead", fileName = "Dead")]
 public class EnemyDeath : State
 {
     private float deadTime = 2;
@@ -19,6 +20,7 @@ public class EnemyDeath : State
         {
             EnemyGenerator.instance.activeEnemy.Remove(_agent.gameObject);
             //_agent.PostEvent(EventID.OnEnemyDead);
+            deadTime = 2;
             _agent.gameObject.SetActive(false);
         }
 

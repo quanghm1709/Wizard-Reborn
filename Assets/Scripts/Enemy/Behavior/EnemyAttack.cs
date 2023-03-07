@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Behaviour/Attack", fileName = "Attack")]
 public class EnemyAttack : State
 {
     public override CharacterState GetState()

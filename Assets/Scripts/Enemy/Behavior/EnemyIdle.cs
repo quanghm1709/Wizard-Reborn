@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Behaviour/Idle", fileName = "Idle")]
 public class EnemyIdle : State
 {
     private float waitAttack = 2f;

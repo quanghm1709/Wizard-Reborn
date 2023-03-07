@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Behaviour/Move", fileName = "Move")]
 public class EnemyMove : State
 {
     public override CharacterState GetState()
