@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56a025dd26dd383459ac4f86d4fa80a9, type: 3}
+  m_Name: ThunderArrow
+  m_EditorClassIdentifier: 
+  skillLevel: 1
+  skillName: Thunder Arrow
+  skillDescription: "C\xF3 50%/70%/100% t\u1EC9 l\u1EC7 b\u1EAFn th\xEAm 1/2/4 m\u0169i
+    t\xEAn s\xE9t v\xE0o m\u1EE5c ti\xEAu ng\u1EABu nhi\xEAn khi t\u1EA5n c\xF4ng"
+  cdTime: 1
+  dmgRange: 1
+  atk:
+  - 20
+  - 0
+  - 0
+  layerToDamage:
+    serializedVersion: 2
+    m_Bits: 0
+  skillToUnlock: {fileID: 0}
+  skillAnim: {fileID: 944199171727521628, guid: c727e63281c71b343a6e084df792e61c, type: 3}

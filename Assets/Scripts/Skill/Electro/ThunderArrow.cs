@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skill/Active/Electro/ThunderArrow", fileName = "ThunderArrow")]
+[CreateAssetMenu(menuName = "Skill/Passive/Electro/ThunderArrow", fileName = "ThunderArrow")]
 public class ThunderArrow : SkillCore
 {
     public override void Action()
@@ -11,12 +11,8 @@ public class ThunderArrow : SkillCore
         {
             int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
 
-            Instantiate(skillAnim, player.enemyInRange[enemyToDamage].transform.position, Quaternion.identity);
-            Collider2D[] hit = Physics2D.OverlapCircleAll(player.enemyInRange[enemyToDamage].transform.position, dmgRange, layerToDamage);
-            foreach (Collider2D c in hit)
-            {
-                c.GetComponent<IDamage>().TakeDamage((int)atk[0], (int)atk[0], 0);
-            }
+            GameObject g = Instantiate(skillAnim, player.transform.position, Quaternion.identity);
+            g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
         }
     }
 }
