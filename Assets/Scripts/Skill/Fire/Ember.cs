@@ -8,17 +8,20 @@ public class Ember : SkillCore
     public override void Action()
     {
         Vector3 pos;
-
+        int scale;
         if (player.isFacingRight)
         {
             pos = new Vector3(player.transform.position.x + 1, player.transform.position.y, player.transform.position.z);
+            scale = 2;
         }
         else
         {
             pos = new Vector3(player.transform.position.x - 1, player.transform.position.y, player.transform.position.z);
+            scale = -2;
         }
 
-        Instantiate(skillAnim, pos, Quaternion.identity);
+        GameObject skill = Instantiate(skillAnim, pos, Quaternion.identity);
+        skill.transform.localScale = new Vector3(scale, 2, 1);
         Collider2D[] hit = Physics2D.OverlapCircleAll(pos, dmgRange, layerToDamage);
 
         foreach (Collider2D c in hit)

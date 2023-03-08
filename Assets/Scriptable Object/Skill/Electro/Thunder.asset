@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillLevel: 1
   skillName: Thunder
+  skillDescription: "G\u1ECDi xu\u1ED1ng 1 tia s\xE9t v\xE0o m\u1EE5c ti\xEAu ch\u1EC9
+    \u0111\u1ECBnh, g\xE2y t\xEA li\u1EC7t 1/1.5/2s cho m\u1EE5c ti\xEAu"
   cdTime: 1
   dmgRange: 1
   atk:

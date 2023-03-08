@@ -6,6 +6,7 @@ public class SkillCore : ScriptableObject
 {
     public int skillLevel;
     public string skillName;
+    public string skillDescription;
     public float cdTime;
     public float dmgRange;
     public float[] atk;
