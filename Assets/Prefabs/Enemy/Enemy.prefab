@@ -121,7 +121,10 @@ MonoBehaviour:
   currentHp: 20
   currentAtk: 5
   currentSpd: 1
+  maxHp: 0
   maxAtk: 0
+  currentMp: 0
+  maxMp: 0
   timeBtwHitCD: 2
   rb: {fileID: 315136479538705740}
   anim: {fileID: 315136479776464445}
@@ -129,6 +132,7 @@ MonoBehaviour:
   canAttack: 1
   tar: {fileID: 9205294164926948050, guid: e759d518b16581448b2cd12f55d2fc90, type: 3}
   id: 0
+  dropExp: 10
   detectRange: 1
   detectLayer:
     serializedVersion: 2

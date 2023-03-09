@@ -9,9 +9,11 @@ public abstract class Core : MonoBehaviour
     public int currentHp;
     public int currentAtk;
     public float currentSpd;
-    protected int maxHp;
+    public int maxHp;
     public int maxAtk;
     protected float maxSpd;
+    public float currentMp;
+    public float maxMp;
 
     [Header("Combat")]
     [SerializeField] protected float timeBtwHitCD;

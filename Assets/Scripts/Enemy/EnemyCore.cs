@@ -6,6 +6,8 @@ public abstract class EnemyCore : Core
 {
     public GameObject tar;
     public int id;
+    public float dropExp;
+
     [Header("Radar")]
     public float detectRange;
     public LayerMask detectLayer;
@@ -25,7 +27,7 @@ public abstract class EnemyCore : Core
 
     private void OnDisable()
     {
-        this.PostEvent(EventID.OnEnemyDead);
+        this.PostEvent(EventID.OnEnemyDead, (int) dropExp );
     }
     public virtual bool Detect()
     {
