@@ -2520,6 +2520,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1522427966 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6171990265287174584, guid: 9a3cc686b208db646adbf041dfe50581, type: 3}
+  m_PrefabInstance: {fileID: 7893966514816875080}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1574857777 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6822464768611868283, guid: 94a58df18edc9b54b9657182e4ed8067, type: 3}
@@ -5343,6 +5354,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7893966514649823756, guid: 9a3cc686b208db646adbf041dfe50581, type: 3}
+      propertyPath: upgradeOrUnlock
+      value: 
+      objectReference: {fileID: 1522427966}
     - target: {fileID: 7893966514649823863, guid: 9a3cc686b208db646adbf041dfe50581, type: 3}
       propertyPath: m_Name
       value: UI

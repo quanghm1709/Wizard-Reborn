@@ -33,25 +33,57 @@ public class SkillTree : MonoBehaviour
 
     private void OnSkillUpgrade()
     {
-        listSkill[currentSkill].skillLevel++;
+        if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
+        {
+            listSkill[currentSkill].skillLevel++;
+            LoadUI(currentSkill);
+            if(listSkill[currentSkill].skillLevel >= 3)
+            {
+                listSkill[currentSkill].skillToUnlock.canUnlock = true;
+            }
+        }
+        else
+        {
+            this.PostEvent(EventID.OnSkillUpgradeFailed);
+        }
+        
     }
 
     public void GetSkill(int position)
     {
         currentSkill = position;
-        SkillUIManager.instance.skillName.text = listSkill[position].skillName;
+        
         SkillUIManager.instance.description.text = listSkill[position].skillDescription;
 
-        if(listSkill[position].skillType == SkillCore.SkillType.Active)
+        LoadUI(position);
+    }
+
+    private void LoadUI(int position)
+    {
+        SkillUIManager.instance.skillName.text = listSkill[position].skillName + "(" + listSkill[position].skillLevel + ")";
+        if (listSkill[position].skillLevel <= 0)
         {
-            foreach(GameObject g in SkillUIManager.instance.skillAction)
-            {
-                g.SetActive(true);
-            }
+            SkillUIManager.instance.upgradeOrUnlock.text = "Unlock";
         }
         else
         {
+            SkillUIManager.instance.upgradeOrUnlock.text = "Upgrade";
+        }
+
+
+        if (listSkill[position].skillLevel < 3)
+        {
             SkillUIManager.instance.skillAction[0].SetActive(true);
+        }
+
+        if (listSkill[position].skillType == SkillCore.SkillType.Active && listSkill[position].skillLevel > 0)
+        {
+            SkillUIManager.instance.skillAction[1].SetActive(true);
+            SkillUIManager.instance.skillAction[2].SetActive(true);
+        }
+        else
+        {
+
             SkillUIManager.instance.skillAction[1].SetActive(false);
             SkillUIManager.instance.skillAction[2].SetActive(false);
         }

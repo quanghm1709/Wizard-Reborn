@@ -23,6 +23,12 @@ public class PlayerLevelManager : MonoBehaviour
     {
         this.RegisterListener(EventID.OnEnemyDead, (param) => OnEnemyDead((int)param));
         this.RegisterListener(EventID.OnSkillUpgradeClick, (param) => OnSkillUpgradeClick());
+        this.RegisterListener(EventID.OnSkillUpgradeFailed, (param) => OnSkillUpgradeFailed());
+    }
+
+    private void OnSkillUpgradeFailed()
+    {
+        skillPoint++;
     }
 
     private void OnSkillUpgradeClick()

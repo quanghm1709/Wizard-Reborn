@@ -14,6 +14,7 @@ public class SkillCore : ScriptableObject
     public int skillLevel;
     public string skillName;
     public string skillDescription;
+    public bool canUnlock;
     public SkillType skillType;
     public float[] cdTime;
     public float dmgRange;

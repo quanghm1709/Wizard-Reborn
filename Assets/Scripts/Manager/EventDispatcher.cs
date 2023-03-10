@@ -10,6 +10,7 @@ public enum EventID
 	OnRoomClear,
 	OnSkillUpgradeClick,
 	OnSkillUpgrade,
+	OnSkillUpgradeFailed,
 }
 
 public class EventDispatcher : MonoBehaviour

@@ -11,6 +11,7 @@ public class SkillUIManager : MonoBehaviour
     public Text skillName;
     public Text description;
     public GameObject[] skillAction;//0 - upgrade, 1 - Set Active, 2 - set auto
+    public Text upgradeOrUnlock;
 
     private void Start()
     {

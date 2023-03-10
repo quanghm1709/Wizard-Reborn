@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ba4d0dec4b968245b0011ffcba1b176, type: 3}
   m_Name: Thunder
   m_EditorClassIdentifier: 
-  skillLevel: 1
+  skillLevel: 0
   skillName: Thunder
   skillDescription: "G\u1ECDi xu\u1ED1ng 1 tia s\xE9t v\xE0o m\u1EE5c ti\xEAu ch\u1EC9
     \u0111\u1ECBnh, g\xE2y t\xEA li\u1EC7t 1/1.5/2s cho m\u1EE5c ti\xEAu"
+  canUnlock: 0
   skillType: 1
   cdTime: []
   dmgRange: 1
