@@ -16,7 +16,11 @@ MonoBehaviour:
   skillName: Thunder Arrow
   skillDescription: "C\xF3 50%/70%/100% t\u1EC9 l\u1EC7 b\u1EAFn th\xEAm 1/2/4 m\u0169i
     t\xEAn s\xE9t v\xE0o m\u1EE5c ti\xEAu ng\u1EABu nhi\xEAn khi t\u1EA5n c\xF4ng"
-  cdTime: 1
+  skillType: 2
+  cdTime:
+  - 0
+  - 0
+  - 0
   dmgRange: 1
   atk:
   - 20
@@ -25,5 +29,5 @@ MonoBehaviour:
   layerToDamage:
     serializedVersion: 2
     m_Bits: 0
-  skillToUnlock: {fileID: 0}
+  skillToUnlock: {fileID: 11400000, guid: a045a185459f65d4c9197d6df4d3393a, type: 2}
   skillAnim: {fileID: 944199171727521628, guid: c727e63281c71b343a6e084df792e61c, type: 3}

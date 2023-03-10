@@ -38,7 +38,7 @@ public class SkillHolder : MonoBehaviour
                 if(CrossPlatformInputManager.GetButtonDown("Skill 1")){
                     currentSkill.Action();
                     skillState = SkillState.Cooldown;
-                    cdTime = currentSkill.cdTime;
+                    cdTime = currentSkill.cdTime[currentSkill.skillLevel-1];
                 }
                 break;
             case SkillState.Cooldown:
@@ -60,7 +60,7 @@ public class SkillHolder : MonoBehaviour
                 {
                     currentSkill2.Action();
                     skillState2 = SkillState.Cooldown;
-                    cdTime2 = currentSkill2.cdTime;
+                    cdTime2 = currentSkill2.cdTime[currentSkill2.skillLevel-1];
                 }
                 break;
             case SkillState.Cooldown:

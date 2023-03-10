@@ -9,24 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ce56fd52cdc4904aad2e71eab435480, type: 3}
-  m_Name: Ember
+  m_Script: {fileID: 11500000, guid: 67b51e5b4d369604f86504849debe7a7, type: 3}
+  m_Name: ThunderBird
   m_EditorClassIdentifier: 
   skillLevel: 1
-  skillName: Ember
-  skillDescription: 
-  skillType: 0
+  skillName: Thunder Bird
+  skillDescription: "Ph\xF3ng ra 1 ch\xFA chim s\xE9t v\u1EC1 ph\xEDa m\u1EE5c ti\xEAu,
+    qu\xE3ng \u0111\u01B0\u1EDDng c\xE0ng d\xE0i s\xE1t th\u01B0\u01A1ng c\xE0ng
+    cao "
+  skillType: 1
   cdTime:
-  - 1
   - 0
   - 0
-  dmgRange: 1
+  - 0
+  dmgRange: 0
   atk:
-  - 100
+  - 1
   - 0
   - 0
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
   skillToUnlock: {fileID: 0}
-  skillAnim: {fileID: 7337802815829432227, guid: 254a0198ca94d2c469954dc371d78b00, type: 3}
+  skillAnim: {fileID: 0}

@@ -9,22 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ba4d0dec4b968245b0011ffcba1b176, type: 3}
-  m_Name: Thunder
+  m_Script: {fileID: 11500000, guid: 0f20f36b33a19fc4394714c1c9fb0846, type: 3}
+  m_Name: ThunderCall
   m_EditorClassIdentifier: 
   skillLevel: 1
-  skillName: Thunder
-  skillDescription: "G\u1ECDi xu\u1ED1ng 1 tia s\xE9t v\xE0o m\u1EE5c ti\xEAu ch\u1EC9
-    \u0111\u1ECBnh, g\xE2y t\xEA li\u1EC7t 1/1.5/2s cho m\u1EE5c ti\xEAu"
-  skillType: 1
-  cdTime: []
-  dmgRange: 1
+  skillName: Thunder Call
+  skillDescription: "C\xF3 10%/20%/40% t\u1EC9 l\u1EC7 g\u1ECDi \u0111\u01B0\u1EE3c
+    th\xEAm thunder xu\u1ED1ng m\u1EE5c ti\xEAu khi t\u1EA5n c\xF4ng m\xE0 kh\xF4ng
+    t\u1ED1n mana"
+  skillType: 2
+  cdTime:
+  - 1
+  - 0
+  - 0
+  dmgRange: 0
   atk:
-  - 100
+  - 0
   - 0
   - 0
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
-  skillToUnlock: {fileID: 11400000, guid: 3110975c6c1243b4599237e8be8fb4b9, type: 2}
+  skillToUnlock: {fileID: 11400000, guid: 9baee7d4c38aaea44be4a66176b3d752, type: 2}
   skillAnim: {fileID: 8107452400589720137, guid: d753a1e62d7915c46b04d2bafa0e24cb, type: 3}

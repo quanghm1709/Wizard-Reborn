@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e35ecaa82516445a557436af0e443d, type: 3}
-  m_Name: ThunderArrow 1Icon
+  m_Name: ThunderBirdIcon
   m_EditorClassIdentifier: 
-  skillIcon: {fileID: 21300000, guid: d00ea1f778680cb49ae1cee891de4ba6, type: 3}
+  skillIcon: {fileID: 21300000, guid: 5782fea206947ee45beda19d4b02968b, type: 3}

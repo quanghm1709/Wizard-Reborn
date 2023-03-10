@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class SkillCore : ScriptableObject
 {
+    public enum SkillType
+    {
+        None,
+        Active,
+        Passive,
+    }
+
     public int skillLevel;
     public string skillName;
     public string skillDescription;
-    public float cdTime;
+    public SkillType skillType;
+    public float[] cdTime;
     public float dmgRange;
     public float[] atk;
     public LayerMask layerToDamage;

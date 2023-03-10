@@ -10,6 +10,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e35ecaa82516445a557436af0e443d, type: 3}
-  m_Name: ThunderIc
+  m_Name: ThunderCallIcon
   m_EditorClassIdentifier: 
-  skillIcon: {fileID: 21300000, guid: 8c89fcc2671ac9840b2fa498a568475e, type: 3}
+  skillIcon: {fileID: 21300000, guid: 6356c61b5f200134f95913ded878185f, type: 3}
