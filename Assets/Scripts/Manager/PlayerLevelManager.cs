@@ -10,16 +10,28 @@ public class PlayerLevelManager : MonoBehaviour
     [SerializeField] private int currentLevel;
     [SerializeField] private float currentExp;
     [SerializeField] private float maxExp;
+    [SerializeField] private int skillPoint;
 
     private void Start()
     {
         instance = this;
+        UIController.instance.GetPlayerCurrentLevel(currentLevel, currentExp, maxExp);
         RegisterEvent();
     }
 
     private void RegisterEvent()
     {
         this.RegisterListener(EventID.OnEnemyDead, (param) => OnEnemyDead((int)param));
+        this.RegisterListener(EventID.OnSkillUpgradeClick, (param) => OnSkillUpgradeClick());
+    }
+
+    private void OnSkillUpgradeClick()
+    {
+        if (skillPoint > 0)
+        {
+            skillPoint--;
+            this.PostEvent(EventID.OnSkillUpgrade);
+        }
     }
 
     public void OnEnemyDead(int exp)
@@ -29,7 +41,9 @@ public class PlayerLevelManager : MonoBehaviour
         {
             currentExp = currentExp - maxExp;
             currentLevel++;
+            skillPoint++;
             maxExp = maxExp * 1.5f;
         }
+        UIController.instance.GetPlayerCurrentLevel(currentLevel, currentExp, maxExp);
     }
 }

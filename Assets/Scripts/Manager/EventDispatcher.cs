@@ -8,6 +8,8 @@ public enum EventID
 	None = 0,
 	OnEnemyDead,
 	OnRoomClear,
+	OnSkillUpgradeClick,
+	OnSkillUpgrade,
 }
 
 public class EventDispatcher : MonoBehaviour

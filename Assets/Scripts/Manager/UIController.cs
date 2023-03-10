@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class UIController : MonoBehaviour
 {
+    public static UIController instance;
     [Header("Data Bar")]
     [SerializeField] private Slider hpBar;
     [SerializeField] private Slider mpBar;
-     
+    [SerializeField] private Image expShow;
+    [SerializeField] private Text currentLevel;
     [SerializeField] private GameObject menu;
     private PlayerController player;
 
     private void Start()
     {
+        instance = this;
         player = GameObject.Find("Player").GetComponent<PlayerController>();
     }
 
@@ -28,6 +31,12 @@ public class UIController : MonoBehaviour
         hpBar.maxValue = player.maxHp;
         mpBar.value = player.currentMp;
         mpBar.maxValue = player.maxMp;
+    }
+
+    public void GetPlayerCurrentLevel(int level, float currentExp, float maxExp)
+    {
+        expShow.fillAmount = currentExp / maxExp;
+        currentLevel.text = level.ToString();
     }
 
     public void ActionMenu()

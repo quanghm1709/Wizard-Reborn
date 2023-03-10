@@ -10,9 +10,15 @@ public class SkillUIManager : MonoBehaviour
     public Image[] activeSkillBtn;
     public Text skillName;
     public Text description;
+    public GameObject[] skillAction;//0 - upgrade, 1 - Set Active, 2 - set auto
 
     private void Start()
     {
         instance = this;
+    }
+
+    public void UpgradeSkill()
+    {
+        this.PostEvent(EventID.OnSkillUpgradeClick);
     }
 }
