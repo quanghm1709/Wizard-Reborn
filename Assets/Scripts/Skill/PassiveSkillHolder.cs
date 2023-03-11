@@ -25,9 +25,9 @@ public class PassiveSkillHolder : MonoBehaviour
                 switch (skillState[i])
                 {
                     case SkillState.Ready:
-                            currentSkill[i].Action();
-                            skillState[i] = SkillState.Cooldown;
-                            cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];  
+                        currentSkill[i].Action();
+                        skillState[i] = SkillState.Cooldown;
+                        cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];
                         break;
                     case SkillState.Cooldown:
                         if (cdTime[i] > 0)

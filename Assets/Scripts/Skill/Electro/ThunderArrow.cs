@@ -16,6 +16,7 @@ public class ThunderArrow : SkillCore
 
                 GameObject g = Instantiate(skillAnim, player.transform.position, Quaternion.identity);
                 g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
+                g.GetComponent<SkillProjectile>().damage = atk[skillLevel - 1] * player.currentAtk;
             }
         }
     }
