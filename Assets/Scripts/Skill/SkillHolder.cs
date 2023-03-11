@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,72 +14,91 @@ public enum SkillState
 
 public class SkillHolder : MonoBehaviour
 {
-    [SerializeField] private float cdTime;
-    [SerializeField] private SkillCore currentSkill;
-    [SerializeField] private SkillUI currentSkillUI;
-    [SerializeField] private SkillState skillState = SkillState.Ready;
-
-    [SerializeField] private float cdTime2;
-    [SerializeField] private SkillCore currentSkill2;
-    [SerializeField] private SkillUI currentSkillUI2;
-    [SerializeField] private SkillState skillState2 = SkillState.Ready;
+    [SerializeField] private List<float> cdTime;
+    [SerializeField] private List<SkillCore> currentSkill;
+    [SerializeField] private List<SkillUI> currentSkillUI;
+    [SerializeField] private List<SkillState> skillState;
 
     private void Start()
     {
+        RegisterEvent();
         AddSkillToUI();
-        currentSkill.Init(GetComponent<PlayerController>());
-        currentSkill2.Init(GetComponent<PlayerController>());
+        for (int i = 0; i < currentSkill.Count; i++)
+        {
+            if(currentSkill[i] != null)
+            {
+                currentSkill[i].Init(GetComponent<PlayerController>());
+                skillState[i] = SkillState.Ready;
+            }
+
+        }           
     }
 
     private void Update()
     {
-        switch (skillState)
+        for(int i = 0; i < currentSkill.Count; i++)
         {
-            case SkillState.Ready:
-                if(CrossPlatformInputManager.GetButtonDown("Skill 1")){
-                    currentSkill.Action();
-                    skillState = SkillState.Cooldown;
-                    cdTime = currentSkill.cdTime[currentSkill.skillLevel-1];
-                }
-                break;
-            case SkillState.Cooldown:
-                if (cdTime > 0)
+            if (currentSkill[i] != null)
+            {
+                switch (skillState[i])
                 {
-                    cdTime -= Time.deltaTime;
+                    case SkillState.Ready:
+                        if (CrossPlatformInputManager.GetButtonDown("Skill " + i))
+                        {
+                            currentSkill[i].Action();
+                            skillState[i] = SkillState.Cooldown;
+                            cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];
+                        }
+                        break;
+                    case SkillState.Cooldown:
+                        if (cdTime[i] > 0)
+                        {
+                            cdTime[i] -= Time.deltaTime;
+                        }
+                        else
+                        {
+                            skillState[i] = SkillState.Ready;
+                        }
+                        break;
                 }
-                else
-                {
-                    skillState = SkillState.Ready;
-                }
-                break;
+            }
         }
+    }
 
-        switch (skillState2)
+    private void RegisterEvent()
+    {
+        this.RegisterListener(EventID.OnSwapSkill, (param) => OnSwapSkill((int)param));
+    }
+
+    private void OnSwapSkill(int param)
+    {
+        foreach(SkillCore s in currentSkill)
         {
-            case SkillState.Ready:
-                if (CrossPlatformInputManager.GetButtonDown("Skill 2"))
+            if (s != null)
+            {
+                if (s.skillName == SkillUIManager.instance.skillTrees[0].SwapSkill().skillName)
                 {
-                    currentSkill2.Action();
-                    skillState2 = SkillState.Cooldown;
-                    cdTime2 = currentSkill2.cdTime[currentSkill2.skillLevel-1];
+                    return;
                 }
-                break;
-            case SkillState.Cooldown:
-                if (cdTime2 > 0)
-                {
-                    cdTime2 -= Time.deltaTime;
-                }
-                else
-                {
-                    skillState2 = SkillState.Ready;
-                }
-                break;
+            }
         }
+        currentSkill[param] = SkillUIManager.instance.skillTrees[0].SwapSkill();
+        currentSkill[param].Init(GetComponent<PlayerController>());
+        currentSkillUI[param] = SkillUIManager.instance.skillTrees[0].SwapSkillUI();
+        cdTime[param] = currentSkill[param].cdTime[currentSkill[param].skillLevel-1];
+        skillState[param] = SkillState.Ready;
+
+        SkillUIManager.instance.activeSkillBtn[param].sprite = currentSkillUI[param].skillIcon;
     }
 
     private void AddSkillToUI()
     {
-        SkillUIManager.instance.activeSkillBtn[0].sprite = currentSkillUI.skillIcon;
-        SkillUIManager.instance.activeSkillBtn[1].sprite = currentSkillUI2.skillIcon;
+        for (int i = 0; i < currentSkill.Count; i++)
+        {
+            if (currentSkill[i] != null)
+            {
+                SkillUIManager.instance.activeSkillBtn[i].sprite = currentSkillUI[i].skillIcon;
+            }
+        }
     }
 }

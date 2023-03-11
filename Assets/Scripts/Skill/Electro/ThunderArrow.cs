@@ -9,10 +9,14 @@ public class ThunderArrow : SkillCore
     {
         if (player.enemyInRange.Count > 0)
         {
-            int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
+            float canShoot = Random.Range(0f, 1f);
+            if(canShoot < .25f + (.25f * skillLevel))
+            {
+                int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
 
-            GameObject g = Instantiate(skillAnim, player.transform.position, Quaternion.identity);
-            g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
+                GameObject g = Instantiate(skillAnim, player.transform.position, Quaternion.identity);
+                g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
+            }
         }
     }
 }

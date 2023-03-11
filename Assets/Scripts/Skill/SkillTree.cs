@@ -35,6 +35,10 @@ public class SkillTree : MonoBehaviour
     {
         if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
         {
+            if(listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 0)
+            {
+                PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
+            }
             listSkill[currentSkill].skillLevel++;
             LoadUI(currentSkill);
             if(listSkill[currentSkill].skillLevel >= 3)
@@ -79,13 +83,23 @@ public class SkillTree : MonoBehaviour
         if (listSkill[position].skillType == SkillCore.SkillType.Active && listSkill[position].skillLevel > 0)
         {
             SkillUIManager.instance.skillAction[1].SetActive(true);
-            SkillUIManager.instance.skillAction[2].SetActive(true);
+            //SkillUIManager.instance.skillAction[2].SetActive(true);
         }
         else
         {
 
             SkillUIManager.instance.skillAction[1].SetActive(false);
-            SkillUIManager.instance.skillAction[2].SetActive(false);
+            //SkillUIManager.instance.skillAction[2].SetActive(false);
         }
+    }
+
+    public SkillCore SwapSkill()
+    {
+        return listSkill[currentSkill];
+    }
+
+    public SkillUI SwapSkillUI()
+    {
+        return listSkillUI[currentSkill];
     }
 }

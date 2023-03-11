@@ -21,7 +21,8 @@ public class SkillProjectile : MonoBehaviour
         if(collision.tag == "Enemy")
         {
             collision.GetComponent<IDamage>().TakeDamage((int)damage, (int)damage, 0);
+            gameObject.SetActive(false);
         }
-        gameObject.SetActive(false);
+        
     }
 }

@@ -10,16 +10,53 @@ public class SkillUIManager : MonoBehaviour
     public Image[] activeSkillBtn;
     public Text skillName;
     public Text description;
-    public GameObject[] skillAction;//0 - upgrade, 1 - Set Active, 2 - set auto
+    public GameObject[] skillAction;//0 - upgrade, 1 - Set Active
     public Text upgradeOrUnlock;
+    public GameObject swapSkill;
+
+    public List<SkillTree> skillTrees;
 
     private void Start()
     {
         instance = this;
+        RegisterEvent();
     }
 
+    private void RegisterEvent()
+    {
+        this.RegisterListener(EventID.OnOpenMenu, (param) => ResetUI());
+    }
     public void UpgradeSkill()
     {
         this.PostEvent(EventID.OnSkillUpgradeClick);
+    }
+
+    public void OpenSwapSkill()
+    {
+        if (swapSkill.activeInHierarchy)
+        {
+            swapSkill.SetActive(false);
+        }
+        else
+        {
+            swapSkill.SetActive(true);
+        }
+    }
+
+    public void SwapSkill(int pos)
+    {
+        this.PostEvent(EventID.OnSwapSkill, pos);
+        swapSkill.SetActive(false);
+    }
+
+    public void ResetUI()
+    {
+        skillName.text = "";
+        description.text = "";
+
+        foreach(GameObject g in skillAction)
+        {
+            g.SetActive(false);
+        }
     }
 }

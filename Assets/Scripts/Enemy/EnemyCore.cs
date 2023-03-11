@@ -23,6 +23,7 @@ public abstract class EnemyCore : Core
     {
         tar = GameObject.Find("Player");
         currentHp = maxHp;
+        ChangeState(CharacterState.Idle);
     }
 
     private void OnDisable()

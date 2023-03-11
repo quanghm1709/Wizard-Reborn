@@ -49,6 +49,7 @@ public class UIController : MonoBehaviour
         else
         {
             menu.SetActive(true);
+            this.PostEvent(EventID.OnOpenMenu);
             Time.timeScale = 0;
         }
     }
