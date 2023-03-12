@@ -24,12 +24,6 @@ public class RoomGenerator : MonoBehaviour
         GenerateRoom();
     }
 
-    private void Update()
-    {
-        
-
-    }
-
     private void CreateStartRoom()
     {
         GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
