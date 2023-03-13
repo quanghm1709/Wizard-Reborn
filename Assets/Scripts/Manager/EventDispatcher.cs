@@ -13,6 +13,7 @@ public enum EventID
 	OnSkillUpgradeFailed,
 	OnSwapSkill,
 	OnOpenMenu,
+	OnPlayerEnterGate,
 }
 
 public class EventDispatcher : MonoBehaviour

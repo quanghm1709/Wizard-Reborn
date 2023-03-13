@@ -6,6 +6,7 @@ public class RoomController : MonoBehaviour
 {
     public int roomId;
 
+    [SerializeField] private bool isEnemyRoom;
     [SerializeField] private int totalWave;
     [SerializeField] public bool isClear;
 
@@ -16,7 +17,15 @@ public class RoomController : MonoBehaviour
     private void Start()
     {
         RegisterEvent();
-        totalWave = Random.Range(1, 4);    
+        if (isEnemyRoom)
+        {
+            totalWave = Random.Range(1, 4);
+        }
+        else
+        {
+            OnRoomClear(roomId);
+        }
+            
     }
 
     private void RegisterEvent()
@@ -26,7 +35,6 @@ public class RoomController : MonoBehaviour
 
     private void OnRoomClear(int param)
     {
-        Debug.Log("Clear");
         if(param == roomId)
         {
             for (int i = 0; i < detectRoom.Length; i++)
@@ -44,7 +52,7 @@ public class RoomController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.name);
-        if(collision.tag == "Player" && !playerIn)
+        if(collision.tag == "Player" && !playerIn && totalWave > 0)
         {
             Vector3 spawnPoint = new Vector3(transform.position.x + 4.75f, transform.position.y + 4.25f, transform.position.z);
             StartCoroutine(EnemyGenerator.instance.GenerateEnemy(spawnPoint, totalWave, gameObject.GetComponent<RoomController>()));

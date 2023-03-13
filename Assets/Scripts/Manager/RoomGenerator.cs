@@ -11,8 +11,9 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private float yOffset;
 
     [SerializeField] private GameObject instatiateRoom;
-    private GameObject startRoom;
-    private GameObject endRoom;
+    [SerializeField] private GameObject startRoom;
+    [SerializeField] private GameObject shopRoom;
+    [SerializeField] private GameObject endRoom;
 
     private List<GameObject> listRoom = new List<GameObject>();
     private Direct direct;
@@ -20,16 +21,18 @@ public class RoomGenerator : MonoBehaviour
 
     private void Start()
     {
-        CreateStartRoom();
+        CreateSingleRoom(0,startRoom);
         GenerateRoom();
+        CreateSingleRoom(distanceToEnd, endRoom);
     }
 
-    private void CreateStartRoom()
+    private void CreateSingleRoom(int i, GameObject room)
     {
-        GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+        GameObject newRoom = Instantiate(room, generatorPoint.position, generatorPoint.rotation);
+
         newRoom.transform.parent = gridParent;
-        newRoom.GetComponent<RoomController>().roomId = 0;
-        this.PostEvent(EventID.OnRoomClear, 0);
+        newRoom.GetComponent<RoomController>().roomId = i;
+        this.PostEvent(EventID.OnRoomClear, i);
         listRoom.Add(newRoom);
 
         direct = (Direct)Random.Range(0, 4);
@@ -62,6 +65,7 @@ public class RoomGenerator : MonoBehaviour
                 MoveGenerationPoint();
             }
         }
+
     }
 
     private void MoveGenerationPoint()

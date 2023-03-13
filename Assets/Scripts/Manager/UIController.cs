@@ -11,18 +11,34 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider mpBar;
     [SerializeField] private Image expShow;
     [SerializeField] private Text currentLevel;
+
+    [Header("Menu")]
     [SerializeField] private GameObject menu;
+    [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private Slider loadingSlider;
+    [SerializeField] private float loadTime;
+    [SerializeField] private bool isPlayerEnterGate = false;
+
+    private float loadTimeCD;
     private PlayerController player;
 
     private void Start()
     {
         instance = this;
+        RegisterEvent();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
+        loadTimeCD = loadTime;
     }
 
     private void Update()
     {
         GetPlayerCurrentData();
+        ActionLoading();
+    }
+
+    private void RegisterEvent()
+    {
+        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => isPlayerEnterGate = true);
     }
 
     private void GetPlayerCurrentData()
@@ -51,6 +67,23 @@ public class UIController : MonoBehaviour
             menu.SetActive(true);
             this.PostEvent(EventID.OnOpenMenu);
             Time.timeScale = 0;
+        }
+    }
+
+    public void ActionLoading()
+    {
+        if (isPlayerEnterGate)
+        {
+            loadingScreen.SetActive(true);
+            loadingSlider.maxValue = loadTimeCD;
+            loadingSlider.value = loadTime;
+            loadTime -= Time.deltaTime;
+            if (loadTime <= 0)
+            {
+                loadingScreen.SetActive(false);
+                loadTime = loadTimeCD;
+                isPlayerEnterGate = false;
+            }
         }
     }
 }

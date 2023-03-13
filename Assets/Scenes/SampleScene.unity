@@ -823,6 +823,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomId: 0
+  isEnemyRoom: 0
   totalWave: 0
   isClear: 0
   detectRoom: []
@@ -968,6 +969,7 @@ Transform:
   - {fileID: 38448349}
   - {fileID: 1661633226}
   - {fileID: 675787171}
+  - {fileID: 2011221772}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1557,6 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomId: 0
+  isEnemyRoom: 0
   totalWave: 1
   isClear: 0
   detectRoom: []
@@ -2801,6 +2804,9 @@ MonoBehaviour:
   xOffset: 12
   yOffset: 9
   instatiateRoom: {fileID: 6822464768611868282, guid: 94a58df18edc9b54b9657182e4ed8067, type: 3}
+  startRoom: {fileID: 4431588496536797147, guid: 25e8190e5d7741a44889b9152abde9f7, type: 3}
+  shopRoom: {fileID: 0}
+  endRoom: {fileID: 8070905490891893898, guid: cd9e6cf3c582adb4db0a94ddc5eadd3f, type: 3}
 --- !u!1 &1756830985
 GameObject:
   m_ObjectHideFlags: 0
@@ -2945,6 +2951,51 @@ MonoBehaviour:
   currentSkill: []
   currentSkillUI: []
   skillState: 
+--- !u!1 &2011221771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2011221772}
+  - component: {fileID: 2011221773}
+  m_Layer: 0
+  m_Name: Floor Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2011221772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011221771}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 310016833}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2011221773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011221771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f173e2b1d3be8d8438ea2789fa07796f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentFloor: 0
 --- !u!1 &2036773921
 GameObject:
   m_ObjectHideFlags: 0
