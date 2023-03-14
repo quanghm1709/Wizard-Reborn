@@ -19,8 +19,6 @@ public class PlayerController : Core, IDamage
 
     private void Update()
     {
-        //GetEnemyInRange();
-        //RemoveEnemyOutRange();
         SetMove();
         Attack();
     }
@@ -116,26 +114,6 @@ public class PlayerController : Core, IDamage
             }
         }
 
-    }
-
-    private void GetEnemyInRange()
-    {
-        Collider2D[] multiEnemy = Physics2D.OverlapCircleAll(transform.position, detectRange, hitLayer);
-        foreach(Collider2D c in multiEnemy)
-        {
-            enemyInRange.Add(c.gameObject);
-        }
-    }
-
-    private void RemoveEnemyOutRange()
-    {
-        foreach(GameObject t in enemyInRange)
-        {
-            if(Vector3.Distance(transform.position, t.transform.position) > detectRange)
-            {
-                enemyInRange.Remove(t);
-            }
-        }
     }
 
     private void OnDrawGizmos()

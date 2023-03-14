@@ -8,6 +8,7 @@ public class SkillUIManager : MonoBehaviour
     public static SkillUIManager instance;
 
     public Image[] activeSkillBtn;
+    public Text skillPoint;
     public Text skillName;
     public Text description;
     public GameObject[] skillAction;//0 - upgrade, 1 - Set Active

@@ -19,6 +19,11 @@ public class PlayerLevelManager : MonoBehaviour
         RegisterEvent();
     }
 
+    private void Update()
+    {
+        SkillUIManager.instance.skillPoint.text = "Skill Point: " + skillPoint.ToString();
+    }
+
     private void RegisterEvent()
     {
         this.RegisterListener(EventID.OnEnemyDead, (param) => OnEnemyDead((int)param));

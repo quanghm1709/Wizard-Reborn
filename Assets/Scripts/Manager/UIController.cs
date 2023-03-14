@@ -28,6 +28,7 @@ public class UIController : MonoBehaviour
         RegisterEvent();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         loadTimeCD = loadTime;
+        loadTime = 0;
     }
 
     private void Update()
@@ -77,11 +78,12 @@ public class UIController : MonoBehaviour
             loadingScreen.SetActive(true);
             loadingSlider.maxValue = loadTimeCD;
             loadingSlider.value = loadTime;
-            loadTime -= Time.deltaTime;
-            if (loadTime <= 0)
+            loadTime += Time.deltaTime;
+
+            if (loadTime >= loadTimeCD)
             {
                 loadingScreen.SetActive(false);
-                loadTime = loadTimeCD;
+                loadTime = 0;
                 isPlayerEnterGate = false;
             }
         }

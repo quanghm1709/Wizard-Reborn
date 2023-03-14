@@ -1353,6 +1353,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 464061003}
+  theMap: {fileID: 0}
 --- !u!1 &534353738
 GameObject:
   m_ObjectHideFlags: 0
@@ -2763,6 +2764,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661633226}
   - component: {fileID: 1661633227}
+  - component: {fileID: 1661633228}
   m_Layer: 0
   m_Name: Room Generator
   m_TagString: Untagged
@@ -2806,7 +2808,31 @@ MonoBehaviour:
   instatiateRoom: {fileID: 6822464768611868282, guid: 94a58df18edc9b54b9657182e4ed8067, type: 3}
   startRoom: {fileID: 4431588496536797147, guid: 25e8190e5d7741a44889b9152abde9f7, type: 3}
   shopRoom: {fileID: 0}
-  endRoom: {fileID: 8070905490891893898, guid: cd9e6cf3c582adb4db0a94ddc5eadd3f, type: 3}
+  endRoom: {fileID: 6796004466670055460, guid: cd9e6cf3c582adb4db0a94ddc5eadd3f, type: 3}
+  roomPool: {fileID: 1661633228}
+--- !u!114 &1661633228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661633225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9f4d65ab2af2514a9a35f3d034d5c53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preAllocations:
+  - gameObject: {fileID: 4431588496536797147, guid: 25e8190e5d7741a44889b9152abde9f7, type: 3}
+    count: 1
+    expandable: 0
+  - gameObject: {fileID: 6796004466670055460, guid: cd9e6cf3c582adb4db0a94ddc5eadd3f, type: 3}
+    count: 1
+    expandable: 0
+  - gameObject: {fileID: 6822464768611868282, guid: 94a58df18edc9b54b9657182e4ed8067, type: 3}
+    count: 10
+    expandable: 1
+  pooledGobjects: []
 --- !u!1 &1756830985
 GameObject:
   m_ObjectHideFlags: 0

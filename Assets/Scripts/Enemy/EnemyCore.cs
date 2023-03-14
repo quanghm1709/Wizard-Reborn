@@ -2,8 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum EnemyType
+{
+    Melee,
+    Range,
+}
+
 public abstract class EnemyCore : Core
 {
+    public EnemyType type;
     public GameObject tar;
     public int id;
     public float dropExp;
@@ -16,7 +23,7 @@ public abstract class EnemyCore : Core
     [Header("Attack")]
     public float dmgRange;
     public Transform dmgPoint;
-
+    public GameObject enemyProjectile;
     public Vector2 movement;
 
     private void OnEnable()

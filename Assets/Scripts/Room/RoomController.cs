@@ -8,12 +8,16 @@ public class RoomController : MonoBehaviour
 
     [SerializeField] private bool isEnemyRoom;
     [SerializeField] private int totalWave;
-    [SerializeField] public bool isClear;
+    public bool isClear;
 
     [SerializeField] private Transform[] detectRoom;
     [SerializeField] private GameObject[] teleportPoint;
 
     private bool playerIn = false;
+    private void OnEnable()
+    {
+        ResetRoom();
+    }
     private void Start()
     {
         RegisterEvent();
@@ -25,7 +29,6 @@ public class RoomController : MonoBehaviour
         {
             OnRoomClear(roomId);
         }
-            
     }
 
     private void RegisterEvent()
@@ -49,6 +52,16 @@ public class RoomController : MonoBehaviour
         }
     }
 
+    internal void ResetRoom()
+    {
+        foreach(GameObject g in teleportPoint)
+        {
+            g.SetActive(false);
+        }
+        isClear = false;
+        playerIn = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.name);
@@ -57,6 +70,7 @@ public class RoomController : MonoBehaviour
             Vector3 spawnPoint = new Vector3(transform.position.x + 4.75f, transform.position.y + 4.25f, transform.position.z);
             StartCoroutine(EnemyGenerator.instance.GenerateEnemy(spawnPoint, totalWave, gameObject.GetComponent<RoomController>()));
             playerIn = true;
+            //CameraController.instance.GetCurrentRoom(gameObject);
         }
     }
 }

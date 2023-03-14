@@ -45,6 +45,7 @@ public class SkillHolder : MonoBehaviour
                     case SkillState.Ready:
                         if (CrossPlatformInputManager.GetButtonDown("Skill " + i))
                         {
+                            CameraController.instance.Shake();
                             currentSkill[i].Action();
                             skillState[i] = SkillState.Cooldown;
                             cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];

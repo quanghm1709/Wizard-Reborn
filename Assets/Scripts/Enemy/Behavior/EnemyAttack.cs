@@ -23,12 +23,14 @@ public class EnemyAttack : State
             {
                 _agent.anim.SetBool("isAttack", true);
                 _agent.anim.SetBool("isMove", false);
-                Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
 
-                if (hit.Length>0)
+                if(_agent.type == EnemyType.Melee)
                 {
-                    Debug.Log(hit[0].name);
-                    hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
+                    MeleeAttack();
+                }
+                else
+                {
+                    RangeAttack();
                 }
 
                 _agent.LoadHit();
@@ -39,5 +41,26 @@ public class EnemyAttack : State
         {
             _agent.ChangeState(CharacterState.Moving);
         }
+    }
+
+    private void MeleeAttack()
+    {
+        Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
+
+        if (hit.Length > 0)
+        {
+            Debug.Log(hit[0].name);
+            hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
+        }
+    }
+
+    private void RangeAttack()
+    {
+        Vector2 lookDir = _agent.tar.transform.position - _agent.transform.position;
+        float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg;
+
+        GameObject g = Instantiate(_agent.enemyProjectile, _agent.dmgPoint.position, Quaternion.identity);
+        g.transform.rotation = Quaternion.Euler(0, 0, angle);
+        g.GetComponent<EnemyProjectile>().damage = _agent.currentAtk;
     }
 }

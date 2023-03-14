@@ -15,25 +15,56 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private GameObject shopRoom;
     [SerializeField] private GameObject endRoom;
 
-    private List<GameObject> listRoom = new List<GameObject>();
+    public ObjectPool roomPool;
+    //private List<GameObject> listRoom = new List<GameObject>();
     private Direct direct;
     private int currentRoomId = 1;
+    private Vector3 startRoomPos;
 
     private void Start()
     {
-        CreateSingleRoom(0,startRoom);
+        RegisterEvent();
+        startRoomPos = generatorPoint.position;
+        CreateFloor();   
+    }
+
+    private void RegisterEvent()
+    {
+        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+    }
+
+    private void OnPlayerEnterGate()
+    {
+        ResetFloor();
+    }
+
+    private void ResetFloor()
+    {
+        foreach(GameObject g in roomPool.pooledGobjects)
+        {
+            g.GetComponent<RoomController>().ResetRoom();
+            g.SetActive(false);
+        }
+        generatorPoint.position = startRoomPos;
+        CreateFloor();
+    }
+
+    public void CreateFloor()
+    {
+        CreateSingleRoom(0, startRoom);
         GenerateRoom();
-        CreateSingleRoom(distanceToEnd, endRoom);
+        CreateSingleRoom(0, endRoom);      
     }
 
     private void CreateSingleRoom(int i, GameObject room)
     {
-        GameObject newRoom = Instantiate(room, generatorPoint.position, generatorPoint.rotation);
-
+        GameObject newRoom = roomPool.GetObject(room.name);//Instantiate(room, generatorPoint.position, generatorPoint.rotation);
+        newRoom.transform.position = generatorPoint.position;
         newRoom.transform.parent = gridParent;
+
         newRoom.GetComponent<RoomController>().roomId = i;
         this.PostEvent(EventID.OnRoomClear, i);
-        listRoom.Add(newRoom);
+        //listRoom.Add(newRoom);
 
         direct = (Direct)Random.Range(0, 4);
         MoveGenerationPoint();
@@ -43,19 +74,13 @@ public class RoomGenerator : MonoBehaviour
     {
         for (int i = 0; i < distanceToEnd; i++)
         {
-            GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            GameObject newRoom = roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            newRoom.transform.position = generatorPoint.position;
             newRoom.transform.parent = gridParent;
+            
             newRoom.GetComponent<RoomController>().roomId = currentRoomId;
             currentRoomId++;
-            listRoom.Add(newRoom);
-
-            //if (i + 1 == distanceToEnd)
-            //{
-            //    // newRoom.GetComponent<SpriteRenderer>().color = endColor;
-            //    listRoom.RemoveAt(listRoom.Count - 1);
-
-            //    endRoom = newRoom;
-            //}
+            //listRoom.Add(newRoom);
 
             direct = (Direct)Random.Range(0, 4);
             MoveGenerationPoint();
