@@ -19,6 +19,9 @@ public class UIController : MonoBehaviour
     [SerializeField] private float loadTime;
     [SerializeField] private bool isPlayerEnterGate = false;
 
+    [Header("Floor")]
+    [SerializeField] private Text floor;
+
     private float loadTimeCD;
     private PlayerController player;
 
@@ -35,6 +38,8 @@ public class UIController : MonoBehaviour
     {
         GetPlayerCurrentData();
         ActionLoading();
+
+        floor.text = "Floor " + FloorManager.currentFloor.ToString();
     }
 
     private void RegisterEvent()

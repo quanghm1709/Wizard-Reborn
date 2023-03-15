@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1784477901437852494}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Detech Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3647562900377042481}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Detech Up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5808407056728240341}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Detech Down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   - component: {fileID: 6822464767080836057}
   - component: {fileID: 6822464767080836063}
   - component: {fileID: 6822464767080836062}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Teleport Point L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 6822464767113201617}
   - component: {fileID: 6822464767113201623}
   - component: {fileID: 6822464767113201622}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Teleport Point U
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +255,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464767122826200}
   - component: {fileID: 6822464767122826201}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__113
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,7 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464767291898271}
   - component: {fileID: 6822464767291898268}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__39
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464767428662850}
   - component: {fileID: 6822464767428662851}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__113
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -507,7 +507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464767579193507}
   - component: {fileID: 6822464767579193504}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -592,7 +592,7 @@ GameObject:
   - component: {fileID: 6822464767731346281}
   - component: {fileID: 6822464767731346287}
   - component: {fileID: 6822464767731346286}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1850,7 +1850,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6822464767916117062}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Detech Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1883,7 +1883,7 @@ GameObject:
   - component: {fileID: 6822464767940018279}
   - component: {fileID: 6822464767940018277}
   - component: {fileID: 6822464767940018276}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Teleport Point D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1958,7 +1958,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464767993353803}
   - component: {fileID: 6822464767993353800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__114
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2042,7 +2042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768003843376}
   - component: {fileID: 6822464768003843377}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__39
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2125,7 +2125,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6822464768064337506}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Detech Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2161,7 +2161,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768092503760}
   - component: {fileID: 6822464768092503761}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__113
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2245,7 +2245,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768159444425}
   - component: {fileID: 6822464768159444430}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__113
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2329,7 +2329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768217689650}
   - component: {fileID: 6822464768217689651}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__39
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2412,7 +2412,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6822464768220998103}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Teleport Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2448,7 +2448,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768263351182}
   - component: {fileID: 6822464768263351183}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__114
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2532,7 +2532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768274563523}
   - component: {fileID: 6822464768274563520}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__114
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2616,7 +2616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768426203417}
   - component: {fileID: 6822464768426203422}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__114
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2701,7 +2701,7 @@ GameObject:
   - component: {fileID: 6822464768611868283}
   - component: {fileID: 6822464768611868281}
   - component: {fileID: 6822464768611868280}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Normal Room
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2790,7 +2790,7 @@ GameObject:
   - component: {fileID: 6822464768761273675}
   - component: {fileID: 6822464768761273673}
   - component: {fileID: 6822464768761273672}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Teleport Point R
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2865,7 +2865,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768770861838}
   - component: {fileID: 6822464768770861839}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2949,7 +2949,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768923970909}
   - component: {fileID: 6822464768923970898}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3033,7 +3033,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464768954388565}
   - component: {fileID: 6822464768954388586}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__39
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3117,7 +3117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6822464769060238529}
   - component: {fileID: 6822464769060238534}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: waterLavaAcid__38
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3203,7 +3203,7 @@ GameObject:
   - component: {fileID: 8467023988790098993}
   - component: {fileID: 277792066060637171}
   - component: {fileID: 5771415393684001811}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}

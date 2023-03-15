@@ -7,6 +7,7 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private int distanceToEnd;
     [SerializeField] private Transform generatorPoint;
     [SerializeField] private Transform gridParent;
+    [SerializeField] private LayerMask roomLayer;
     [SerializeField] private float xOffset;
     [SerializeField] private float yOffset;
 
@@ -15,8 +16,8 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private GameObject shopRoom;
     [SerializeField] private GameObject endRoom;
 
-    public ObjectPool roomPool;
-    //private List<GameObject> listRoom = new List<GameObject>();
+    [SerializeField] private List<GameObject> listRoom;
+
     private Direct direct;
     private int currentRoomId = 1;
     private Vector3 startRoomPos;
@@ -40,10 +41,9 @@ public class RoomGenerator : MonoBehaviour
 
     private void ResetFloor()
     {
-        foreach(GameObject g in roomPool.pooledGobjects)
+        foreach(GameObject g in listRoom)
         {
-            g.GetComponent<RoomController>().ResetRoom();
-            g.SetActive(false);
+            Destroy(g);
         }
         generatorPoint.position = startRoomPos;
         CreateFloor();
@@ -51,20 +51,20 @@ public class RoomGenerator : MonoBehaviour
 
     public void CreateFloor()
     {
-        CreateSingleRoom(0, startRoom);
+        //CreateSingleRoom(0, startRoom);
         GenerateRoom();
-        CreateSingleRoom(0, endRoom);      
+        //CreateSingleRoom(distanceToEnd, endRoom);      
     }
 
     private void CreateSingleRoom(int i, GameObject room)
     {
-        GameObject newRoom = roomPool.GetObject(room.name);//Instantiate(room, generatorPoint.position, generatorPoint.rotation);
+        GameObject newRoom = Instantiate(room, generatorPoint.position, generatorPoint.rotation);
         newRoom.transform.position = generatorPoint.position;
         newRoom.transform.parent = gridParent;
 
         newRoom.GetComponent<RoomController>().roomId = i;
-        this.PostEvent(EventID.OnRoomClear, i);
-        //listRoom.Add(newRoom);
+        newRoom.GetComponent<RoomController>().OnRoomClear(i);
+        //this.PostEvent(EventID.OnRoomClear, i);
 
         direct = (Direct)Random.Range(0, 4);
         MoveGenerationPoint();
@@ -72,25 +72,36 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateRoom()
     {
+        GameObject stRoom = Instantiate(startRoom, generatorPoint.position, generatorPoint.rotation);
+        stRoom.transform.position = generatorPoint.position;
+        stRoom.transform.parent = gridParent;
+        direct = (Direct)Random.Range(0, 4);
+        MoveGenerationPoint();
+        listRoom.Add(stRoom);
+
         for (int i = 0; i < distanceToEnd; i++)
         {
-            GameObject newRoom = roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
             newRoom.transform.position = generatorPoint.position;
             newRoom.transform.parent = gridParent;
             
             newRoom.GetComponent<RoomController>().roomId = currentRoomId;
             currentRoomId++;
-            //listRoom.Add(newRoom);
-
+            listRoom.Add(newRoom);
             direct = (Direct)Random.Range(0, 4);
             MoveGenerationPoint();
 
-            while (Physics2D.OverlapCircle(generatorPoint.position, .2f))
+            while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer))
             {
                 MoveGenerationPoint();
             }
         }
 
+        GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
+        enRoom.transform.position = generatorPoint.position;
+        enRoom.transform.parent = gridParent;
+        direct = (Direct)Random.Range(0, 4);
+        listRoom.Add(enRoom);
     }
 
     private void MoveGenerationPoint()

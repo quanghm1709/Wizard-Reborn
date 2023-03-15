@@ -11,14 +11,10 @@ public class Gate : MonoBehaviour
         {
             if (c.tag == "Player")
             {
-                c.transform.position = new Vector3(10.4499998f, 3.86999989f, 0);
+                c.transform.position = new Vector3(14f, 7f, 0);
                 this.PostEvent(EventID.OnPlayerEnterGate);
             }
         }
         
-    }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-       
     }
 }
