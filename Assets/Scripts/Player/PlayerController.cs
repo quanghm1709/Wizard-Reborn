@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ public class PlayerController : Core, IDamage
     public List<GameObject> enemyInRange;
 
     public bool isFacingRight = true;
+
     private float dirX;
     private float dirY;
     private float attackDuration;
@@ -147,5 +149,34 @@ public class PlayerController : Core, IDamage
     public void TakeSusDamage(int totalDmg, float time)
     {
         throw new System.NotImplementedException();
+    }
+
+    public void UsingItem(float hp, float mp, float spd, bool isForever)
+    {
+        currentHp +=(int) (maxHp * hp);
+        currentMp +=(int) (maxMp * mp);
+        currentSpd += (maxSpd * spd);
+
+        if (isForever)
+        {
+            maxHp += (int)(maxHp * hp);
+            maxMp += (int)(maxMp * mp);
+            maxSpd += (maxSpd * spd);
+        }
+
+        if(currentHp> maxHp)
+        {
+            currentHp = maxHp;
+        }
+
+        if (currentMp > maxMp)
+        {
+            currentMp = maxMp;
+        }
+
+        if (currentSpd > maxSpd)
+        {
+            currentSpd = maxSpd;
+        }
     }
 }

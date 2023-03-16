@@ -11,6 +11,7 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider mpBar;
     [SerializeField] private Image expShow;
     [SerializeField] private Text currentLevel;
+    [SerializeField] private Text currentGold;
 
     [Header("Menu")]
     [SerializeField] private GameObject menu;
@@ -40,6 +41,7 @@ public class UIController : MonoBehaviour
         ActionLoading();
 
         floor.text = "Floor " + FloorManager.currentFloor.ToString();
+        currentGold.text = GoldManager.playerGold.ToString() + "g";
     }
 
     private void RegisterEvent()

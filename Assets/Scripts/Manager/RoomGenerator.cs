@@ -21,6 +21,7 @@ public class RoomGenerator : MonoBehaviour
     private Direct direct;
     private int currentRoomId = 1;
     private Vector3 startRoomPos;
+    private int specialRoom = 0;
 
     private void Start()
     {
@@ -45,29 +46,14 @@ public class RoomGenerator : MonoBehaviour
         {
             Destroy(g);
         }
+        listRoom = new List<GameObject>();
         generatorPoint.position = startRoomPos;
         CreateFloor();
     }
 
     public void CreateFloor()
     {
-        //CreateSingleRoom(0, startRoom);
-        GenerateRoom();
-        //CreateSingleRoom(distanceToEnd, endRoom);      
-    }
-
-    private void CreateSingleRoom(int i, GameObject room)
-    {
-        GameObject newRoom = Instantiate(room, generatorPoint.position, generatorPoint.rotation);
-        newRoom.transform.position = generatorPoint.position;
-        newRoom.transform.parent = gridParent;
-
-        newRoom.GetComponent<RoomController>().roomId = i;
-        newRoom.GetComponent<RoomController>().OnRoomClear(i);
-        //this.PostEvent(EventID.OnRoomClear, i);
-
-        direct = (Direct)Random.Range(0, 4);
-        MoveGenerationPoint();
+        GenerateRoom();     
     }
 
     private void GenerateRoom()
@@ -79,9 +65,26 @@ public class RoomGenerator : MonoBehaviour
         MoveGenerationPoint();
         listRoom.Add(stRoom);
 
+        int randomPos = -1;
+        if (specialRoom == 3)
+        {
+            randomPos = Random.Range(2, distanceToEnd-1);
+        }
+
         for (int i = 0; i < distanceToEnd; i++)
         {
-            GameObject newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            GameObject newRoom = null;
+
+            if (i == randomPos && specialRoom == 3)
+            {
+                newRoom = Instantiate(shopRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            }
+            else
+            {
+                newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+            }
+
+
             newRoom.transform.position = generatorPoint.position;
             newRoom.transform.parent = gridParent;
             
@@ -102,6 +105,8 @@ public class RoomGenerator : MonoBehaviour
         enRoom.transform.parent = gridParent;
         direct = (Direct)Random.Range(0, 4);
         listRoom.Add(enRoom);
+
+        specialRoom++;
     }
 
     private void MoveGenerationPoint()

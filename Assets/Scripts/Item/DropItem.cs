@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class DropItem : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Item")]
+    [SerializeField] private List<GameObject> itemToDrop;
+    [SerializeField] private float dropRate;
 
-    // Update is called once per frame
-    void Update()
+    private bool isCreated = true;
+
+    private void OnDisable()
     {
-        
+        if (isCreated)
+        {
+            isCreated = false;
+        }
+        else
+        {
+            float rand = Random.Range(0f, 1f);
+
+            if (rand < dropRate)
+            {
+                GameObject g = ItemManager.instance.itemPool.GetObject(itemToDrop[Random.Range(0, itemToDrop.Count - 1)].name);
+                g.transform.position = transform.position;
+            }
+
+            if(rand > .5f)
+            {
+                GameObject g = ItemManager.instance.itemPool.GetObject("Gold Bag");
+                g.transform.position = transform.position;
+            }
+        }       
     }
 }

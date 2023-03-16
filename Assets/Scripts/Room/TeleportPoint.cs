@@ -30,10 +30,10 @@ public class TeleportPoint : MonoBehaviour
                     pointY -= 5;
                     break;
                 case Direct.left:
-                    pointX -= 6;
+                    pointX -= 4;
                     break;
                 case Direct.right:
-                    pointX += 6;
+                    pointX += 4;
                     break;
             }
 
