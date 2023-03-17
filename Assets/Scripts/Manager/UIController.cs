@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public static UIController instance;
+
     [Header("Data Bar")]
     [SerializeField] private Slider hpBar;
     [SerializeField] private Slider mpBar;
@@ -29,6 +30,7 @@ public class UIController : MonoBehaviour
     private void Start()
     {
         instance = this;
+
         RegisterEvent();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
         loadTimeCD = loadTime;

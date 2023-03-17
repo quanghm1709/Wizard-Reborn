@@ -17,6 +17,7 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private GameObject endRoom;
 
     [SerializeField] private List<GameObject> listRoom;
+    [SerializeField] private ObjectPool trapPool;
 
     private Direct direct;
     private int currentRoomId = 1;
@@ -47,6 +48,12 @@ public class RoomGenerator : MonoBehaviour
             Destroy(g);
         }
         listRoom = new List<GameObject>();
+
+        foreach(GameObject g in trapPool.pooledGobjects)
+        {
+            g.SetActive(false);
+        }
+
         generatorPoint.position = startRoomPos;
         CreateFloor();
     }
@@ -82,6 +89,14 @@ public class RoomGenerator : MonoBehaviour
             else
             {
                 newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+
+                float rand = Random.Range(0f, 1f);
+                if(rand > .4f)
+                {
+                    GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
+                    trap.transform.parent = newRoom.transform;
+                    trap.transform.position = newRoom.transform.position;
+                }
             }
 
 
