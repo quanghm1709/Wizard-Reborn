@@ -8,6 +8,7 @@ public class SkillUIManager : MonoBehaviour
     public static SkillUIManager instance;
 
     public Image[] activeSkillBtn;
+    public List<Image> skillCD;
     public Text skillPoint;
     public Text skillName;
     public Text description;
@@ -16,7 +17,7 @@ public class SkillUIManager : MonoBehaviour
     public GameObject swapSkill;
 
     public List<SkillTree> skillTrees;
-
+    public int treeIndex;
     private void Start()
     {
         instance = this;

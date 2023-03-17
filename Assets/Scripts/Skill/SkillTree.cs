@@ -39,6 +39,7 @@ public class SkillTree : MonoBehaviour
             {
                 PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
             }
+
             listSkill[currentSkill].skillLevel++;
             LoadUI(currentSkill);
             if(listSkill[currentSkill].skillLevel >= 3)
@@ -60,6 +61,11 @@ public class SkillTree : MonoBehaviour
         SkillUIManager.instance.description.text = listSkill[position].skillDescription;
 
         LoadUI(position);
+    }
+
+    public void GetTreePos(int pos)
+    {
+        SkillUIManager.instance.treeIndex = pos;
     }
 
     private void LoadUI(int position)

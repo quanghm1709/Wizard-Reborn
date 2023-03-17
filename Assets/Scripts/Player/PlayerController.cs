@@ -7,7 +7,7 @@ using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : Core, IDamage
 {
     [Header("Combat")]
-    [SerializeField] private Transform attackPoint;
+    [SerializeField] private List<Transform> attackPoint;
     [SerializeField] private float damageRange;
     [SerializeField] private LayerMask hitLayer;
     [SerializeField] private float detectRange;
@@ -22,7 +22,20 @@ public class PlayerController : Core, IDamage
     private void Update()
     {
         SetMove();
-        Attack();
+        if (timeBtwHitCD > 0)
+        {
+            timeBtwHitCD -= Time.deltaTime;
+        }
+        else
+        {
+            StartAttack();
+        }
+
+        currentMp += Time.deltaTime;
+        if (currentMp >= maxMp)
+        {
+            currentMp = maxMp;
+        }
     }
 
     private void FixedUpdate()
@@ -37,7 +50,7 @@ public class PlayerController : Core, IDamage
         dirX = CrossPlatformInputManager.GetAxisRaw("Horizontal");
         dirY = CrossPlatformInputManager.GetAxisRaw("Vertical");
 
-        if (dirX != 0 || dirY != 0)
+        if (dirX != 0|| dirY != 0)
         {
             anim.SetBool("isMove", true);
         }
@@ -72,63 +85,72 @@ public class PlayerController : Core, IDamage
         }
     }
 
-    private void Attack()
+    private void StartAttack()
     {
 
         if (Input.GetKeyDown(KeyCode.Space) || CrossPlatformInputManager.GetButtonDown("Contact Btn")) 
         {
-            TestAttack();
-            canMove = false;
-            attackDuration = .5f;
-            anim.SetBool("isAttack", true);
-            
-        }
-        attackDuration -= Time.deltaTime;
-        if (attackDuration <= 0)
-        {
-            anim.SetBool("isAttack", false);
-            canMove = true;
-        }      
+            StartCoroutine(Attack());           
+        }     
     }
 
-    private void TestAttack()
+    private IEnumerator Attack()
     {
-        float direct;
+        timeBtwHitCD = timeBtwHit;
         RaycastHit2D[] hit;
+        anim.SetBool("isAttack", true);
+        anim.SetBool("isMove", false);
 
-        if (isFacingRight)
-        {
-            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x + damageRange), attackPoint.position.y), hitLayer);
+        canMove = false;
 
-        }
-        else
+        foreach(Transform t in attackPoint)
         {
-            hit = Physics2D.LinecastAll(new Vector2(attackPoint.position.x, attackPoint.position.y), new Vector2((attackPoint.position.x - damageRange), attackPoint.position.y), hitLayer);
-
-        }
-        
-        if(hit.Length > 0)
-        {
-            foreach (var i in hit)
+            if (isFacingRight)
             {
-               // Debug.Log(i.collider.name);
-               i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0);
+                hit = Physics2D.LinecastAll(new Vector2(t.position.x, t.position.y), new Vector2((t.position.x + damageRange), t.position.y), hitLayer);
+
+            }
+            else
+            {
+                hit = Physics2D.LinecastAll(new Vector2(t.position.x, t.position.y), new Vector2((t.position.x - damageRange), t.position.y), hitLayer);
+
+            }
+            if (hit.Length > 0)
+            {
+                foreach (var i in hit)
+                {
+                    // Debug.Log(i.collider.name);
+                    i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0);
+                }
             }
         }
+
+        
+
+
+        yield return new WaitForSeconds(.3f);
+        
+        anim.SetBool("isAttack", false);
+        anim.SetBool("isMove", true);
+        canMove = true;
 
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if (isFacingRight)
+        foreach (Transform t in attackPoint)
         {
-            Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x + damageRange), attackPoint.position.y, attackPoint.position.z));
+            if (isFacingRight)
+            {
+                Gizmos.DrawLine(t.position, new Vector3((t.position.x + damageRange), t.position.y, t.position.z));
+            }
+            else
+            {
+                Gizmos.DrawLine(t.position, new Vector3((t.position.x - damageRange), t.position.y, t.position.z));
+            }
         }
-        else
-        {
-            Gizmos.DrawLine(attackPoint.position, new Vector3((attackPoint.position.x - damageRange), attackPoint.position.y, attackPoint.position.z));
-        }
+
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, detectRange);

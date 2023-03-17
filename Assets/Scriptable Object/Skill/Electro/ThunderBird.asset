@@ -12,24 +12,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67b51e5b4d369604f86504849debe7a7, type: 3}
   m_Name: ThunderBird
   m_EditorClassIdentifier: 
-  skillLevel: 0
+  skillLevel: 1
   skillName: Thunder Bird
   skillDescription: "Ph\xF3ng ra 1 ch\xFA chim s\xE9t v\u1EC1 ph\xEDa m\u1EE5c ti\xEAu,
     qu\xE3ng \u0111\u01B0\u1EDDng c\xE0ng d\xE0i s\xE1t th\u01B0\u01A1ng c\xE0ng
     cao "
-  canUnlock: 0
+  canUnlock: 1
   skillType: 1
   cdTime:
-  - 0
-  - 0
-  - 0
+  - 15
+  - 14
+  - 12
   dmgRange: 0
   atk:
   - 1
-  - 0
-  - 0
+  - 2
+  - 3
+  mpUse:
+  - 100
+  - 120
+  - 150
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
-  skillToUnlock: {fileID: 0}
-  skillAnim: {fileID: 0}
+  skillToUnlock: {fileID: 11400000, guid: a045a185459f65d4c9197d6df4d3393a, type: 2}
+  skillAnim: {fileID: 8876472344927792981, guid: fdee8189fee06a944861f4fed51f3663, type: 3}

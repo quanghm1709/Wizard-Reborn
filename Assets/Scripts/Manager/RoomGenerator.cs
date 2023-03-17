@@ -43,16 +43,18 @@ public class RoomGenerator : MonoBehaviour
 
     private void ResetFloor()
     {
-        foreach(GameObject g in listRoom)
+        foreach (GameObject g in trapPool.pooledGobjects)
+        {
+            g.SetActive(false);
+        }
+
+        foreach (GameObject g in listRoom)
         {
             Destroy(g);
         }
         listRoom = new List<GameObject>();
 
-        foreach(GameObject g in trapPool.pooledGobjects)
-        {
-            g.SetActive(false);
-        }
+
 
         generatorPoint.position = startRoomPos;
         CreateFloor();
@@ -94,7 +96,7 @@ public class RoomGenerator : MonoBehaviour
                 if(rand > .4f)
                 {
                     GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
-                    trap.transform.parent = newRoom.transform;
+                   // trap.transform.parent = newRoom.transform;
                     trap.transform.position = newRoom.transform.position;
                 }
             }

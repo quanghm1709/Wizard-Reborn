@@ -19,6 +19,7 @@ public class SkillCore : ScriptableObject
     public float[] cdTime;
     public float dmgRange;
     public float[] atk;
+    public float[] mpUse;
     public LayerMask layerToDamage;
 
     public SkillCore skillToUnlock;

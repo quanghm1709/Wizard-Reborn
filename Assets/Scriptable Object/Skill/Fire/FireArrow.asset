@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf40d6bea665bcd4fa96fa9298f20eec, type: 3}
+  m_Name: FireArrow
+  m_EditorClassIdentifier: 
+  skillLevel: 0
+  skillName: FireArrow
+  skillDescription: "C\xF3 50%/70%/100% t\u1EC9 l\u1EC7 b\u1EAFn th\xEAm 1/2/4 m\u0169i
+    t\xEAn l\u1EEDa v\xE0o m\u1EE5c ti\xEAu ng\u1EABu nhi\xEAn khi t\u1EA5n c\xF4ng"
+  canUnlock: 1
+  skillType: 2
+  cdTime:
+  - 5
+  - 4
+  - 2
+  dmgRange: 1
+  atk:
+  - 0.25
+  - 0.35
+  - 0.55
+  mpUse: []
+  layerToDamage:
+    serializedVersion: 2
+    m_Bits: 128
+  skillToUnlock: {fileID: 11400000, guid: 06f323dd2a856f34890e60e4599c8fe9, type: 2}
+  skillAnim: {fileID: 0}

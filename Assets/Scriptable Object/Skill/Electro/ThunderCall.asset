@@ -17,17 +17,18 @@ MonoBehaviour:
   skillDescription: "C\xF3 10%/20%/40% t\u1EC9 l\u1EC7 g\u1ECDi \u0111\u01B0\u1EE3c
     th\xEAm thunder xu\u1ED1ng m\u1EE5c ti\xEAu khi t\u1EA5n c\xF4ng m\xE0 kh\xF4ng
     t\u1ED1n mana"
-  canUnlock: 1
+  canUnlock: 0
   skillType: 2
   cdTime:
-  - 1
-  - 0
-  - 0
+  - 8
+  - 7
+  - 5
   dmgRange: 0
   atk:
-  - 0
-  - 0
-  - 0
+  - 0.3
+  - 0.5
+  - 0.7
+  mpUse: []
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128

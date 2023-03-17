@@ -27,6 +27,7 @@ MonoBehaviour:
   - 0.2
   - 0.3
   - 0.5
+  mpUse: []
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
