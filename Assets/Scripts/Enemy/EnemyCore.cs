@@ -6,6 +6,7 @@ public enum EnemyType
 {
     Melee,
     Range,
+    Boss,
 }
 
 public abstract class EnemyCore : Core

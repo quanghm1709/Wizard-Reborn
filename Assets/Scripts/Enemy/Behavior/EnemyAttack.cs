@@ -28,9 +28,13 @@ public class EnemyAttack : State
                 {
                     MeleeAttack();
                 }
-                else
+                else if(_agent.type == EnemyType.Range)
                 {
                     RangeAttack();
+                }
+                else
+                {
+                    BossAttack();
                 }
 
                 _agent.LoadHit();
@@ -62,5 +66,23 @@ public class EnemyAttack : State
         GameObject g = Instantiate(_agent.enemyProjectile, _agent.dmgPoint.position, Quaternion.identity);
         g.transform.rotation = Quaternion.Euler(0, 0, angle);
         g.GetComponent<EnemyProjectile>().damage = _agent.currentAtk;
+    }
+
+    private void BossAttack()
+    {
+        BossController boss = _agent.GetComponent<BossController>();
+
+        switch (boss.currentSkill)
+        {
+            case BossSkillState.Skill1:
+                boss.Skill1();
+                break;
+            case BossSkillState.Skill2:
+                boss.Skill2();
+                break;
+            case BossSkillState.Skill3:
+                boss.Skill3();
+                break;
+        }
     }
 }

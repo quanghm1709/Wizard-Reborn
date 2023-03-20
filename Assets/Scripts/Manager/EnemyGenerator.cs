@@ -6,7 +6,7 @@ public class EnemyGenerator : MonoBehaviour
 {
     public static EnemyGenerator instance;
 
-    [SerializeField] private ObjectPool enemyPool;
+    public ObjectPool enemyPool;
 
     public List<GameObject> activeEnemy;
 

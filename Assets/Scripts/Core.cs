@@ -16,8 +16,8 @@ public abstract class Core : MonoBehaviour
     public float maxMp;
 
     [Header("Combat")]
-    [SerializeField] protected float timeBtwHitCD;
-    protected float timeBtwHit;
+    public float timeBtwHitCD;
+    [HideInInspector] public float timeBtwHit;
 
     [Header("Component")]
     public Rigidbody2D rb;

@@ -14,6 +14,7 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private GameObject instatiateRoom;
     [SerializeField] private GameObject startRoom;
     [SerializeField] private GameObject shopRoom;
+    [SerializeField] private GameObject bossRoom;
     [SerializeField] private GameObject endRoom;
 
     [SerializeField] private List<GameObject> listRoom;
@@ -22,7 +23,7 @@ public class RoomGenerator : MonoBehaviour
     private Direct direct;
     private int currentRoomId = 1;
     private Vector3 startRoomPos;
-    private int specialRoom = 0;
+    private int specialRoom = 1;
 
     private void Start()
     {
@@ -84,11 +85,10 @@ public class RoomGenerator : MonoBehaviour
         {
             GameObject newRoom = null;
 
-            if (i == randomPos && specialRoom == 3)
+            if (i == randomPos && specialRoom == 3|| i == randomPos && specialRoom == 6)
             {
                 newRoom = Instantiate(shopRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
-            }
-            else
+            }else
             {
                 newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
 
@@ -99,8 +99,7 @@ public class RoomGenerator : MonoBehaviour
                    // trap.transform.parent = newRoom.transform;
                     trap.transform.position = newRoom.transform.position;
                 }
-            }
-
+            } 
 
             newRoom.transform.position = generatorPoint.position;
             newRoom.transform.parent = gridParent;
@@ -117,11 +116,24 @@ public class RoomGenerator : MonoBehaviour
             }
         }
 
-        GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
-        enRoom.transform.position = generatorPoint.position;
-        enRoom.transform.parent = gridParent;
-        direct = (Direct)Random.Range(0, 4);
-        listRoom.Add(enRoom);
+        if(specialRoom == 6)
+        {
+            GameObject enRoom = Instantiate(bossRoom, generatorPoint.position, generatorPoint.rotation);
+            enRoom.transform.position = generatorPoint.position;
+            enRoom.transform.parent = gridParent;
+            direct = (Direct)Random.Range(0, 4);
+            listRoom.Add(enRoom);
+            specialRoom = 0;
+        }
+        else
+        {
+            GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
+            enRoom.transform.position = generatorPoint.position;
+            enRoom.transform.parent = gridParent;
+            direct = (Direct)Random.Range(0, 4);
+            listRoom.Add(enRoom);
+        }
+
 
         specialRoom++;
     }

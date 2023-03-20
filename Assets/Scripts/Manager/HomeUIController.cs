@@ -16,6 +16,14 @@ public class HomeUIController : MonoBehaviour
     [SerializeField] private GameObject creScreen;
     [SerializeField] private GameObject settingScreen;
 
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource.Play();
+    }
+
     private void Update()
     {
         if (isLoadScene)
@@ -55,5 +63,10 @@ public class HomeUIController : MonoBehaviour
                 settingScreen.SetActive(true);
             }
         }
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 }

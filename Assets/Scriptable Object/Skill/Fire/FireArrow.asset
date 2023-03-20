@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf40d6bea665bcd4fa96fa9298f20eec, type: 3}
   m_Name: FireArrow
   m_EditorClassIdentifier: 
-  skillLevel: 0
+  skillLevel: 3
   skillName: FireArrow
   skillDescription: "C\xF3 50%/70%/100% t\u1EC9 l\u1EC7 b\u1EAFn th\xEAm 1/2/4 m\u0169i
     t\xEAn l\u1EEDa v\xE0o m\u1EE5c ti\xEAu ng\u1EABu nhi\xEAn khi t\u1EA5n c\xF4ng"
@@ -21,15 +21,18 @@ MonoBehaviour:
   cdTime:
   - 5
   - 4
-  - 2
+  - 1
   dmgRange: 1
   atk:
   - 0.25
   - 0.35
   - 0.55
-  mpUse: []
+  mpUse:
+  - 0
+  - 0
+  - 0
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
   skillToUnlock: {fileID: 11400000, guid: 06f323dd2a856f34890e60e4599c8fe9, type: 2}
-  skillAnim: {fileID: 0}
+  skillAnim: {fileID: 5619293061160301837, guid: f155b7ac4792d954d889a9ae57ccb5f4, type: 3}

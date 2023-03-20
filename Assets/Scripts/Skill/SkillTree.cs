@@ -16,6 +16,7 @@ public enum SkillTreeType
 public class SkillTree : MonoBehaviour
 {
     [Header("Skill")]
+    [SerializeField] private int treePos;
     [SerializeField] private SkillTreeType treeType;
     [SerializeField] private List<SkillCore> listSkill;
     [SerializeField] private List<SkillUI> listSkillUI;
@@ -33,25 +34,27 @@ public class SkillTree : MonoBehaviour
 
     private void OnSkillUpgrade()
     {
-        if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
+        if(SkillUIManager.instance.treeIndex == treePos)
         {
-            if(listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 0)
+            if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
             {
-                PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
-            }
+                if (listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 0)
+                {
+                    PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
+                }
 
-            listSkill[currentSkill].skillLevel++;
-            LoadUI(currentSkill);
-            if(listSkill[currentSkill].skillLevel >= 3)
-            {
-                listSkill[currentSkill].skillToUnlock.canUnlock = true;
+                listSkill[currentSkill].skillLevel++;
+                LoadUI(currentSkill);
+                if (listSkill[currentSkill].skillLevel >= 3)
+                {
+                    listSkill[currentSkill].skillToUnlock.canUnlock = true;
+                }
             }
-        }
-        else
-        {
-            this.PostEvent(EventID.OnSkillUpgradeFailed);
-        }
-        
+            else
+            {
+                this.PostEvent(EventID.OnSkillUpgradeFailed);
+            }
+        }              
     }
 
     public void GetSkill(int position)
@@ -65,7 +68,7 @@ public class SkillTree : MonoBehaviour
 
     public void GetTreePos(int pos)
     {
-        SkillUIManager.instance.treeIndex = pos;
+        SkillUIManager.instance.treeIndex = treePos;
     }
 
     private void LoadUI(int position)

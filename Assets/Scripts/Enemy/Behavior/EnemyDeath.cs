@@ -20,7 +20,11 @@ public class EnemyDeath : State
         //PlayerLevelManager.instance.OnEnemyDead((int)_agent.dropExp);
         if (deadTime <= 0)
         {
-            EnemyGenerator.instance.activeEnemy.Remove(_agent.gameObject);
+            if(_agent.type != EnemyType.Boss)
+            {
+                EnemyGenerator.instance.activeEnemy.Remove(_agent.gameObject);
+            }
+            
             
             deadTime = 2;
             _agent.gameObject.SetActive(false);

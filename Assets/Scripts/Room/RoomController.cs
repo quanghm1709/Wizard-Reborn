@@ -30,10 +30,10 @@ public class RoomController : MonoBehaviour
 
     private void Update()
     {
-        if (!isEnemyRoom)
-        {
-            OnRoomClear(roomId);
-        }
+        //if (!isEnemyRoom)
+        //{
+        //    OnRoomClear(roomId);
+        //}
     }
     private void RegisterEvent()
     {

@@ -21,7 +21,7 @@ MonoBehaviour:
   cdTime:
   - 5
   - 4
-  - 2
+  - 1
   dmgRange: 1
   atk:
   - 0.2

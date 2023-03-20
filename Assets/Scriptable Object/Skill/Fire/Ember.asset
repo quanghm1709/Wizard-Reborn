@@ -16,7 +16,7 @@ MonoBehaviour:
   skillName: Ember
   skillDescription: "Th\u1ED5i m\u1ED9t ng\u1ECDn l\u1EEDa m\u1EA1nh v\xE0o m\u1EE5c
     ti\xEAu"
-  canUnlock: 0
+  canUnlock: 1
   skillType: 1
   cdTime:
   - 10
@@ -27,7 +27,10 @@ MonoBehaviour:
   - 1
   - 1.3
   - 1.7
-  mpUse: []
+  mpUse:
+  - 80
+  - 80
+  - 80
   layerToDamage:
     serializedVersion: 2
     m_Bits: 128
