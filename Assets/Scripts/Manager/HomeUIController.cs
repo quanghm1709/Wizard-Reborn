@@ -17,8 +17,9 @@ public class HomeUIController : MonoBehaviour
     [SerializeField] private GameObject settingScreen;
 
     [Header("Audio")]
-    [SerializeField] AudioSource audioSource;
-
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Slider sound;
+    
     private void Start()
     {
         audioSource.Play();
@@ -35,6 +36,8 @@ public class HomeUIController : MonoBehaviour
                 SceneManager.LoadScene("GameScene");
             }
         }
+
+        audioSource.volume = sound.value;
     }
 
     public void StartGame()

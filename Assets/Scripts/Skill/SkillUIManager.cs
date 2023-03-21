@@ -22,6 +22,11 @@ public class SkillUIManager : MonoBehaviour
     {
         instance = this;
         RegisterEvent();
+        //foreach(SkillTree tree in skillTrees)
+        //{
+        //    tree.LoadSkill();
+        //    treeIndex++;
+        //}
     }
 
     private void RegisterEvent()

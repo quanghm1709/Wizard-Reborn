@@ -16,7 +16,7 @@ MonoBehaviour:
   skillName: Ember
   skillDescription: "Th\u1ED5i m\u1ED9t ng\u1ECDn l\u1EEDa m\u1EA1nh v\xE0o m\u1EE5c
     ti\xEAu"
-  canUnlock: 1
+  canUnlock: 0
   skillType: 1
   cdTime:
   - 10

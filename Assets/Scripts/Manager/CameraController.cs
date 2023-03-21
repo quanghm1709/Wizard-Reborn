@@ -9,10 +9,6 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Transform player;
 
-    [SerializeField] private float shakeVibrato = 10f;
-    [SerializeField] private float shakeRandomness = 0.1f;
-    [SerializeField] private float shakeTime = 0.01f;
-
     public Tilemap theMap;
     private Vector3 bottomLeftLimit;
     private Vector3 topRightLimit;
@@ -41,12 +37,12 @@ public class CameraController : MonoBehaviour
     }
     
 
-    public void Shake()
+    public void Shake(float shakeVibrato, float shakeTime, float shakeRandomness)
     {
-        StartCoroutine(IEShake());
+        StartCoroutine(IEShake(shakeVibrato, shakeTime, shakeRandomness));
     }
 
-    private IEnumerator IEShake()
+    private IEnumerator IEShake(float shakeVibrato, float shakeTime, float shakeRandomness)
     {
         Vector3 currentPosition = transform.position;
         for (int i = 0; i < shakeVibrato; i++)

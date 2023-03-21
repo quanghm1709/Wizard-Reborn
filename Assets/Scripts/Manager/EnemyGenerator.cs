@@ -10,6 +10,8 @@ public class EnemyGenerator : MonoBehaviour
 
     public List<GameObject> activeEnemy;
 
+    [SerializeField] private List<string> enemyName;
+
     private int totalWave;
     private RoomController currentRoom;
 
@@ -45,7 +47,8 @@ public class EnemyGenerator : MonoBehaviour
         for (int i = 0; i < totalEnemy; i++)
         {
             Vector3 spawnPoint = new Vector3(Random.Range(room.x + 5, room.x - 5), Random.Range(room.y + 3, room.y - 3), room.z);
-            GameObject enemy = enemyPool.GetObject("Enemy");
+            int rand = Random.Range(0, enemyName.Count - 1);
+            GameObject enemy = enemyPool.GetObject(enemyName[rand]);
             enemy.transform.position = spawnPoint;
             enemy.GetComponent<EnemyCore>().ResetData();
 

@@ -261,7 +261,6 @@ GameObject:
   - component: {fileID: 9205294164926948053}
   - component: {fileID: 9205294164926948052}
   - component: {fileID: 1972163896}
-  - component: {fileID: 1972163900}
   - component: {fileID: 157640546}
   - component: {fileID: 157640547}
   m_Layer: 6
@@ -351,6 +350,7 @@ MonoBehaviour:
   currentMp: 200
   maxMp: 200
   timeBtwHitCD: 1
+  timeBtwHit: 0
   rb: {fileID: 9205294164926948054}
   anim: {fileID: 9205294165080125120}
   canMove: 1
@@ -395,22 +395,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   skillState: 00000000000000000000000000000000
---- !u!114 &1972163900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205294164926948050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f76d8d0e2dd4216478cb08216f7b4832, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cdTime: []
-  currentSkill: []
-  currentSkillUI: []
-  skillState: 
 --- !u!114 &157640546
 MonoBehaviour:
   m_ObjectHideFlags: 0

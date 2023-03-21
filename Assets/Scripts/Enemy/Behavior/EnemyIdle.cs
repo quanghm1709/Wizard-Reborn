@@ -13,9 +13,8 @@ public class EnemyIdle : State
   
     public override void Action()
     {
-        //if (!_agent.Detect())
-        {
-            
+            _agent.anim.SetBool("isMove", false);
+            _agent.anim.SetBool("isAttack", false);
             waitAttack -= Time.deltaTime;
             if (waitAttack <= 0)
             {
@@ -24,12 +23,5 @@ public class EnemyIdle : State
                 waitAttack = 2f;
                 _agent.ChangeState(CharacterState.Moving);
             }
-            
-           
-        }
-        //else
-        //{
-        //    _agent.ChangeState(CharacterState.Attack);
-        //}
     }
 }

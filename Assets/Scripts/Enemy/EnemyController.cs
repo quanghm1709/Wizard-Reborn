@@ -16,6 +16,8 @@ public class EnemyController : EnemyCore, IDamage
 
         Flip();
         ReloadHit();
+
+        
     }
 
     private State GetState(CharacterState characterState)
@@ -57,6 +59,7 @@ public class EnemyController : EnemyCore, IDamage
     {
         float damage = atk + maxAtk * bonusDmg;
         currentHp -= (int)damage;
+        hpBar.value = currentHp;
         if (currentHp <= 0)
         {
             ChangeState(CharacterState.Death);

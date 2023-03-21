@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum EnemyType
 {
@@ -27,16 +28,22 @@ public abstract class EnemyCore : Core
     public GameObject enemyProjectile;
     public Vector2 movement;
 
+    [Header("UI")]
+    public Slider hpBar;
+
     private void OnEnable()
     {
         tar = GameObject.Find("Player");
         currentHp = maxHp;
+        hpBar.maxValue = maxHp;
+        hpBar.value = currentHp;
         ChangeState(CharacterState.Idle);
     }
-
+   
     private void OnDisable()
     {
         this.PostEvent(EventID.OnEnemyDead, (int) dropExp );
+        
     }
     public virtual bool Detect()
     {

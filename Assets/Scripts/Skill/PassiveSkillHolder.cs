@@ -22,6 +22,11 @@ public class PassiveSkillHolder : MonoBehaviour
         {
             if (currentSkill[i] != null)
             {
+                if(skillState[i] == SkillState.None)
+                {
+                    skillState[i] = SkillState.Ready;
+                }
+
                 switch (skillState[i])
                 {
                     case SkillState.Ready:
@@ -50,7 +55,7 @@ public class PassiveSkillHolder : MonoBehaviour
         currentSkill.Add(skillCore);
         currentSkillUI.Add(skillUI);
 
-        cdTime.Add(skillCore.cdTime[skillCore.skillLevel]);
-        skillState.Add(SkillState.Ready);
+        cdTime.Add(skillCore.cdTime[skillCore.skillLevel-1]);
+        skillState.Add( new SkillState());
     }
 }

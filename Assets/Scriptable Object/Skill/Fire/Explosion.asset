@@ -35,4 +35,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   skillToUnlock: {fileID: 0}
-  skillAnim: {fileID: 0}
+  skillAnim: {fileID: 8695930831163571014, guid: 647a1b6badfeb5e44b35d044da60a583, type: 3}

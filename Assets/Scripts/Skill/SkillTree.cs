@@ -34,16 +34,16 @@ public class SkillTree : MonoBehaviour
 
     private void OnSkillUpgrade()
     {
-        if(SkillUIManager.instance.treeIndex == treePos)
+        if (SkillUIManager.instance.treeIndex == treePos)
         {
             if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
             {
-                if (listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 0)
+                listSkill[currentSkill].skillLevel++;
+                if (listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 1)
                 {
                     PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
                 }
 
-                listSkill[currentSkill].skillLevel++;
                 LoadUI(currentSkill);
                 if (listSkill[currentSkill].skillLevel >= 3)
                 {
@@ -54,13 +54,13 @@ public class SkillTree : MonoBehaviour
             {
                 this.PostEvent(EventID.OnSkillUpgradeFailed);
             }
-        }              
+        }
     }
 
     public void GetSkill(int position)
     {
         currentSkill = position;
-        
+
         SkillUIManager.instance.description.text = listSkill[position].skillDescription;
 
         LoadUI(position);
@@ -88,6 +88,11 @@ public class SkillTree : MonoBehaviour
         {
             SkillUIManager.instance.skillAction[0].SetActive(true);
         }
+        else
+        {
+            SkillUIManager.instance.upgradeOrUnlock.text = "Max Upgrade";
+        }
+        
 
         if (listSkill[position].skillType == SkillCore.SkillType.Active && listSkill[position].skillLevel > 0)
         {

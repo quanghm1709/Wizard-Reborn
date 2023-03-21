@@ -245,6 +245,7 @@ MonoBehaviour:
   creScreen: {fileID: 494133387}
   settingScreen: {fileID: 1593536990}
   audioSource: {fileID: 1796364734}
+  sound: {fileID: 1909151261}
 --- !u!1 &31722130
 GameObject:
   m_ObjectHideFlags: 0
@@ -2492,7 +2493,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 125, y: 219}
+  m_AnchoredPosition: {x: 88, y: 219}
   m_SizeDelta: {x: 630, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1909151261
