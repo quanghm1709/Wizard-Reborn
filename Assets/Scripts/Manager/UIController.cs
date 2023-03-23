@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -20,9 +22,13 @@ public class UIController : MonoBehaviour
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private float loadTime;
     [SerializeField] private bool isPlayerEnterGate = false;
+    private bool endLoad = true;
 
     [Header("Floor")]
     [SerializeField] private Text floor;
+
+    [Header("End Screen")]
+    [SerializeField] private GameObject overPanel;
 
     private float loadTimeCD;
     private PlayerController player;
@@ -49,6 +55,13 @@ public class UIController : MonoBehaviour
     private void RegisterEvent()
     {
         this.RegisterListener(EventID.OnPlayerEnterGate, (param) => isPlayerEnterGate = true);
+        this.RegisterListener(EventID.OnPlayerDead, (param) => OnPlayerDead());
+    }
+
+    private void OnPlayerDead()
+    {
+        Time.timeScale = 0f;
+        overPanel.SetActive(true);
     }
 
     private void GetPlayerCurrentData()
@@ -84,6 +97,7 @@ public class UIController : MonoBehaviour
     {
         if (isPlayerEnterGate)
         {
+            endLoad = false;
             loadingScreen.SetActive(true);
             loadingSlider.maxValue = loadTimeCD;
             loadingSlider.value = loadTime;
@@ -93,8 +107,33 @@ public class UIController : MonoBehaviour
             {
                 loadingScreen.SetActive(false);
                 loadTime = 0;
+                endLoad = true;
                 isPlayerEnterGate = false;
             }
         }
+    }
+
+    public void Replay()
+    {
+        Time.timeScale = 1f;
+        isPlayerEnterGate = true;
+        if (endLoad)
+        {
+            SceneManager.LoadScene("GameScene");
+        }   
+    }
+
+    public void BackHome()
+    {
+        isPlayerEnterGate = true;
+        if (endLoad)
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("HomeScene");
+        }
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

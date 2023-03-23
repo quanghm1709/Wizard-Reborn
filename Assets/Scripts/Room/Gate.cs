@@ -6,7 +6,7 @@ public class Gate : MonoBehaviour
 {
     private void Update()
     {
-        Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, 1f);
+        Collider2D[] hit = Physics2D.OverlapCircleAll(transform.position, .5f);
         foreach(Collider2D c in hit)
         {
             if (c.tag == "Player")

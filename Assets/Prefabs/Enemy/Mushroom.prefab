@@ -302,11 +302,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objName: Mushroom
-  currentHp: 20
-  currentAtk: 5
-  currentSpd: 1
-  maxHp: 0
-  maxAtk: 0
+  currentHp: 50
+  currentAtk: 10
+  currentSpd: 0.5
+  maxHp: 50
+  maxAtk: 10
   currentMp: 0
   maxMp: 0
   timeBtwHitCD: 2
@@ -318,13 +318,13 @@ MonoBehaviour:
   type: 1
   tar: {fileID: 9205294164926948050, guid: e759d518b16581448b2cd12f55d2fc90, type: 3}
   id: 0
-  dropExp: 10
-  detectRange: 1.5
+  dropExp: 15
+  detectRange: 2
   detectLayer:
     serializedVersion: 2
     m_Bits: 64
   detect: {fileID: 5466481663628886113}
-  dmgRange: 0.3
+  dmgRange: 0.4
   dmgPoint: {fileID: 5466481663870424996}
   enemyProjectile: {fileID: 2299388382379319453, guid: e1bcec522786d424ca2c93a9e0c4e6b6, type: 3}
   movement: {x: 0, y: 0}

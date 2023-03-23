@@ -22,7 +22,7 @@ public class DropItem : MonoBehaviour
 
             if (rand < dropRate)
             {
-                GameObject g = ItemManager.instance.itemPool.GetObject(itemToDrop[Random.Range(0, itemToDrop.Count - 1)].name);
+                GameObject g = ItemManager.instance.itemPool.GetObject(itemToDrop[Random.Range(0, itemToDrop.Count)].name);
                 g.transform.position = transform.position;
             }
 

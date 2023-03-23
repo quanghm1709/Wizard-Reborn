@@ -295,11 +295,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objName: Goblin
-  currentHp: 20
-  currentAtk: 5
+  currentHp: 40
+  currentAtk: 10
   currentSpd: 1
-  maxHp: 20
-  maxAtk: 0
+  maxHp: 40
+  maxAtk: 10
   currentMp: 0
   maxMp: 0
   timeBtwHitCD: 2

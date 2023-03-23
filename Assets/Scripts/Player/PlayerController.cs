@@ -65,7 +65,7 @@ public class PlayerController : Core, IDamage
     {
         if (canMove)
         {
-            rb.velocity = new Vector2(dirX, dirY);
+            rb.velocity = new Vector2(dirX, dirY)*currentSpd;
         }
         else
         {
@@ -164,6 +164,7 @@ public class PlayerController : Core, IDamage
         Debug.Log("hit");
         if (currentHp <= 0)
         {
+            this.PostEvent(EventID.OnPlayerDead);
             gameObject.SetActive(false);
         }
     }

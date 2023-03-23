@@ -34,7 +34,13 @@ public abstract class EnemyCore : Core
     private void OnEnable()
     {
         tar = GameObject.Find("Player");
+
+        maxHp += (int)(maxHp * .2f * FloorManager.currentFloor);
+        maxAtk += (int)(maxAtk * .2f * FloorManager.currentFloor);
+
         currentHp = maxHp;
+        currentAtk = maxAtk;
+
         hpBar.maxValue = maxHp;
         hpBar.value = currentHp;
         ChangeState(CharacterState.Idle);

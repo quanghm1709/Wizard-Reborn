@@ -25,6 +25,8 @@ public class SkillTree : MonoBehaviour
     private void Start()
     {
         RegisterEvent();
+        listSkill[0].canUnlock = true;
+        Debug.Log("Check skill: " + listSkill[0].canUnlock);
     }
 
     private void RegisterEvent()
