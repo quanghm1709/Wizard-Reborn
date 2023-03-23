@@ -29,6 +29,16 @@ public class PlayerLevelManager : MonoBehaviour
         this.RegisterListener(EventID.OnEnemyDead, (param) => OnEnemyDead((int)param));
         this.RegisterListener(EventID.OnSkillUpgradeClick, (param) => OnSkillUpgradeClick());
         this.RegisterListener(EventID.OnSkillUpgradeFailed, (param) => OnSkillUpgradeFailed());
+        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+    }
+
+    private void OnPlayerEnterGate()
+    {
+        GameObject.Find("Player").GetComponent<PlayerController>().Save();
+
+        SaveData.SaveSingleData("level", currentLevel);
+        SaveData.SaveSingleData("exp", (int) currentExp);
+        SaveData.SaveSingleData("skillPoint", skillPoint);
     }
 
     private void OnSkillUpgradeFailed()
@@ -54,7 +64,20 @@ public class PlayerLevelManager : MonoBehaviour
             currentLevel++;
             skillPoint++;
             maxExp = maxExp * 1.5f;
+            GameObject.Find("Player").GetComponent<PlayerController>().LevelUp();
         }
         UIController.instance.GetPlayerCurrentLevel(currentLevel, currentExp, maxExp);
+    }
+
+    internal void Load()
+    {
+        currentLevel = SaveData.LoadSingleData("level");
+        currentExp = SaveData.LoadSingleData("exp");
+        skillPoint = SaveData.LoadSingleData("skillPoint");
+
+        if (currentLevel > 1)
+        {
+            maxExp = maxExp * 1.5f * (currentLevel-1);
+        }
     }
 }

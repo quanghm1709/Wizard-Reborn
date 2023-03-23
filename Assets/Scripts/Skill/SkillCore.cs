@@ -31,5 +31,5 @@ public class SkillCore : ScriptableObject
         player = playerController;
     }
 
-    public virtual void Action() { }
+    public virtual void Action(int skillLevel) { }
 }

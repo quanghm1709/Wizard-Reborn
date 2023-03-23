@@ -39,7 +39,13 @@ public class RoomGenerator : MonoBehaviour
 
     private void OnPlayerEnterGate()
     {
+        SaveData.SaveSingleData("specialRoom", specialRoom);
         ResetFloor();
+    }
+
+    internal void Load()
+    {
+        specialRoom = SaveData.LoadSingleData("specialRoom");
     }
 
     private void ResetFloor()
@@ -68,74 +74,78 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateRoom()
     {
-        GameObject stRoom = Instantiate(startRoom, generatorPoint.position, generatorPoint.rotation);
-        stRoom.transform.position = generatorPoint.position;
-        stRoom.transform.parent = gridParent;
-        direct = (Direct)Random.Range(0, 4);
-        MoveGenerationPoint();
-        listRoom.Add(stRoom);
-
-        int randomPos = -1;
-        if (specialRoom == 3)
+        if (FloorManager.readyGenerate)
         {
-            randomPos = Random.Range(2, distanceToEnd-1);
-        }
-
-        for (int i = 0; i < distanceToEnd; i++)
-        {
-            GameObject newRoom = null;
-
-            if (i == randomPos && specialRoom == 3|| i == randomPos && specialRoom == 6)
-            {
-                newRoom = Instantiate(shopRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
-            }else
-            {
-                newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
-
-                float rand = Random.Range(0f, 1f);
-                if(rand > .4f)
-                {
-                    GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
-                   // trap.transform.parent = newRoom.transform;
-                    trap.transform.position = newRoom.transform.position;
-                }
-            } 
-
-            newRoom.transform.position = generatorPoint.position;
-            newRoom.transform.parent = gridParent;
-            
-            newRoom.GetComponent<RoomController>().roomId = currentRoomId;
-            currentRoomId++;
-            listRoom.Add(newRoom);
+            GameObject stRoom = Instantiate(startRoom, generatorPoint.position, generatorPoint.rotation);
+            stRoom.transform.position = generatorPoint.position;
+            stRoom.transform.parent = gridParent;
             direct = (Direct)Random.Range(0, 4);
             MoveGenerationPoint();
+            listRoom.Add(stRoom);
 
-            while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer))
+            int randomPos = -1;
+            if (specialRoom == 3)
             {
-                MoveGenerationPoint();
+                randomPos = Random.Range(2, distanceToEnd - 1);
             }
-        }
 
-        if(specialRoom == 6)
-        {
-            GameObject enRoom = Instantiate(bossRoom, generatorPoint.position, generatorPoint.rotation);
-            enRoom.transform.position = generatorPoint.position;
-            enRoom.transform.parent = gridParent;
-            direct = (Direct)Random.Range(0, 4);
-            listRoom.Add(enRoom);
-            specialRoom = 0;
-        }
-        else
-        {
-            GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
-            enRoom.transform.position = generatorPoint.position;
-            enRoom.transform.parent = gridParent;
-            direct = (Direct)Random.Range(0, 4);
-            listRoom.Add(enRoom);
-        }
+            for (int i = 0; i < distanceToEnd; i++)
+            {
+                GameObject newRoom = null;
+
+                if (i == randomPos && specialRoom == 3 || i == randomPos && specialRoom == 6)
+                {
+                    newRoom = Instantiate(shopRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+                }
+                else
+                {
+                    newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
+
+                    float rand = Random.Range(0f, 1f);
+                    if (rand > .4f)
+                    {
+                        GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
+                        // trap.transform.parent = newRoom.transform;
+                        trap.transform.position = newRoom.transform.position;
+                    }
+                }
+
+                newRoom.transform.position = generatorPoint.position;
+                newRoom.transform.parent = gridParent;
+
+                newRoom.GetComponent<RoomController>().roomId = currentRoomId;
+                currentRoomId++;
+                listRoom.Add(newRoom);
+                direct = (Direct)Random.Range(0, 4);
+                MoveGenerationPoint();
+
+                while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer))
+                {
+                    MoveGenerationPoint();
+                }
+            }
+
+            if (specialRoom == 6)
+            {
+                GameObject enRoom = Instantiate(bossRoom, generatorPoint.position, generatorPoint.rotation);
+                enRoom.transform.position = generatorPoint.position;
+                enRoom.transform.parent = gridParent;
+                direct = (Direct)Random.Range(0, 4);
+                listRoom.Add(enRoom);
+                specialRoom = 0;
+            }
+            else
+            {
+                GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
+                enRoom.transform.position = generatorPoint.position;
+                enRoom.transform.parent = gridParent;
+                direct = (Direct)Random.Range(0, 4);
+                listRoom.Add(enRoom);
+            }
 
 
-        specialRoom++;
+            specialRoom++;
+        }      
     }
 
     private void MoveGenerationPoint()

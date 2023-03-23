@@ -260,7 +260,6 @@ GameObject:
   - component: {fileID: 9205294164926948054}
   - component: {fileID: 9205294164926948053}
   - component: {fileID: 9205294164926948052}
-  - component: {fileID: 1972163896}
   - component: {fileID: 157640546}
   - component: {fileID: 157640547}
   m_Layer: 6
@@ -343,8 +342,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objName: Blue Wizard
   currentHp: 100
-  currentAtk: 100
-  currentSpd: 40
+  currentAtk: 10
+  currentSpd: 2
   maxHp: 100
   maxAtk: 0
   currentMp: 200
@@ -367,34 +366,6 @@ MonoBehaviour:
   detectRange: 5
   enemyInRange: []
   isFacingRight: 1
---- !u!114 &1972163896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9205294164926948050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b359467bd6cf44b83fa9a9b2742d85, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cdTime:
-  - 0
-  - 0
-  - 0
-  - 0
-  currentSkill:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  currentSkillUI:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  skillState: 00000000000000000000000000000000
 --- !u!114 &157640546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -429,10 +400,18 @@ MonoBehaviour:
   - 0
   - 0
   currentSkill:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - skillCore: {fileID: 0}
+    skillLevel: 0
+    canUnlock: 0
+  - skillCore: {fileID: 0}
+    skillLevel: 0
+    canUnlock: 0
+  - skillCore: {fileID: 0}
+    skillLevel: 0
+    canUnlock: 0
+  - skillCore: {fileID: 0}
+    skillLevel: 0
+    canUnlock: 0
   currentSkillUI:
   - {fileID: 0}
   - {fileID: 0}

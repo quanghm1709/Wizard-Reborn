@@ -6,6 +6,7 @@ using UnityEngine;
 public class FloorManager : MonoBehaviour
 {
     public static int currentFloor = 1;
+    public static bool readyGenerate = false;
 
     private void Start()
     {
@@ -20,5 +21,12 @@ public class FloorManager : MonoBehaviour
     private void OnPlayerEnterGate()
     {
         currentFloor++;
+        SaveData.SaveSingleData("floor", currentFloor);
+    }
+
+    internal void Load()
+    {
+        currentFloor = SaveData.LoadSingleData("floor");
+        readyGenerate = true;
     }
 }

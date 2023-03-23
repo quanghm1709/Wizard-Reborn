@@ -15,6 +15,7 @@ public enum EventID
 	OnOpenMenu,
 	OnPlayerEnterGate,
 	OnPlayerDead,
+	OnPlayerLevelUp,
 }
 
 public class EventDispatcher : MonoBehaviour

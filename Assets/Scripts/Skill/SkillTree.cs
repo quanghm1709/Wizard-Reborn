@@ -13,20 +13,40 @@ public enum SkillTreeType
     Wind,
 }
 
+[System.Serializable]
+public class GSkillCore
+{
+    public SkillCore skillCore;
+    public int skillLevel;
+    public bool canUnlock;
+
+    public int GetSkillLevel()
+    {
+        return 0;
+    }
+
+    public void Action()
+    {
+        skillCore.Action(skillLevel);
+    }
+}
+
 public class SkillTree : MonoBehaviour
 {
     [Header("Skill")]
     [SerializeField] private int treePos;
     [SerializeField] private SkillTreeType treeType;
-    [SerializeField] private List<SkillCore> listSkill;
+    //[SerializeField] private List<SkillCore> listSkill;
     [SerializeField] private List<SkillUI> listSkillUI;
+
+    [SerializeField] private List<GSkillCore> listSkill;
     private int currentSkill;
 
     private void Start()
     {
         RegisterEvent();
-        listSkill[0].canUnlock = true;
-        Debug.Log("Check skill: " + listSkill[0].canUnlock);
+        //listSkill[0].canUnlock = true;
+        Debug.Log("Check skill: " + listSkill[0].skillCore.canUnlock);
     }
 
     private void RegisterEvent()
@@ -41,15 +61,15 @@ public class SkillTree : MonoBehaviour
             if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
             {
                 listSkill[currentSkill].skillLevel++;
-                if (listSkill[currentSkill].skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 1)
+                if (listSkill[currentSkill].skillCore.skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 1)
                 {
                     PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
                 }
 
                 LoadUI(currentSkill);
-                if (listSkill[currentSkill].skillLevel >= 3)
+                if (listSkill[currentSkill].skillLevel >= 3 && currentSkill<4)
                 {
-                    listSkill[currentSkill].skillToUnlock.canUnlock = true;
+                    listSkill[currentSkill+1].canUnlock = true;
                 }
             }
             else
@@ -63,7 +83,7 @@ public class SkillTree : MonoBehaviour
     {
         currentSkill = position;
 
-        SkillUIManager.instance.description.text = listSkill[position].skillDescription;
+        SkillUIManager.instance.description.text = listSkill[position].skillCore.skillDescription;
 
         LoadUI(position);
     }
@@ -75,7 +95,7 @@ public class SkillTree : MonoBehaviour
 
     private void LoadUI(int position)
     {
-        SkillUIManager.instance.skillName.text = listSkill[position].skillName + "(" + listSkill[position].skillLevel + ")";
+        SkillUIManager.instance.skillName.text = listSkill[position].skillCore.skillName + "(" + listSkill[position].skillLevel + ")";
         if (listSkill[position].skillLevel <= 0)
         {
             SkillUIManager.instance.upgradeOrUnlock.text = "Unlock";
@@ -96,7 +116,7 @@ public class SkillTree : MonoBehaviour
         }
         
 
-        if (listSkill[position].skillType == SkillCore.SkillType.Active && listSkill[position].skillLevel > 0)
+        if (listSkill[position].skillCore.skillType == SkillCore.SkillType.Active && listSkill[position].skillLevel > 0)
         {
             SkillUIManager.instance.skillAction[1].SetActive(true);
             //SkillUIManager.instance.skillAction[2].SetActive(true);
@@ -109,7 +129,7 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    public SkillCore SwapSkill()
+    public GSkillCore SwapSkill()
     {
         return listSkill[currentSkill];
     }

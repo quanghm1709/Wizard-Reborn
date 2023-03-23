@@ -17,13 +17,4 @@ public class Detect : MonoBehaviour
             return false;
         }
     }
-
-    public List<GameObject> GetClosetEnemy(float detectRange, LayerMask detectLayer)
-    {
-        Collider[] multiEnemy = Physics.OverlapSphere(transform.position, detectRange, detectLayer);
-        float closetDistance = Mathf.Infinity;
-        Transform trans = null;
-
-        return null;
-    }
 }

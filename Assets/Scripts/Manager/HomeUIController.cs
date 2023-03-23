@@ -15,6 +15,8 @@ public class HomeUIController : MonoBehaviour
     [SerializeField] private GameObject functionScreen;
     [SerializeField] private GameObject creScreen;
     [SerializeField] private GameObject settingScreen;
+    [SerializeField] private GameObject startChoiceBtn;
+    [SerializeField] private GameObject startBtn;
 
     [Header("Audio")]
     [SerializeField] private AudioSource audioSource;
@@ -40,12 +42,30 @@ public class HomeUIController : MonoBehaviour
         audioSource.volume = sound.value;
     }
 
-    public void StartGame()
+    public void StartGame(int i)
     {
+        if (i == 1)
+        {
+            SaveData.ResetData();
+        }
+
         isLoadScene = true;
         loadSlider.maxValue = 2f;
     }
 
+    public void StartChoice()
+    {
+        if (SaveData.HasKey("Player"))
+        {
+            startChoiceBtn.SetActive(true);
+            startBtn.SetActive(false);
+        }
+        else
+        {
+            StartGame(1);
+        }
+        
+    }
     public void OpenFunctionScreen(int i)
     {
         if (functionScreen.activeInHierarchy)

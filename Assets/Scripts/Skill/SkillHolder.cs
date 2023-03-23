@@ -15,7 +15,7 @@ public enum SkillState
 public class SkillHolder : MonoBehaviour
 {
     [SerializeField] private List<float> cdTime;
-    [SerializeField] private List<SkillCore> currentSkill;
+    [SerializeField] private List<GSkillCore> currentSkill;
     [SerializeField] private List<SkillUI> currentSkillUI;
     [SerializeField] private List<SkillState> skillState;
 
@@ -25,9 +25,9 @@ public class SkillHolder : MonoBehaviour
         AddSkillToUI();
         for (int i = 0; i < currentSkill.Count; i++)
         {
-            if(currentSkill[i] != null)
+            if(currentSkill[i].skillCore != null)
             {
-                currentSkill[i].Init(GetComponent<PlayerController>());
+                currentSkill[i].skillCore.Init(GetComponent<PlayerController>());
                 skillState[i] = SkillState.Ready;
             }
 
@@ -48,14 +48,14 @@ public class SkillHolder : MonoBehaviour
                             
                             currentSkill[i].Action();
                             skillState[i] = SkillState.Cooldown;
-                            cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];
+                            cdTime[i] = currentSkill[i].skillCore.cdTime[currentSkill[i].skillLevel - 1];
                         }
                         break;
                     case SkillState.Cooldown:
                         if (cdTime[i] > 0)
                         {
                             cdTime[i] -= Time.deltaTime;
-                            SkillUIManager.instance.skillCD[i].fillAmount = cdTime[i] / currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];
+                            SkillUIManager.instance.skillCD[i].fillAmount = cdTime[i] / currentSkill[i].skillCore.cdTime[currentSkill[i].skillLevel - 1];
                         }
                         else
                         {
@@ -75,20 +75,20 @@ public class SkillHolder : MonoBehaviour
     private void OnSwapSkill(int param)
     {
         int treeIndex = SkillUIManager.instance.treeIndex;
-        foreach (SkillCore s in currentSkill)
+        foreach (GSkillCore s in currentSkill)
         {
-            if (s != null)
+            if (s.skillCore != null)
             {
-                if (s.skillName == SkillUIManager.instance.skillTrees[treeIndex].SwapSkill().skillName)
+                if (s.skillCore.skillName == SkillUIManager.instance.skillTrees[treeIndex].SwapSkill().skillCore.skillName)
                 {
                     return;
                 }
             }
         }
         currentSkill[param] = SkillUIManager.instance.skillTrees[treeIndex].SwapSkill();
-        currentSkill[param].Init(GetComponent<PlayerController>());
+        currentSkill[param].skillCore.Init(GetComponent<PlayerController>());
         currentSkillUI[param] = SkillUIManager.instance.skillTrees[treeIndex].SwapSkillUI();
-        cdTime[param] = currentSkill[param].cdTime[currentSkill[param].skillLevel-1];
+        cdTime[param] = currentSkill[param].skillCore.cdTime[currentSkill[param].skillLevel-1];
         skillState[param] = SkillState.Ready;
 
         SkillUIManager.instance.activeSkillBtn[param].sprite = currentSkillUI[param].skillIcon;
@@ -99,7 +99,7 @@ public class SkillHolder : MonoBehaviour
     {
         for (int i = 0; i < currentSkill.Count; i++)
         {
-            if (currentSkill[i] != null)
+            if (currentSkill[i].skillCore != null)
             {
                 SkillUIManager.instance.activeSkillBtn[i].sprite = currentSkillUI[i].skillIcon;
             }

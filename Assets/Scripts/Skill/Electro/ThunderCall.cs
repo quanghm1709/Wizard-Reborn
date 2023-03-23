@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Passive/Electro/ThunderCall", fileName = "ThunderCall")]
 public class ThunderCall : SkillCore
 {
-    public override void Action()
+    public override void Action(int level)
     {
         if (player.enemyInRange.Count > 0)
         {

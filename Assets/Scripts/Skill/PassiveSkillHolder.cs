@@ -7,7 +7,7 @@ public class PassiveSkillHolder : MonoBehaviour
     public static PassiveSkillHolder instance;
 
     [SerializeField] private List<float> cdTime;
-    [SerializeField] private List<SkillCore> currentSkill;
+    [SerializeField] private List<GSkillCore> currentSkill;
     [SerializeField] private List<SkillUI> currentSkillUI;
     [SerializeField] private List<SkillState> skillState;
 
@@ -32,7 +32,7 @@ public class PassiveSkillHolder : MonoBehaviour
                     case SkillState.Ready:
                         currentSkill[i].Action();
                         skillState[i] = SkillState.Cooldown;
-                        cdTime[i] = currentSkill[i].cdTime[currentSkill[i].skillLevel - 1];
+                        cdTime[i] = currentSkill[i].skillCore.cdTime[currentSkill[i].skillLevel - 1];
                         break;
                     case SkillState.Cooldown:
                         if (cdTime[i] > 0)
@@ -49,13 +49,13 @@ public class PassiveSkillHolder : MonoBehaviour
         }
     }
 
-    public void AddPassiveSkill(SkillCore skillCore, SkillUI skillUI)
+    public void AddPassiveSkill(GSkillCore skillCore, SkillUI skillUI)
     {
-        skillCore.Init(GetComponent<PlayerController>());
+        skillCore.skillCore.Init(GetComponent<PlayerController>());
         currentSkill.Add(skillCore);
         currentSkillUI.Add(skillUI);
 
-        cdTime.Add(skillCore.cdTime[skillCore.skillLevel-1]);
+        cdTime.Add(skillCore.skillCore.cdTime[skillCore.skillLevel-1]);
         skillState.Add( new SkillState());
     }
 }

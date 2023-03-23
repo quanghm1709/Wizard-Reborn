@@ -19,6 +19,7 @@ public class UIController : MonoBehaviour
     [Header("Menu")]
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject loadingScreen;
+    [SerializeField] private GameObject quitScreen;
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private float loadTime;
     [SerializeField] private bool isPlayerEnterGate = false;
@@ -33,9 +34,13 @@ public class UIController : MonoBehaviour
     private float loadTimeCD;
     private PlayerController player;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
+    }
+    private void Start()
+    {
+        //instance = this;
 
         RegisterEvent();
         player = GameObject.Find("Player").GetComponent<PlayerController>();
@@ -130,6 +135,17 @@ public class UIController : MonoBehaviour
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene("HomeScene");
+        }
+    }
+    public void ActionQuit()
+    {
+        if (quitScreen.activeInHierarchy)
+        {
+            quitScreen.SetActive(false);
+        }
+        else
+        {
+            quitScreen.SetActive(true);
         }
     }
     public void QuitGame()
