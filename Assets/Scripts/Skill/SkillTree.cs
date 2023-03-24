@@ -52,6 +52,15 @@ public class SkillTree : MonoBehaviour
     private void RegisterEvent()
     {
         this.RegisterListener(EventID.OnSkillUpgrade, (param) => OnSkillUpgrade());
+        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+    }
+
+    private void OnPlayerEnterGate()
+    {
+        for(int i = 0; i < listSkill.Count; i++)
+        {
+            SaveData.SaveSingleData("gskill" + i+"|"+treePos, listSkill[i].skillLevel);
+        }
     }
 
     private void OnSkillUpgrade()
@@ -75,6 +84,27 @@ public class SkillTree : MonoBehaviour
             else
             {
                 this.PostEvent(EventID.OnSkillUpgradeFailed);
+            }
+        }
+    }
+
+    public void LoadSkill()
+    {
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            currentSkill = i;
+            listSkill[i].skillLevel = SaveData.LoadSingleData("gskill" + i + "|" + treePos);        
+            if (listSkill[i].skillLevel > 0)
+            {
+                listSkill[i].canUnlock = true;
+                if (listSkill[i].skillCore.skillType == SkillCore.SkillType.Passive)
+                {
+                    PassiveSkillHolder.instance.AddPassiveSkill(listSkill[i], listSkillUI[i]);
+                }
+            }
+            if (listSkill[i].skillLevel >= 3 && i < listSkill.Count - 1)
+            {
+                listSkill[i + 1].canUnlock = true;
             }
         }
     }

@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerController playerController;
     [SerializeField] private PlayerLevelManager playerLevelManager;
     [SerializeField] private RoomGenerator roomGenerator;
+    [SerializeField] private SkillUIManager skillUIManager;
+    [SerializeField] private SkillHolder skillHolder;
 
     private void Start()
     {
@@ -20,8 +22,16 @@ public class GameManager : MonoBehaviour
                 playerController.Load();
                 playerLevelManager.Load();
                 roomGenerator.Load();
+                skillHolder.LoadData();
+                foreach(SkillTree s in skillUIManager.skillTrees)
+                {
+                    s.LoadSkill();
+                    skillUIManager.treeIndex++;
+                }
+
                 Debug.Log("Load Success");
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 Debug.Log(ex.Message);
             }

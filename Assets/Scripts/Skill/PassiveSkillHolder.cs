@@ -11,7 +11,7 @@ public class PassiveSkillHolder : MonoBehaviour
     [SerializeField] private List<SkillUI> currentSkillUI;
     [SerializeField] private List<SkillState> skillState;
 
-    private void Start()
+    private void Awake()
     {
         instance = this;
     }

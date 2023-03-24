@@ -8,7 +8,8 @@ public class ThunderBird : SkillCore
     public override void Action(int level)
     {
         if (player.enemyInRange.Count > 0 && player.currentMp >= mpUse[level - 1])
-        {           
+        {
+            AudioManager.instance.audioSource[1].Play();
             {
                 int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
 

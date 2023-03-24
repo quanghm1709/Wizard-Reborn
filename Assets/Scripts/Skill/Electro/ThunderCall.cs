@@ -7,6 +7,7 @@ public class ThunderCall : SkillCore
 {
     public override void Action(int level)
     {
+        AudioManager.instance.audioSource[2].Play();
         if (player.enemyInRange.Count > 0)
         {
             int enemyToDamage = Random.Range(0, player.enemyInRange.Count);

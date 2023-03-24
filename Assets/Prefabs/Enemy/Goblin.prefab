@@ -356,7 +356,7 @@ MonoBehaviour:
   itemToDrop:
   - {fileID: 8643226329826876261, guid: 1349e668c4a677a45acc896b8c30cbaf, type: 3}
   - {fileID: 8850634007971383051, guid: 92dc85a64bfcdf14c9aa3535b2da6c95, type: 3}
-  dropRate: 0.8
+  dropRate: 0.4
 --- !u!1 &4738779425266035958
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,5 +24,10 @@ public class AudioManager : MonoBehaviour
         {
             audioSource[0].Stop();
         }
+
+        foreach(AudioSource a in audioSource)
+        {
+            a.volume = UIController.instance.soundSlider.value;
+        }
     }
 }

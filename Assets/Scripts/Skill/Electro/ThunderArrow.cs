@@ -9,6 +9,7 @@ public class ThunderArrow : SkillCore
     {
         if (player.enemyInRange.Count > 0)
         {
+            AudioManager.instance.audioSource[1].Play();
             float canShoot = Random.Range(0f, 1f);
             if(canShoot < .25f + (.25f * level))
             {

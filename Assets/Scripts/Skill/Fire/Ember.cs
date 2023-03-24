@@ -9,6 +9,7 @@ public class Ember : SkillCore
     {
         if(player.currentMp >= mpUse[level - 1])
         {
+            AudioManager.instance.audioSource[4].Play();
             Vector3 pos;
             int scale;
             if (player.isFacingRight)

@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 5466481663628886119}
   - component: {fileID: 5466481663628886116}
   - component: {fileID: 5466481663628886113}
+  - component: {fileID: 1365606110146231633}
   m_Layer: 7
   m_Name: Mushroom
   m_TagString: Enemy
@@ -348,6 +349,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9648c988e02355409c39a0bf26fabcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1365606110146231633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466481663628886122}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f0850dfd5f8fab418c83513b6f683d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemToDrop:
+  - {fileID: 8643226329826876261, guid: 1349e668c4a677a45acc896b8c30cbaf, type: 3}
+  - {fileID: 8850634007971383051, guid: 92dc85a64bfcdf14c9aa3535b2da6c95, type: 3}
+  dropRate: 0.4
 --- !u!1 &5466481663870424997
 GameObject:
   m_ObjectHideFlags: 0

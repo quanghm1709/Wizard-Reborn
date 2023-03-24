@@ -20,6 +20,8 @@ public class UIController : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject loadingScreen;
     [SerializeField] private GameObject quitScreen;
+    [SerializeField] private GameObject settingScreen;
+    public Slider soundSlider;
     [SerializeField] private Slider loadingSlider;
     [SerializeField] private float loadTime;
     [SerializeField] private bool isPlayerEnterGate = false;
@@ -98,6 +100,17 @@ public class UIController : MonoBehaviour
         }
     }
 
+    public void ActionSetting()
+    {
+        if (settingScreen.activeInHierarchy)
+        {
+            settingScreen.SetActive(false);
+        }
+        else
+        {
+            settingScreen.SetActive(true);
+        }
+    }
     public void ActionLoading()
     {
         if (isPlayerEnterGate)

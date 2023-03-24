@@ -14,10 +14,16 @@ public enum SkillState
 
 public class SkillHolder : MonoBehaviour
 {
+    public static SkillHolder instance;
     [SerializeField] private List<float> cdTime;
     [SerializeField] private List<GSkillCore> currentSkill;
     [SerializeField] private List<SkillUI> currentSkillUI;
     [SerializeField] private List<SkillState> skillState;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
@@ -75,6 +81,7 @@ public class SkillHolder : MonoBehaviour
     private void OnSwapSkill(int param)
     {
         int treeIndex = SkillUIManager.instance.treeIndex;
+
         foreach (GSkillCore s in currentSkill)
         {
             if (s.skillCore != null)
@@ -85,16 +92,37 @@ public class SkillHolder : MonoBehaviour
                 }
             }
         }
+        AddSkill(param, treeIndex);
+    }
+
+    private void AddSkill(int param, int treeIndex)
+    {
         currentSkill[param] = SkillUIManager.instance.skillTrees[treeIndex].SwapSkill();
         currentSkill[param].skillCore.Init(GetComponent<PlayerController>());
         currentSkillUI[param] = SkillUIManager.instance.skillTrees[treeIndex].SwapSkillUI();
-        cdTime[param] = currentSkill[param].skillCore.cdTime[currentSkill[param].skillLevel-1];
+        cdTime[param] = currentSkill[param].skillCore.cdTime[currentSkill[param].skillLevel - 1];
         skillState[param] = SkillState.Ready;
 
         SkillUIManager.instance.activeSkillBtn[param].sprite = currentSkillUI[param].skillIcon;
         SkillUIManager.instance.skillCD[param].gameObject.SetActive(true);
+
+        SaveData.SaveSingleData("pos" + param + "|"+treeIndex, param);
+        //SaveData.SaveSingleData("treeindex" + param + "|"+treeIndex, param);
     }
 
+    public void LoadData()
+    {
+        for(int i =0; i< 4; i++)
+        {
+            for(int j = 0; j < 2; j++)
+            {
+                if (SaveData.HasSingleKey("pos" + i + "|" + j))
+                {
+                    AddSkill(i, j);
+                }
+            }          
+        }
+    }
     private void AddSkillToUI()
     {
         for (int i = 0; i < currentSkill.Count; i++)

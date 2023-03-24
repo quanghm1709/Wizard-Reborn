@@ -10,6 +10,7 @@ public class Thunder : SkillCore
         
         if (player.enemyInRange.Count > 0 && player.currentMp >= mpUse[level-1])
         {
+            AudioManager.instance.audioSource[2].Play();
             int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
             CameraController.instance.Shake(10f,.01f,.1f);
             Instantiate(skillAnim, player.enemyInRange[enemyToDamage].transform.position, Quaternion.identity);

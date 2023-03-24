@@ -9,6 +9,7 @@ public class FireArrow : SkillCore
     {
         if (player.enemyInRange.Count > 0)
         {
+            AudioManager.instance.audioSource[3].Play();
             float canShoot = Random.Range(0f, 1f);
             if (canShoot < .5f + (.25f * level))
             {

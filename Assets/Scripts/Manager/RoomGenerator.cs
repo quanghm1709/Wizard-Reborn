@@ -74,7 +74,7 @@ public class RoomGenerator : MonoBehaviour
 
     private void GenerateRoom()
     {
-        if (FloorManager.readyGenerate)
+        //if (FloorManager.readyGenerate)
         {
             GameObject stRoom = Instantiate(startRoom, generatorPoint.position, generatorPoint.rotation);
             stRoom.transform.position = generatorPoint.position;

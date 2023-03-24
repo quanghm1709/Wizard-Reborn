@@ -49,6 +49,18 @@ public static class SaveData
         }
     }
 
+    public static bool HasSingleKey(string key)
+    {
+        if (PlayerPrefs.HasKey(key))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public static void ResetData()
     {
         PlayerPrefs.DeleteAll();
