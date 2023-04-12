@@ -42,7 +42,8 @@ public class EnemyGenerator : MonoBehaviour
         this.totalWave = totalWave;
         yield return new WaitForSeconds(2f);
 
-        int totalEnemy = Random.Range(3, 8);
+        int totalEnemy = Random.Range(3, 5);
+        totalEnemy += (int) FloorManager.currentFloor / 3;
 
         for (int i = 0; i < totalEnemy; i++)
         {
@@ -50,15 +51,15 @@ public class EnemyGenerator : MonoBehaviour
             Vector3 spawnPoint = new Vector3(Random.Range(room.x + 5, room.x - 5), Random.Range(room.y + 3, room.y - 3), room.z);
 
             GameObject enemy = null;
-            if(rand < .45f)
+            if(rand < .3f)
             {
-                if(rand< .15f)
+                if(rand< .1f)
                 {
-                       enemy = enemyPool.GetObject(enemyName[1]);
+                       enemy = enemyPool.GetObject(enemyName[2]);
                 }
                 else
                 {
-                    enemy = enemyPool.GetObject(enemyName[2]);
+                    enemy = enemyPool.GetObject(enemyName[1]);
                 }
             }
             else

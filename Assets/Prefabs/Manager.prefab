@@ -411,8 +411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentLevel: 1
   currentExp: 0
-  maxExp: 200
-  skillPoint: 4
+  maxExp: 100
+  skillPoint: 1
 --- !u!1 &577923865867889
 GameObject:
   m_ObjectHideFlags: 0

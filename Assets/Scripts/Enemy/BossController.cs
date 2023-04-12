@@ -36,7 +36,7 @@ public class BossController : MonoBehaviour
                                           Random.Range(-transform.position.y - 2, transform.position.y + 2),
                                           Random.Range(-transform.position.z - 2, transform.position.z + 2));
             GameObject g = EnemyGenerator.instance.enemyPool.GetObject(summonMonster.name);
-            g.transform.position = randpos;
+            g.transform.position = transform.position;
         }
         currentSkill = BossSkillState.Skill2;
     }

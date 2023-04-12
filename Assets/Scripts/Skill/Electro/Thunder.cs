@@ -17,7 +17,8 @@ public class Thunder : SkillCore
             Collider2D[] hit = Physics2D.OverlapCircleAll(player.enemyInRange[enemyToDamage].transform.position, dmgRange, layerToDamage);
             foreach (Collider2D c in hit)
             {
-                c.GetComponent<IDamage>().TakeDamage((int)atk[level-1], (int)atk[level-1], 0);
+                c.GetComponent<IDamage>().TakeDamage((int)atk[level-1] * player.currentAtk, (int)atk[level-1], 0);
+                Debug.Log(atk[level - 1] * player.currentAtk);
             }
             player.currentMp -= mpUse[level - 1];
         }

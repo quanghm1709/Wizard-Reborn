@@ -165,12 +165,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e59edd6bba0fd4383ab924752829ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objName: Mushroom
-  currentHp: 20
-  currentAtk: 5
+  objName: Necromancer
+  currentHp: 1000
+  currentAtk: 70
   currentSpd: 1
-  maxHp: 0
-  maxAtk: 0
+  maxHp: 1000
+  maxAtk: 70
   currentMp: 0
   maxMp: 0
   timeBtwHitCD: 5
@@ -227,7 +227,7 @@ MonoBehaviour:
   currentSkill: 0
   summonMonster: {fileID: 315136479538705729, guid: 5acd3a34fcc2db44b8da3d18423a60fa, type: 3}
   total: 6
-  projectile: {fileID: 0}
+  projectile: {fileID: 2299388382379319453, guid: e1bcec522786d424ca2c93a9e0c4e6b6, type: 3}
   attackpoint: {fileID: 0}
 --- !u!1 &1820452278807853644
 GameObject:

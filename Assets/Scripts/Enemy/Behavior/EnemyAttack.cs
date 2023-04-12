@@ -78,7 +78,8 @@ public class EnemyAttack : State
                 boss.Skill1();
                 break;
             case BossSkillState.Skill2:
-                boss.Skill2();
+                //boss.Skill2();
+                RangeAttack();
                 break;
             case BossSkillState.Skill3:
                 boss.Skill3();
