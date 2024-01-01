@@ -24,6 +24,7 @@ public class HomeUIController : MonoBehaviour
     
     private void Start()
     {
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
         audioSource.Play();
     }
 
