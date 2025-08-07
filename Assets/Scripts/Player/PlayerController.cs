@@ -65,11 +65,11 @@ public class PlayerController : Core, IDamage
     {
         if (canMove)
         {
-            rb.velocity = new Vector2(dirX, dirY)*currentSpd;
+            rb.linearVelocity = new Vector2(dirX, dirY)*currentSpd;
         }
         else
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
         }
     }
     private void Flip()

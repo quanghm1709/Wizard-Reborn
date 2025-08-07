@@ -18,7 +18,7 @@ public class EnemyAttack : State
     {
         if(_agent.Detect())
         {
-            _agent.rb.velocity = Vector2.zero;
+            _agent.rb.linearVelocity = Vector2.zero;
             if (_agent.canAttack)
             {
                 _agent.anim.SetBool("isAttack", true);

@@ -37,7 +37,7 @@ public class EnemyMove : State
             }
 
             //_agent.transform.position = Vector2.MoveTowards(_agent.transform.position, _agent.tar.transform.position, _agent.currentSpd * Time.deltaTime);
-            _agent.rb.velocity = _agent.movement * _agent.currentSpd;// * Time.deltaTime;
+            _agent.rb.linearVelocity = _agent.movement * _agent.currentSpd;// * Time.deltaTime;
 
         }
         else

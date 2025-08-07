@@ -13,7 +13,7 @@ public class EnemyDeath : State
 
     public override void Action()
     {
-        _agent.rb.velocity = Vector2.zero;
+        _agent.rb.linearVelocity = Vector2.zero;
         _agent.anim.SetBool("isDead", true);
         deadTime -= Time.deltaTime;
         //_agent.PostEvent(EventID.OnEnemyDead, (int) _agent.dropExp);
