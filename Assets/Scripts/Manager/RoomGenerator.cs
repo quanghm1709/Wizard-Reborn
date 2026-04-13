@@ -10,6 +10,8 @@ public class RoomGenerator : MonoBehaviour
     [SerializeField] private LayerMask roomLayer;
     [SerializeField] private float xOffset;
     [SerializeField] private float yOffset;
+    [SerializeField] private float trapSpawnChance = 0.4f;
+    [SerializeField] private int maxPlacementAttempts = 50;
 
     [SerializeField] private GameObject instatiateRoom;
     [SerializeField] private GameObject startRoom;
@@ -102,7 +104,7 @@ public class RoomGenerator : MonoBehaviour
                     newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
 
                     float rand = Random.Range(0f, 1f);
-                    if (rand > .4f)
+                    if (rand > trapSpawnChance)
                     {
                         GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
                         // trap.transform.parent = newRoom.transform;
@@ -119,9 +121,17 @@ public class RoomGenerator : MonoBehaviour
                 direct = (Direct)Random.Range(0, 4);
                 MoveGenerationPoint();
 
-                while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer))
+                int attempts = 0;
+                while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer) && attempts < maxPlacementAttempts)
                 {
                     MoveGenerationPoint();
+                    attempts++;
+                }
+
+                if (attempts >= maxPlacementAttempts)
+                {
+                    Debug.LogWarning("Room generation stuck. Breaking to avoid infinite loop.");
+                    break;
                 }
             }
 

@@ -36,6 +36,7 @@ public class SkillTree : MonoBehaviour
     [Header("Skill")]
     [SerializeField] private int treePos;
     [SerializeField] private SkillTreeType treeType;
+    [SerializeField] private int maxSkillLevel = 3;
     //[SerializeField] private List<SkillCore> listSkill;
     [SerializeField] private List<SkillUI> listSkillUI;
 
@@ -67,7 +68,7 @@ public class SkillTree : MonoBehaviour
     {
         if (SkillUIManager.instance.treeIndex == treePos)
         {
-            if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
+            if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < maxSkillLevel)
             {
                 listSkill[currentSkill].skillLevel++;
                 if (listSkill[currentSkill].skillCore.skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 1)
@@ -76,7 +77,7 @@ public class SkillTree : MonoBehaviour
                 }
 
                 LoadUI(currentSkill);
-                if (listSkill[currentSkill].skillLevel >= 3 && currentSkill<4)
+                if (listSkill[currentSkill].skillLevel >= maxSkillLevel && currentSkill < listSkill.Count - 1)
                 {
                     listSkill[currentSkill+1].canUnlock = true;
                 }
@@ -102,7 +103,7 @@ public class SkillTree : MonoBehaviour
                     PassiveSkillHolder.instance.AddPassiveSkill(listSkill[i], listSkillUI[i]);
                 }
             }
-            if (listSkill[i].skillLevel >= 3 && i < listSkill.Count - 1)
+            if (listSkill[i].skillLevel >= maxSkillLevel && i < listSkill.Count - 1)
             {
                 listSkill[i + 1].canUnlock = true;
             }
@@ -136,7 +137,7 @@ public class SkillTree : MonoBehaviour
         }
 
 
-        if (listSkill[position].skillLevel < 3)
+        if (listSkill[position].skillLevel < maxSkillLevel)
         {
             SkillUIManager.instance.skillAction[0].SetActive(true);
         }
