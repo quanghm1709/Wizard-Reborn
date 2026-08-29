@@ -15,7 +15,17 @@ public class FloorManager : MonoBehaviour
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+        this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void HandlePlayerEnterGate(object param)
+    {
+        OnPlayerEnterGate();
     }
 
     private void OnPlayerEnterGate()
@@ -26,7 +36,13 @@ public class FloorManager : MonoBehaviour
 
     internal void Load()
     {
-        currentFloor = SaveData.LoadSingleData("floor");
+        currentFloor = Mathf.Max(1, SaveData.LoadSingleData("floor"));
+        readyGenerate = true;
+    }
+
+    public void ApplySaveData(int floor)
+    {
+        currentFloor = Mathf.Max(1, floor);
         readyGenerate = true;
     }
 }

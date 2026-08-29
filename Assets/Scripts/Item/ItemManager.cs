@@ -17,7 +17,17 @@ public class ItemManager : MonoBehaviour
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+        this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void HandlePlayerEnterGate(object param)
+    {
+        OnPlayerEnterGate();
     }
 
     private void OnPlayerEnterGate()

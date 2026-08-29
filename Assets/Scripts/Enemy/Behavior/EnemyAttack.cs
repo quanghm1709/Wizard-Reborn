@@ -49,12 +49,12 @@ public class EnemyAttack : State
 
     private void MeleeAttack()
     {
-        Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.detectRange, _agent.detectLayer);
+        Collider2D[] hit = Physics2D.OverlapCircleAll(_agent.dmgPoint.position, _agent.dmgRange, _agent.detectLayer);
 
         if (hit.Length > 0)
         {
-            Debug.Log(hit[0].name);
-            hit[0].GetComponent<IDamage>().TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
+            IDamage damageable = hit[0].GetComponent<IDamage>();
+            damageable?.TakeDamage(_agent.currentAtk, _agent.maxAtk, 0);
         }
     }
 
@@ -78,8 +78,7 @@ public class EnemyAttack : State
                 boss.Skill1();
                 break;
             case BossSkillState.Skill2:
-                //boss.Skill2();
-                RangeAttack();
+                boss.Skill2();
                 break;
             case BossSkillState.Skill3:
                 boss.Skill3();

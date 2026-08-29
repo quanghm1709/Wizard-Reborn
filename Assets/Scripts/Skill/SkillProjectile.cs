@@ -12,6 +12,12 @@ public class SkillProjectile : MonoBehaviour
 
     private void Update()
     {
+        if (target == null || !target.activeInHierarchy)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
 
         Vector2 lookDir = target.transform.position - transform.position;
@@ -21,7 +27,7 @@ public class SkillProjectile : MonoBehaviour
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
@@ -29,8 +35,9 @@ public class SkillProjectile : MonoBehaviour
     {
         if(collision.tag == "Enemy")
         {
-            collision.GetComponent<IDamage>().TakeDamage((int)damage, (int)damage, 0);
-            gameObject.SetActive(false);
+            IDamage damageable = collision.GetComponent<IDamage>();
+            damageable?.TakeDamage((int)damage, (int)damage, 0);
+            Destroy(gameObject);
         }
         
     }

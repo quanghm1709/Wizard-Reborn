@@ -5,9 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Active/Electro/ThunderBird", fileName = "ThunderBird")]
 public class ThunderBird : SkillCore
 {
-    public override void Action(int level)
+    public override bool Action(int level)
     {
-        if (player.enemyInRange.Count > 0 && player.currentMp >= mpUse[level - 1])
+        player.enemyInRange.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
+        if (CanCast(level) && player.enemyInRange.Count > 0)
         {
             AudioManager.instance.audioSource[1].Play();
             {
@@ -19,6 +20,8 @@ public class ThunderBird : SkillCore
             }
 
             player.currentMp -= mpUse[level - 1];
+            return true;
         }
+        return false;
     }
 }

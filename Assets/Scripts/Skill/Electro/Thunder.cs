@@ -5,10 +5,10 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Active/Electro/Thunder", fileName = "Thunder")]
 public class Thunder : SkillCore
 {
-    public override void Action(int level)
+    public override bool Action(int level)
     {
-        
-        if (player.enemyInRange.Count > 0 && player.currentMp >= mpUse[level-1])
+        player.enemyInRange.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
+        if (CanCast(level) && player.enemyInRange.Count > 0)
         {
             AudioManager.instance.audioSource[2].Play();
             int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
@@ -17,10 +17,13 @@ public class Thunder : SkillCore
             Collider2D[] hit = Physics2D.OverlapCircleAll(player.enemyInRange[enemyToDamage].transform.position, dmgRange, layerToDamage);
             foreach (Collider2D c in hit)
             {
-                c.GetComponent<IDamage>().TakeDamage((int)atk[level-1] * player.currentAtk, (int)atk[level-1], 0);
+                IDamage damageable = c.GetComponent<IDamage>();
+                damageable?.TakeDamage((int)atk[level-1] * player.currentAtk, (int)atk[level-1], 0);
                 Debug.Log(atk[level - 1] * player.currentAtk);
             }
             player.currentMp -= mpUse[level - 1];
+            return true;
         }
+        return false;
     }
 }

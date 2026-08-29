@@ -25,9 +25,9 @@ public class GSkillCore
         return 0;
     }
 
-    public void Action()
+    public bool Action()
     {
-        skillCore.Action(skillLevel);
+        return skillCore != null && skillCore.Action(skillLevel);
     }
 }
 
@@ -51,8 +51,24 @@ public class SkillTree : MonoBehaviour
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnSkillUpgrade, (param) => OnSkillUpgrade());
-        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+        this.RegisterListener(EventID.OnSkillUpgrade, HandleSkillUpgrade);
+        this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnSkillUpgrade, HandleSkillUpgrade);
+        this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void HandleSkillUpgrade(object param)
+    {
+        OnSkillUpgrade();
+    }
+
+    private void HandlePlayerEnterGate(object param)
+    {
+        OnPlayerEnterGate();
     }
 
     private void OnPlayerEnterGate()
@@ -76,7 +92,7 @@ public class SkillTree : MonoBehaviour
                 }
 
                 LoadUI(currentSkill);
-                if (listSkill[currentSkill].skillLevel >= 3 && currentSkill<4)
+                if (listSkill[currentSkill].skillLevel >= 3 && currentSkill < listSkill.Count - 1)
                 {
                     listSkill[currentSkill+1].canUnlock = true;
                 }
@@ -108,6 +124,79 @@ public class SkillTree : MonoBehaviour
             }
         }
     }
+
+    public SkillTreeSaveData CaptureSaveData()
+    {
+        SkillTreeSaveData data = new SkillTreeSaveData
+        {
+            treePosition = treePos,
+            treeType = treeType.ToString()
+        };
+
+        foreach (GSkillCore skill in listSkill)
+        {
+            data.skillLevels.Add(skill != null ? skill.skillLevel : 0);
+        }
+        return data;
+    }
+
+    public void ApplySaveData(SkillTreeSaveData data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            GSkillCore skill = listSkill[i];
+            int savedLevel = i < data.skillLevels.Count ? data.skillLevels[i] : 0;
+            skill.skillLevel = Mathf.Clamp(savedLevel, 0, 3);
+            skill.canUnlock = i == 0 || skill.skillLevel > 0 || (i > 0 && listSkill[i - 1].skillLevel >= 3);
+
+            if (skill.skillLevel > 0 && skill.skillCore.skillType == SkillCore.SkillType.Passive)
+            {
+                PassiveSkillHolder.instance.AddPassiveSkill(skill, listSkillUI[i]);
+            }
+        }
+    }
+
+    public bool TryGetSkill(string skillId, out GSkillCore skill, out SkillUI skillUI)
+    {
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            if (listSkill[i]?.skillCore != null && listSkill[i].skillCore.SkillId == skillId)
+            {
+                skill = listSkill[i];
+                skillUI = listSkillUI[i];
+                return true;
+            }
+        }
+
+        skill = null;
+        skillUI = null;
+        return false;
+    }
+
+    public bool TryGetFirstUnlockedActive(out GSkillCore skill, out SkillUI skillUI)
+    {
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            if (listSkill[i]?.skillCore != null && listSkill[i].skillLevel > 0 &&
+                listSkill[i].skillCore.skillType == SkillCore.SkillType.Active)
+            {
+                skill = listSkill[i];
+                skillUI = listSkillUI[i];
+                return true;
+            }
+        }
+
+        skill = null;
+        skillUI = null;
+        return false;
+    }
+
+    public int TreePosition => treePos;
 
     public void GetSkill(int position)
     {
@@ -143,6 +232,7 @@ public class SkillTree : MonoBehaviour
         else
         {
             SkillUIManager.instance.upgradeOrUnlock.text = "Max Upgrade";
+            SkillUIManager.instance.skillAction[0].SetActive(false);
         }
         
 

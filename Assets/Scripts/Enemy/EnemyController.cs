@@ -11,6 +11,10 @@ public class EnemyController : EnemyCore, IDamage
     private void Update()
     {
         var curState = GetState(_characterState);
+        if (curState == null)
+        {
+            return;
+        }
         curState.Init(this);
         curState.Action();
 
@@ -45,6 +49,11 @@ public class EnemyController : EnemyCore, IDamage
 
     public override void Flip()
     {
+        if (tar == null)
+        {
+            return;
+        }
+
         if(tar.transform.position.x > transform.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
@@ -57,17 +66,36 @@ public class EnemyController : EnemyCore, IDamage
 
     public void TakeDamage(int atk, int maxAtk, float bonusDmg)
     {
+        if (IsDead)
+        {
+            return;
+        }
+
         float damage = atk + maxAtk * bonusDmg;
         currentHp -= (int)damage;
         hpBar.value = currentHp;
         if (currentHp <= 0)
         {
-            ChangeState(CharacterState.Death);
+            BeginDeath();
         }
     }
 
     public void TakeSusDamage(int totalDmg, float time)
     {
-        throw new System.NotImplementedException();
+        if (!IsDead)
+        {
+            StartCoroutine(DamageOverTime(totalDmg, time));
+        }
+    }
+
+    private IEnumerator DamageOverTime(int totalDmg, float duration)
+    {
+        int ticks = Mathf.Max(1, Mathf.CeilToInt(duration));
+        int damagePerTick = Mathf.Max(1, Mathf.CeilToInt((float)totalDmg / ticks));
+        for (int i = 0; i < ticks && !IsDead; i++)
+        {
+            TakeDamage(damagePerTick, damagePerTick, 0f);
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

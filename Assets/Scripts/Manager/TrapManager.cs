@@ -9,6 +9,7 @@ public class TrapManager : MonoBehaviour
 
     private void Awake()
     {
+        trapGridName.Clear();
         foreach(string s in trapName)
         {
             trapGridName.Add(s);

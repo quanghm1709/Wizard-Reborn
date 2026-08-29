@@ -1,172 +1,289 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    [SerializeField] private int distanceToEnd;
+    private enum GeneratedRoomType { Start, Normal, Shop, End, Boss }
+
+    [Header("Layout")]
+    [SerializeField, Min(2)] private int distanceToEnd = 4;
+    [SerializeField, Min(0)] private int minBranches = 1;
+    [SerializeField, Min(0)] private int maxBranches = 3;
+    [SerializeField, Min(1)] private int minBranchLength = 1;
+    [SerializeField, Min(1)] private int maxBranchLength = 3;
     [SerializeField] private Transform generatorPoint;
     [SerializeField] private Transform gridParent;
     [SerializeField] private LayerMask roomLayer;
-    [SerializeField] private float xOffset;
-    [SerializeField] private float yOffset;
+    [SerializeField] private float xOffset = 12f;
+    [SerializeField] private float yOffset = 9f;
 
+    [Header("Room Prefabs")]
     [SerializeField] private GameObject instatiateRoom;
     [SerializeField] private GameObject startRoom;
     [SerializeField] private GameObject shopRoom;
     [SerializeField] private GameObject bossRoom;
     [SerializeField] private GameObject endRoom;
 
+    [Header("Runtime")]
     [SerializeField] private List<GameObject> listRoom;
     [SerializeField] private ObjectPool trapPool;
+    [SerializeField, Range(0f, 1f)] private float trapRoomChance = .6f;
 
-    private Direct direct;
-    private int currentRoomId = 1;
+    private readonly Vector2Int[] directions =
+    {
+        Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right
+    };
+
     private Vector3 startRoomPos;
     private int specialRoom = 1;
+    private int currentRoomId = 1;
+    private bool floorGenerated;
+
+    public int SpecialRoom => specialRoom;
+
+    private void OnEnable()
+    {
+        this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
+
+    private void OnDisable()
+    {
+        this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+    }
 
     private void Start()
     {
-        RegisterEvent();
-        startRoomPos = generatorPoint.position;
-        CreateFloor();   
+        startRoomPos = generatorPoint != null ? generatorPoint.position : Vector3.zero;
+        StartCoroutine(GenerateWhenReady());
     }
 
-    private void RegisterEvent()
+    private IEnumerator GenerateWhenReady()
     {
-        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => OnPlayerEnterGate());
+        yield return new WaitUntil(() => FloorManager.readyGenerate);
+        if (!floorGenerated)
+        {
+            CreateFloor();
+        }
     }
 
-    private void OnPlayerEnterGate()
+    private void HandlePlayerEnterGate(object param)
     {
-        SaveData.SaveSingleData("specialRoom", specialRoom);
+        StartCoroutine(ResetFloorNextFrame());
+    }
+
+    private IEnumerator ResetFloorNextFrame()
+    {
+        yield return null;
         ResetFloor();
     }
 
     internal void Load()
     {
-        specialRoom = SaveData.LoadSingleData("specialRoom");
+        specialRoom = Mathf.Clamp(SaveData.LoadSingleData("specialRoom"), 1, 6);
+    }
+
+    public void ApplySaveData(int savedSpecialRoom)
+    {
+        specialRoom = Mathf.Clamp(savedSpecialRoom, 1, 6);
     }
 
     private void ResetFloor()
     {
-        foreach (GameObject g in trapPool.pooledGobjects)
+        EnemyGenerator.instance?.ResetFloorCombat();
+
+        if (trapPool != null)
         {
-            g.SetActive(false);
+            foreach (GameObject trap in trapPool.pooledGobjects)
+            {
+                if (trap != null)
+                {
+                    trap.SetActive(false);
+                }
+            }
         }
 
-        foreach (GameObject g in listRoom)
+        foreach (GameObject room in listRoom)
         {
-            Destroy(g);
+            if (room != null)
+            {
+                room.SetActive(false);
+                Destroy(room);
+            }
         }
-        listRoom = new List<GameObject>();
-
-
-
-        generatorPoint.position = startRoomPos;
+        listRoom.Clear();
+        floorGenerated = false;
         CreateFloor();
     }
 
     public void CreateFloor()
     {
-        GenerateRoom();     
+        if (floorGenerated)
+        {
+            return;
+        }
+
+        floorGenerated = true;
+        currentRoomId = 1;
+        specialRoom = (Mathf.Max(1, FloorManager.currentFloor) - 1) % 6 + 1;
+
+        int seed = unchecked(Environment.TickCount * 397 ^ FloorManager.currentFloor * 7919);
+        System.Random random = new System.Random(seed);
+        Dictionary<Vector2Int, GeneratedRoomType> layout = GenerateLayout(random);
+
+        foreach (KeyValuePair<Vector2Int, GeneratedRoomType> roomData in layout)
+        {
+            InstantiateRoom(roomData.Key, roomData.Value, random);
+        }
+
+        Physics2D.SyncTransforms();
     }
 
-    private void GenerateRoom()
+    private Dictionary<Vector2Int, GeneratedRoomType> GenerateLayout(System.Random random)
     {
-        //if (FloorManager.readyGenerate)
+        int mainPathRoomCount = Mathf.Max(3, distanceToEnd + 2);
+        List<Vector2Int> mainPath = BuildSelfAvoidingPath(mainPathRoomCount, random);
+        HashSet<Vector2Int> occupied = new HashSet<Vector2Int>(mainPath);
+        List<Vector2Int> branchRooms = new List<Vector2Int>();
+
+        int lowerBranchCount = Mathf.Max(0, minBranches);
+        int upperBranchCount = Mathf.Max(lowerBranchCount, maxBranches);
+        int branchCount = random.Next(lowerBranchCount, upperBranchCount + 1);
+
+        for (int branchIndex = 0; branchIndex < branchCount; branchIndex++)
         {
-            GameObject stRoom = Instantiate(startRoom, generatorPoint.position, generatorPoint.rotation);
-            stRoom.transform.position = generatorPoint.position;
-            stRoom.transform.parent = gridParent;
-            direct = (Direct)Random.Range(0, 4);
-            MoveGenerationPoint();
-            listRoom.Add(stRoom);
+            Vector2Int cursor = mainPath[random.Next(1, mainPath.Count - 1)];
+            int lowerLength = Mathf.Max(1, minBranchLength);
+            int upperLength = Mathf.Max(lowerLength, maxBranchLength);
+            int targetLength = random.Next(lowerLength, upperLength + 1);
 
-            int randomPos = -1;
-            if (specialRoom == 3)
+            for (int step = 0; step < targetLength; step++)
             {
-                randomPos = Random.Range(2, distanceToEnd - 1);
-            }
-
-            for (int i = 0; i < distanceToEnd; i++)
-            {
-                GameObject newRoom = null;
-
-                if (i == randomPos && specialRoom == 3 || i == randomPos && specialRoom == 6)
+                List<Vector2Int> candidates = GetFreeNeighbours(cursor, occupied);
+                if (candidates.Count == 0)
                 {
-                    newRoom = Instantiate(shopRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
-                }
-                else
-                {
-                    newRoom = Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);// roomPool.GetObject(instatiateRoom.name);//Instantiate(instatiateRoom, generatorPoint.position, generatorPoint.rotation);
-
-                    float rand = Random.Range(0f, 1f);
-                    if (rand > .4f)
-                    {
-                        GameObject trap = trapPool.GetObject(TrapManager.trapGridName[Random.Range(0, TrapManager.trapGridName.Count - 1)]);
-                        // trap.transform.parent = newRoom.transform;
-                        trap.transform.position = newRoom.transform.position;
-                    }
+                    break;
                 }
 
-                newRoom.transform.position = generatorPoint.position;
-                newRoom.transform.parent = gridParent;
+                cursor = candidates[random.Next(candidates.Count)];
+                occupied.Add(cursor);
+                branchRooms.Add(cursor);
+            }
+        }
 
-                newRoom.GetComponent<RoomController>().roomId = currentRoomId;
-                currentRoomId++;
-                listRoom.Add(newRoom);
-                direct = (Direct)Random.Range(0, 4);
-                MoveGenerationPoint();
+        Dictionary<Vector2Int, GeneratedRoomType> result = new Dictionary<Vector2Int, GeneratedRoomType>();
+        foreach (Vector2Int position in occupied)
+        {
+            result[position] = GeneratedRoomType.Normal;
+        }
 
-                while (Physics2D.OverlapCircle(generatorPoint.position, .2f, roomLayer))
+        result[mainPath[0]] = GeneratedRoomType.Start;
+        result[mainPath[mainPath.Count - 1]] = specialRoom == 6 ? GeneratedRoomType.Boss : GeneratedRoomType.End;
+
+        if (specialRoom % 3 == 0)
+        {
+            List<Vector2Int> shopCandidates = branchRooms.Count > 0
+                ? branchRooms
+                : mainPath.GetRange(1, mainPath.Count - 2);
+            if (shopCandidates.Count > 0)
+            {
+                Vector2Int shopPosition = shopCandidates[random.Next(shopCandidates.Count)];
+                if (result[shopPosition] == GeneratedRoomType.Normal)
                 {
-                    MoveGenerationPoint();
+                    result[shopPosition] = GeneratedRoomType.Shop;
                 }
             }
+        }
 
-            if (specialRoom == 6)
-            {
-                GameObject enRoom = Instantiate(bossRoom, generatorPoint.position, generatorPoint.rotation);
-                enRoom.transform.position = generatorPoint.position;
-                enRoom.transform.parent = gridParent;
-                direct = (Direct)Random.Range(0, 4);
-                listRoom.Add(enRoom);
-                specialRoom = 0;
-            }
-            else
-            {
-                GameObject enRoom = Instantiate(endRoom, generatorPoint.position, generatorPoint.rotation);
-                enRoom.transform.position = generatorPoint.position;
-                enRoom.transform.parent = gridParent;
-                direct = (Direct)Random.Range(0, 4);
-                listRoom.Add(enRoom);
-            }
-
-
-            specialRoom++;
-        }      
+        return result;
     }
 
-    private void MoveGenerationPoint()
+    private List<Vector2Int> BuildSelfAvoidingPath(int roomCount, System.Random random)
     {
-        switch (direct)
+        List<Vector2Int> path = new List<Vector2Int> { Vector2Int.zero };
+        HashSet<Vector2Int> occupied = new HashSet<Vector2Int> { Vector2Int.zero };
+        int attempts = 0;
+
+        while (path.Count < roomCount && attempts < roomCount * 100)
         {
-            case Direct.up:
-                generatorPoint.position += new Vector3(0f, yOffset, 0f);
-                break;
+            attempts++;
+            Vector2Int cursor = path[path.Count - 1];
+            List<Vector2Int> candidates = GetFreeNeighbours(cursor, occupied);
+            if (candidates.Count > 0)
+            {
+                Vector2Int next = candidates[random.Next(candidates.Count)];
+                path.Add(next);
+                occupied.Add(next);
+            }
+            else if (path.Count > 1)
+            {
+                occupied.Remove(path[path.Count - 1]);
+                path.RemoveAt(path.Count - 1);
+            }
+        }
 
-            case Direct.down:
-                generatorPoint.position += new Vector3(0f, -yOffset, 0f);
-                break;
+        if (path.Count < roomCount)
+        {
+            throw new InvalidOperationException("Unable to generate a connected main dungeon path.");
+        }
+        return path;
+    }
 
-            case Direct.right:
-                generatorPoint.position += new Vector3(xOffset, 0f, 0f);
-                break;
+    private List<Vector2Int> GetFreeNeighbours(Vector2Int position, HashSet<Vector2Int> occupied)
+    {
+        List<Vector2Int> result = new List<Vector2Int>();
+        foreach (Vector2Int direction in directions)
+        {
+            Vector2Int candidate = position + direction;
+            if (!occupied.Contains(candidate))
+            {
+                result.Add(candidate);
+            }
+        }
+        return result;
+    }
 
-            case Direct.left:
-                generatorPoint.position += new Vector3(-xOffset, 0f, 0f);
-                break;
+    private void InstantiateRoom(Vector2Int gridPosition, GeneratedRoomType roomType, System.Random random)
+    {
+        GameObject prefab = GetPrefab(roomType);
+        if (prefab == null)
+        {
+            Debug.LogError($"Missing prefab for generated room type {roomType}.");
+            return;
+        }
+
+        Vector3 worldPosition = startRoomPos + new Vector3(gridPosition.x * xOffset, gridPosition.y * yOffset, 0f);
+        GameObject room = Instantiate(prefab, worldPosition, Quaternion.identity, gridParent);
+        room.name = $"{roomType} Room [{gridPosition.x},{gridPosition.y}]";
+
+        RoomController controller = room.GetComponent<RoomController>();
+        if (controller != null)
+        {
+            controller.roomId = currentRoomId++;
+        }
+        listRoom.Add(room);
+
+        if (roomType == GeneratedRoomType.Normal && trapPool != null && TrapManager.trapGridName.Count > 0 && random.NextDouble() < trapRoomChance)
+        {
+            int trapIndex = random.Next(0, TrapManager.trapGridName.Count);
+            GameObject trap = trapPool.GetObject(TrapManager.trapGridName[trapIndex]);
+            if (trap != null)
+            {
+                trap.transform.position = worldPosition;
+            }
+        }
+    }
+
+    private GameObject GetPrefab(GeneratedRoomType roomType)
+    {
+        switch (roomType)
+        {
+            case GeneratedRoomType.Start: return startRoom;
+            case GeneratedRoomType.Shop: return shopRoom;
+            case GeneratedRoomType.End: return endRoom;
+            case GeneratedRoomType.Boss: return bossRoom;
+            default: return instatiateRoom;
         }
     }
 }

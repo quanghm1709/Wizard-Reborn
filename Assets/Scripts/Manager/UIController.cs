@@ -61,8 +61,24 @@ public class UIController : MonoBehaviour
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnPlayerEnterGate, (param) => isPlayerEnterGate = true);
-        this.RegisterListener(EventID.OnPlayerDead, (param) => OnPlayerDead());
+        this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+        this.RegisterListener(EventID.OnPlayerDead, HandlePlayerDead);
+    }
+
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
+        this.RemoveListener(EventID.OnPlayerDead, HandlePlayerDead);
+    }
+
+    private void HandlePlayerEnterGate(object param)
+    {
+        isPlayerEnterGate = true;
+    }
+
+    private void HandlePlayerDead(object param)
+    {
+        OnPlayerDead();
     }
 
     private void OnPlayerDead()

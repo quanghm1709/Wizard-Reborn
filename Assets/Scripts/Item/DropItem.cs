@@ -8,29 +8,31 @@ public class DropItem : MonoBehaviour
     [SerializeField] private List<GameObject> itemToDrop;
     [SerializeField] private float dropRate;
 
-    private bool isCreated = true;
-
-    private void OnDisable()
+    public void TryDrop()
     {
-        if (isCreated)
+        if (ItemManager.instance == null || ItemManager.instance.itemPool == null)
         {
-            isCreated = false;
+            return;
         }
-        else
+
+        float rand = Random.Range(0f, 1f);
+
+        if (rand < dropRate && itemToDrop.Count > 0)
         {
-            float rand = Random.Range(0f, 1f);
-
-            if (rand < dropRate)
+            GameObject item = ItemManager.instance.itemPool.GetObject(itemToDrop[Random.Range(0, itemToDrop.Count)].name);
+            if (item != null)
             {
-                GameObject g = ItemManager.instance.itemPool.GetObject(itemToDrop[Random.Range(0, itemToDrop.Count)].name);
-                g.transform.position = transform.position;
+                item.transform.position = transform.position;
             }
+        }
 
-            if(rand > .5f)
+        if(rand > .5f)
+        {
+            GameObject gold = ItemManager.instance.itemPool.GetObject("Gold Bag");
+            if (gold != null)
             {
-                GameObject g = ItemManager.instance.itemPool.GetObject("Gold Bag");
-                g.transform.position = transform.position;
+                gold.transform.position = transform.position;
             }
-        }       
+        }
     }
 }

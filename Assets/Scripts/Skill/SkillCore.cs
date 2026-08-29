@@ -25,11 +25,29 @@ public class SkillCore : ScriptableObject
     public SkillCore skillToUnlock;
     public GameObject skillAnim;
 
+    [SerializeField] private string skillId;
+    public string SkillId => string.IsNullOrWhiteSpace(skillId) ? name : skillId;
+
     protected PlayerController player = null;
     public void Init(PlayerController playerController)
     {
         player = playerController;
     }
 
-    public virtual void Action(int skillLevel) { }
+    public virtual bool CanCast(int level)
+    {
+        if (player == null || level <= 0 || level > cdTime.Length)
+        {
+            return false;
+        }
+
+        if (skillType == SkillType.Active && level <= mpUse.Length && player.currentMp < mpUse[level - 1])
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public virtual bool Action(int skillLevel) { return false; }
 }

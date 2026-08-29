@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Behaviour/Idle", fileName = "Idle")]
 public class EnemyIdle : State
 {
-    private float waitAttack = 2f;
+    private const float WaitAttack = 2f;
     public override CharacterState GetState()
     {
         return CharacterState.Idle;
@@ -15,12 +15,10 @@ public class EnemyIdle : State
     {
             _agent.anim.SetBool("isMove", false);
             _agent.anim.SetBool("isAttack", false);
-            waitAttack -= Time.deltaTime;
-            if (waitAttack <= 0)
+            if (_agent.TickIdle(WaitAttack))
             {
                 _agent.anim.SetBool("isMove", true);
                 _agent.anim.SetBool("isAttack", false);
-                waitAttack = 2f;
                 _agent.ChangeState(CharacterState.Moving);
             }
     }

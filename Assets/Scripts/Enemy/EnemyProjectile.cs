@@ -19,7 +19,7 @@ public class EnemyProjectile : MonoBehaviour
         lifeTime -= Time.deltaTime;
         if (lifeTime <= 0)
         {
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 
@@ -27,8 +27,9 @@ public class EnemyProjectile : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            collision.GetComponent<IDamage>().TakeDamage((int)damage, (int)damage, 0);
-            gameObject.SetActive(false);
+            IDamage damageable = collision.GetComponent<IDamage>();
+            damageable?.TakeDamage((int)damage, (int)damage, 0);
+            Destroy(gameObject);
         }
 
     }

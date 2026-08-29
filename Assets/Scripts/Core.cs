@@ -27,7 +27,7 @@ public abstract class Core : MonoBehaviour
     public bool canAttack;
     
 
-    protected void Start()
+    protected virtual void Awake()
     {
         SetupData();
     }

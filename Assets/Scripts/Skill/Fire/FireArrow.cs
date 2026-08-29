@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Passive/Fire/FireArrow", fileName = "FireArrow")]
 public class FireArrow : SkillCore
 {
-    public override void Action(int level)
+    public override bool Action(int level)
     {
+        player.enemyInRange.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
         if (player.enemyInRange.Count > 0)
         {
             AudioManager.instance.audioSource[3].Play();
@@ -19,6 +20,8 @@ public class FireArrow : SkillCore
                 g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
                 g.GetComponent<SkillProjectile>().damage = atk[level - 1] * player.currentAtk;
             }
+            return true;
         }
+        return false;
     }
 }

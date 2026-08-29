@@ -18,6 +18,7 @@ public class EnemyMove : State
     {
         if (!_agent.Detect() && _agent.canMove)
         {
+            _agent.movement = Vector2.zero;
             if (_agent.tar.transform.position.x > _agent.transform.position.x)
             {
                 _agent.movement.x = 1;

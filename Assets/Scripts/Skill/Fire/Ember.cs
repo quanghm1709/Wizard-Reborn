@@ -5,9 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Active/Fire/Ember", fileName = "Ember")]
 public class Ember : SkillCore
 {
-    public override void Action(int level)
+    public override bool Action(int level)
     {
-        if(player.currentMp >= mpUse[level - 1])
+        if(CanCast(level))
         {
             AudioManager.instance.audioSource[4].Play();
             Vector3 pos;
@@ -29,10 +29,12 @@ public class Ember : SkillCore
 
             foreach (Collider2D c in hit)
             {
-                c.GetComponent<IDamage>().TakeDamage((int)atk[level - 1], (int)atk[level - 1], 0);
+                IDamage damageable = c.GetComponent<IDamage>();
+                damageable?.TakeDamage((int)atk[level - 1], (int)atk[level - 1], 0);
             }
             player.currentMp -= mpUse[level - 1];
+            return true;
         }
-        
+        return false;
     }
 }

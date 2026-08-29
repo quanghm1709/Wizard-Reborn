@@ -21,6 +21,7 @@ public class PlayerController : Core, IDamage
 
     private void Update()
     {
+        enemyInRange.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
         SetMove();
         if (timeBtwHitCD > 0)
         {
@@ -119,8 +120,8 @@ public class PlayerController : Core, IDamage
             {
                 foreach (var i in hit)
                 {
-                    // Debug.Log(i.collider.name);
-                    i.collider.GetComponent<IDamage>().TakeDamage(currentAtk, maxAtk, 0);
+                    IDamage damageable = i.collider.GetComponent<IDamage>();
+                    damageable?.TakeDamage(currentAtk, maxAtk, 0);
                 }
             }
         }
@@ -171,20 +172,35 @@ public class PlayerController : Core, IDamage
 
     public void TakeSusDamage(int totalDmg, float time)
     {
-        throw new System.NotImplementedException();
+        StartCoroutine(DamageOverTime(totalDmg, time));
+    }
+
+    private IEnumerator DamageOverTime(int totalDmg, float duration)
+    {
+        int ticks = Mathf.Max(1, Mathf.CeilToInt(duration));
+        int damagePerTick = Mathf.Max(1, Mathf.CeilToInt((float)totalDmg / ticks));
+        for (int i = 0; i < ticks && currentHp > 0; i++)
+        {
+            TakeDamage(damagePerTick, damagePerTick, 0f);
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     public void UsingItem(float hp, float mp, float spd, bool isForever)
     {
-        currentHp +=(int) (maxHp * hp);
-        currentMp +=(int) (maxMp * mp);
+        int hpGain = Mathf.RoundToInt(maxHp * hp);
+        float mpGain = maxMp * mp;
+        float speedGain = maxSpd * spd;
+
+        currentHp += hpGain;
+        currentMp += mpGain;
         currentSpd += (maxSpd * spd);
 
         if (isForever)
         {
-            maxHp += (int)(maxHp * hp);
-            maxMp += (int)(maxMp * mp);
-            maxSpd += (maxSpd * spd);
+            maxHp += hpGain;
+            maxMp += mpGain;
+            maxSpd += speedGain;
         }
 
         if(currentHp> maxHp)
@@ -205,7 +221,8 @@ public class PlayerController : Core, IDamage
 
     public void LevelUp()
     {
-        UsingItem((float)((maxHp / 10) * .2f), (float)((maxMp / 10) * .2f), 0, true);
+        const float levelUpStatRatio = .02f;
+        UsingItem(levelUpStatRatio, levelUpStatRatio, 0f, true);
     }
 
     internal void Save()
@@ -232,5 +249,43 @@ public class PlayerController : Core, IDamage
         maxMp = data[3];
         currentAtk = data[4];
         maxAtk = data[5];
+    }
+
+    public PlayerSaveData CaptureSaveData()
+    {
+        return new PlayerSaveData
+        {
+            currentHp = currentHp,
+            maxHp = maxHp,
+            currentMp = currentMp,
+            maxMp = maxMp,
+            currentAtk = currentAtk,
+            maxAtk = maxAtk,
+            currentSpd = currentSpd,
+            maxSpd = maxSpd,
+            attackCooldown = timeBtwHit
+        };
+    }
+
+    public void ApplySaveData(PlayerSaveData data)
+    {
+        if (data == null)
+        {
+            return;
+        }
+
+        maxHp = Mathf.Max(1, data.maxHp);
+        currentHp = Mathf.Clamp(data.currentHp, 1, maxHp);
+        maxMp = Mathf.Max(0f, data.maxMp);
+        currentMp = Mathf.Clamp(data.currentMp, 0f, maxMp);
+        maxAtk = Mathf.Max(1, data.maxAtk);
+        currentAtk = Mathf.Clamp(data.currentAtk, 1, maxAtk);
+        maxSpd = Mathf.Max(.1f, data.maxSpd);
+        currentSpd = Mathf.Clamp(data.currentSpd, .1f, maxSpd);
+        if (data.attackCooldown > 0f)
+        {
+            timeBtwHit = data.attackCooldown;
+            timeBtwHitCD = 0f;
+        }
     }
 }

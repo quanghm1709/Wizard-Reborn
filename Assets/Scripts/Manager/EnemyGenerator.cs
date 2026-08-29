@@ -12,71 +12,96 @@ public class EnemyGenerator : MonoBehaviour
 
     [SerializeField] private List<string> enemyName;
 
-    private int totalWave;
     private RoomController currentRoom;
+    private bool isGenerating;
 
     private void Start()
     {
         instance = this;
-        RegisterEvent();
-    }
-
-    private void RegisterEvent()
-    {
-        this.RegisterListener(EventID.OnEnemyDead, (param) => OnEnemyDead());
-    }
-
-    private void OnEnemyDead()
-    {
-        if (activeEnemy.Count <= 0)
-        {
-            this.PostEvent(EventID.OnRoomClear, currentRoom.roomId);
-            Debug.Log("Wave end");
-            currentRoom.isClear = true;
-        }
     }
 
     public IEnumerator GenerateEnemy(Vector3 room, int totalWave, RoomController roomController)
     {
-        currentRoom = roomController;
-        this.totalWave = totalWave;
-        yield return new WaitForSeconds(2f);
+        if (isGenerating)
+        {
+            yield break;
+        }
 
-        int totalEnemy = Random.Range(3, 5);
-        totalEnemy += (int) FloorManager.currentFloor / 3;
+        isGenerating = true;
+        currentRoom = roomController;
+        int waveCount = Mathf.Max(1, totalWave);
+
+        for (int waveIndex = 0; waveIndex < waveCount; waveIndex++)
+        {
+            yield return new WaitForSeconds(waveIndex == 0 ? 1f : 1.5f);
+            SpawnWave(room, roomController);
+            yield return new WaitUntil(() => activeEnemy.Count == 0);
+        }
+
+        isGenerating = false;
+        if (currentRoom == roomController && roomController != null)
+        {
+            roomController.CompleteCombatRoom();
+        }
+    }
+
+    private void SpawnWave(Vector3 room, RoomController roomController)
+    {
+        int totalEnemy = Random.Range(3, 5) + FloorManager.currentFloor / 3;
 
         for (int i = 0; i < totalEnemy; i++)
         {
             float rand = Random.Range(0f, 1f);
-            Vector3 spawnPoint = new Vector3(Random.Range(room.x + 5, room.x - 5), Random.Range(room.y + 3, room.y - 3), room.z);
+            Vector3 spawnPoint = new Vector3(Random.Range(room.x - 5f, room.x + 5f), Random.Range(room.y - 3f, room.y + 3f), room.z);
 
-            GameObject enemy = null;
-            if(rand < .3f)
+            string selectedEnemy;
+            if (rand < .3f && enemyName.Count > 1)
             {
-                if(rand< .1f)
-                {
-                       enemy = enemyPool.GetObject(enemyName[2]);
-                }
-                else
-                {
-                    enemy = enemyPool.GetObject(enemyName[1]);
-                }
+                selectedEnemy = rand < .1f && enemyName.Count > 2 ? enemyName[2] : enemyName[1];
             }
             else
             {
-                enemy = enemyPool.GetObject(enemyName[0]);
+                selectedEnemy = enemyName[0];
             }
-                
+
+            GameObject enemy = enemyPool.GetObject(selectedEnemy);
+            if (enemy == null)
+            {
+                Debug.LogError($"Enemy pool cannot provide '{selectedEnemy}'.");
+                continue;
+            }
+
             enemy.transform.position = spawnPoint;
-            enemy.GetComponent<EnemyCore>().ResetData();
+            EnemyCore enemyCore = enemy.GetComponent<EnemyCore>();
+            enemyCore.SetOwningRoom(roomController);
+            enemyCore.ResetData();
 
             activeEnemy.Add(enemy);
         }
+    }
 
-        this.totalWave--;
-        if (this.totalWave > 1)
+    public void NotifyEnemyDefeated(EnemyCore enemy)
+    {
+        if (enemy != null)
         {
-            StartCoroutine(GenerateEnemy(room, this.totalWave, currentRoom));
+            activeEnemy.Remove(enemy.gameObject);
         }
+    }
+
+    public void ResetFloorCombat()
+    {
+        StopAllCoroutines();
+        isGenerating = false;
+        currentRoom = null;
+
+        for (int i = activeEnemy.Count - 1; i >= 0; i--)
+        {
+            GameObject enemy = activeEnemy[i];
+            if (enemy != null)
+            {
+                enemy.SetActive(false);
+            }
+        }
+        activeEnemy.Clear();
     }
 }

@@ -10,7 +10,10 @@ public class PlayerDetector : MonoBehaviour
     {
         if(collision.tag == "Enemy")
         {
-            player.enemyInRange.Add(collision.gameObject);
+            if (!player.enemyInRange.Contains(collision.gameObject))
+            {
+                player.enemyInRange.Add(collision.gameObject);
+            }
         }
     }
 

@@ -5,8 +5,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skill/Passive/Electro/ThunderArrow", fileName = "ThunderArrow")]
 public class ThunderArrow : SkillCore
 {
-    public override void Action(int level)
+    public override bool Action(int level)
     {
+        player.enemyInRange.RemoveAll(enemy => enemy == null || !enemy.activeInHierarchy);
         if (player.enemyInRange.Count > 0)
         {
             AudioManager.instance.audioSource[1].Play();
@@ -19,6 +20,8 @@ public class ThunderArrow : SkillCore
                 g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
                 g.GetComponent<SkillProjectile>().damage = atk[level - 1] * player.currentAtk;
             }
+            return true;
         }
+        return false;
     }
 }

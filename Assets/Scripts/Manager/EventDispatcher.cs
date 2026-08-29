@@ -154,6 +154,14 @@ public static class EventDispatcherExtension
 		EventDispatcher.Instance.RegisterListener(eventID, callback);
 	}
 
+	public static void RemoveListener(this MonoBehaviour listener, EventID eventID, Action<object> callback)
+	{
+		if (EventDispatcher.HasInstance())
+		{
+			EventDispatcher.Instance.RemoveListener(eventID, callback);
+		}
+	}
+
 	/// Post event with param
 	public static void PostEvent(this MonoBehaviour listener, EventID eventID, object param)
 	{

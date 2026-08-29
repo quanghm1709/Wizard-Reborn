@@ -18,9 +18,14 @@ public class SkillUIManager : MonoBehaviour
 
     public List<SkillTree> skillTrees;
     public int treeIndex;
-    private void Start()
+
+    private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
         RegisterEvent();
         //foreach(SkillTree tree in skillTrees)
         //{
@@ -31,7 +36,17 @@ public class SkillUIManager : MonoBehaviour
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnOpenMenu, (param) => ResetUI());
+        this.RegisterListener(EventID.OnOpenMenu, HandleOpenMenu);
+    }
+
+    private void OnDestroy()
+    {
+        this.RemoveListener(EventID.OnOpenMenu, HandleOpenMenu);
+    }
+
+    private void HandleOpenMenu(object param)
+    {
+        ResetUI();
     }
     public void UpgradeSkill()
     {

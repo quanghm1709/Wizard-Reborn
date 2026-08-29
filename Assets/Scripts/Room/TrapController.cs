@@ -8,11 +8,19 @@ public class TrapController : MonoBehaviour
     [SerializeField] private float enableTimeCD;
     [SerializeField] private Animator anim;
     private float enableTime;
+    private float cycleDuration;
     private float disableTime = 0;
 
-    private void Start()
+    private void Awake()
     {
-        enableTime = enableTimeCD;
+        cycleDuration = enableTimeCD;
+    }
+
+    private void OnEnable()
+    {
+        enableTime = cycleDuration;
+        enableTimeCD = cycleDuration;
+        disableTime = 0f;
     }
 
     private void Update()
@@ -41,7 +49,8 @@ public class TrapController : MonoBehaviour
         {
             if (collision.tag == "Player" || collision.tag == "Enemy")
             {
-                collision.GetComponent<IDamage>().TakeDamage((int)damage, (int)damage, 0);
+                IDamage damageable = collision.GetComponent<IDamage>();
+                damageable?.TakeDamage((int)damage, (int)damage, 0);
             }
         }
 
