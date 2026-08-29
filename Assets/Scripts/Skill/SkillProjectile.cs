@@ -9,6 +9,7 @@ public class SkillProjectile : MonoBehaviour
     public float lifeTime;
     public GameObject target;
     public Rigidbody2D rb;
+    public ElementType element;
 
     private void Update()
     {
@@ -37,6 +38,8 @@ public class SkillProjectile : MonoBehaviour
         {
             IDamage damageable = collision.GetComponent<IDamage>();
             damageable?.TakeDamage((int)damage, (int)damage, 0);
+            EnemyCore enemy = collision.GetComponent<EnemyCore>();
+            enemy?.ApplyElement(element, Mathf.RoundToInt(damage));
             Destroy(gameObject);
         }
         

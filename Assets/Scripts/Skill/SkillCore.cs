@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ElementType
+{
+    None,
+    Fire,
+    Electro
+}
+
 public class SkillCore : ScriptableObject
 {
     public enum SkillType
@@ -50,4 +57,16 @@ public class SkillCore : ScriptableObject
     }
 
     public virtual bool Action(int skillLevel) { return false; }
+
+    protected int ScaleDamage(float rawDamage)
+    {
+        float multiplier = RunManager.Instance != null ? RunManager.Instance.SkillDamageMultiplier : 1f;
+        return Mathf.Max(1, Mathf.RoundToInt(rawDamage * multiplier));
+    }
+
+    protected void ApplyElement(Collider2D target, ElementType element, int sourceDamage)
+    {
+        EnemyCore enemy = target != null ? target.GetComponent<EnemyCore>() : null;
+        enemy?.ApplyElement(element, sourceDamage);
+    }
 }

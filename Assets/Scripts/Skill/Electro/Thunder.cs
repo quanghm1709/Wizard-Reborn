@@ -15,11 +15,12 @@ public class Thunder : SkillCore
             CameraController.instance.Shake(10f,.01f,.1f);
             Instantiate(skillAnim, player.enemyInRange[enemyToDamage].transform.position, Quaternion.identity);
             Collider2D[] hit = Physics2D.OverlapCircleAll(player.enemyInRange[enemyToDamage].transform.position, dmgRange, layerToDamage);
+            int damage = ScaleDamage(atk[level - 1] * player.currentAtk);
             foreach (Collider2D c in hit)
             {
                 IDamage damageable = c.GetComponent<IDamage>();
-                damageable?.TakeDamage((int)atk[level-1] * player.currentAtk, (int)atk[level-1], 0);
-                Debug.Log(atk[level - 1] * player.currentAtk);
+                damageable?.TakeDamage(damage, damage, 0);
+                ApplyElement(c, ElementType.Electro, damage);
             }
             player.currentMp -= mpUse[level - 1];
             return true;

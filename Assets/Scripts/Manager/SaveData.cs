@@ -13,6 +13,7 @@ public class SaveGameData
     public PlayerLevelSaveData progression = new PlayerLevelSaveData();
     public List<SkillTreeSaveData> skillTrees = new List<SkillTreeSaveData>();
     public List<EquippedSkillSaveData> equippedSkills = new List<EquippedSkillSaveData>();
+    public List<string> relics = new List<string>();
 }
 
 [System.Serializable]
@@ -55,7 +56,7 @@ public class EquippedSkillSaveData
 
 public static class SaveData 
 {
-    public const int CurrentVersion = 2;
+    public const int CurrentVersion = 3;
     private const string GameSaveKey = "WizardReborn.Save.V2";
 
     public static void SaveGame(SaveGameData data)

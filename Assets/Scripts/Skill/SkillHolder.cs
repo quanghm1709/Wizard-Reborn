@@ -54,6 +54,12 @@ public class SkillHolder : MonoBehaviour
                         {
                             if (currentSkill[i].Action())
                             {
+                                if (RunManager.Instance != null && RunManager.Instance.ConsumeEcho())
+                                {
+                                    float manaBeforeEcho = GetComponent<PlayerController>().currentMp;
+                                    currentSkill[i].Action();
+                                    GetComponent<PlayerController>().currentMp = manaBeforeEcho;
+                                }
                                 skillState[i] = SkillState.Cooldown;
                                 cdTime[i] = currentSkill[i].skillCore.cdTime[currentSkill[i].skillLevel - 1];
                             }
@@ -180,6 +186,31 @@ public class SkillHolder : MonoBehaviour
                     SetSkill(equipped.slot, skill, skillUI);
                     break;
                 }
+            }
+        }
+    }
+
+    public void AutoEquip(GSkillCore skill, SkillUI skillUI)
+    {
+        if (skill?.skillCore == null || skill.skillCore.skillType != SkillCore.SkillType.Active || skill.skillLevel <= 0)
+        {
+            return;
+        }
+
+        for (int i = 0; i < currentSkill.Count; i++)
+        {
+            if (IsValidSkill(i) && currentSkill[i].skillCore.SkillId == skill.skillCore.SkillId)
+            {
+                return;
+            }
+        }
+
+        for (int i = 0; i < currentSkill.Count; i++)
+        {
+            if (!IsValidSkill(i))
+            {
+                SetSkill(i, skill, skillUI);
+                return;
             }
         }
     }

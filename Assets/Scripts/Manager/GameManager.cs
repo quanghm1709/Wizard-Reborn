@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        RunManager.Create(playerController);
+        RoomRewardController.Create(playerController);
+        LevelUpChoiceController.Create(skillUIManager.skillTrees, skillHolder, playerController);
         if (SaveData.TryLoadGame(out SaveGameData save))
         {
             ApplySaveData(save);
@@ -79,6 +82,7 @@ public class GameManager : MonoBehaviour
         playerController.ApplySaveData(save.player);
         playerLevelManager.ApplySaveData(save.progression);
         GoldManager.playerGold = Mathf.Max(0, save.gold);
+        RunManager.Instance.ApplyRelics(save.relics);
 
         PassiveSkillHolder.instance.ClearSkills();
         if (save.skillTrees == null)
@@ -104,6 +108,7 @@ public class GameManager : MonoBehaviour
             progression = playerLevelManager.CaptureSaveData(),
             equippedSkills = skillHolder.CaptureSaveData()
         };
+        save.relics = RunManager.Instance != null ? RunManager.Instance.CaptureRelics() : new List<string>();
 
         foreach (SkillTree tree in skillUIManager.skillTrees)
         {

@@ -31,6 +31,14 @@ public class GSkillCore
     }
 }
 
+public sealed class SkillLevelUpCandidate
+{
+    public SkillTree tree;
+    public GSkillCore skill;
+    public SkillUI skillUI;
+    public int index;
+}
+
 public class SkillTree : MonoBehaviour
 {
     [Header("Skill")]
@@ -45,25 +53,17 @@ public class SkillTree : MonoBehaviour
     private void Start()
     {
         RegisterEvent();
-        //listSkill[0].canUnlock = true;
-        Debug.Log("Check skill: " + listSkill[0].skillCore.canUnlock);
+        RefreshUnlockStates();
     }
 
     private void RegisterEvent()
     {
-        this.RegisterListener(EventID.OnSkillUpgrade, HandleSkillUpgrade);
         this.RegisterListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
     }
 
     private void OnDestroy()
     {
-        this.RemoveListener(EventID.OnSkillUpgrade, HandleSkillUpgrade);
         this.RemoveListener(EventID.OnPlayerEnterGate, HandlePlayerEnterGate);
-    }
-
-    private void HandleSkillUpgrade(object param)
-    {
-        OnSkillUpgrade();
     }
 
     private void HandlePlayerEnterGate(object param)
@@ -79,28 +79,69 @@ public class SkillTree : MonoBehaviour
         }
     }
 
-    private void OnSkillUpgrade()
+    public bool ApplyLevelUpChoice(int skillIndex)
     {
-        if (SkillUIManager.instance.treeIndex == treePos)
+        RefreshUnlockStates();
+        if (skillIndex < 0 || skillIndex >= listSkill.Count)
         {
-            if (listSkill[currentSkill].canUnlock && listSkill[currentSkill].skillLevel < 3)
-            {
-                listSkill[currentSkill].skillLevel++;
-                if (listSkill[currentSkill].skillCore.skillType == SkillCore.SkillType.Passive && listSkill[currentSkill].skillLevel == 1)
-                {
-                    PassiveSkillHolder.instance.AddPassiveSkill(listSkill[currentSkill], listSkillUI[currentSkill]);
-                }
+            return false;
+        }
 
-                LoadUI(currentSkill);
-                if (listSkill[currentSkill].skillLevel >= 3 && currentSkill < listSkill.Count - 1)
-                {
-                    listSkill[currentSkill+1].canUnlock = true;
-                }
-            }
-            else
+        GSkillCore selected = listSkill[skillIndex];
+        if (!selected.canUnlock || selected.skillLevel >= 3 || selected.skillCore == null)
+        {
+            return false;
+        }
+
+        selected.skillLevel++;
+        if (selected.skillCore.skillType == SkillCore.SkillType.Passive && selected.skillLevel == 1 && PassiveSkillHolder.instance != null)
+        {
+            PassiveSkillHolder.instance.AddPassiveSkill(selected, listSkillUI[skillIndex]);
+        }
+
+        if (selected.skillLevel >= 3 && skillIndex < listSkill.Count - 1)
+        {
+            listSkill[skillIndex + 1].canUnlock = true;
+        }
+
+        currentSkill = skillIndex;
+        if (SkillUIManager.instance != null)
+        {
+            LoadUI(skillIndex);
+        }
+        return true;
+    }
+
+    public void GetLevelUpCandidates(List<SkillLevelUpCandidate> result)
+    {
+        if (result == null)
+        {
+            return;
+        }
+
+        RefreshUnlockStates();
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            GSkillCore skill = listSkill[i];
+            if (skill != null && skill.skillCore != null && skill.canUnlock && skill.skillLevel < 3)
             {
-                this.PostEvent(EventID.OnSkillUpgradeFailed);
+                result.Add(new SkillLevelUpCandidate
+                {
+                    tree = this,
+                    skill = skill,
+                    skillUI = i < listSkillUI.Count ? listSkillUI[i] : null,
+                    index = i
+                });
             }
+        }
+    }
+
+    private void RefreshUnlockStates()
+    {
+        for (int i = 0; i < listSkill.Count; i++)
+        {
+            listSkill[i].canUnlock = i == 0 || listSkill[i].skillLevel > 0 ||
+                                     (i > 0 && listSkill[i - 1].skillLevel >= 3);
         }
     }
 
@@ -113,7 +154,7 @@ public class SkillTree : MonoBehaviour
             if (listSkill[i].skillLevel > 0)
             {
                 listSkill[i].canUnlock = true;
-                if (listSkill[i].skillCore.skillType == SkillCore.SkillType.Passive)
+                if (listSkill[i].skillCore.skillType == SkillCore.SkillType.Passive && PassiveSkillHolder.instance != null)
                 {
                     PassiveSkillHolder.instance.AddPassiveSkill(listSkill[i], listSkillUI[i]);
                 }
@@ -123,6 +164,7 @@ public class SkillTree : MonoBehaviour
                 listSkill[i + 1].canUnlock = true;
             }
         }
+        RefreshUnlockStates();
     }
 
     public SkillTreeSaveData CaptureSaveData()
@@ -146,7 +188,6 @@ public class SkillTree : MonoBehaviour
         {
             return;
         }
-
         for (int i = 0; i < listSkill.Count; i++)
         {
             GSkillCore skill = listSkill[i];
@@ -154,11 +195,12 @@ public class SkillTree : MonoBehaviour
             skill.skillLevel = Mathf.Clamp(savedLevel, 0, 3);
             skill.canUnlock = i == 0 || skill.skillLevel > 0 || (i > 0 && listSkill[i - 1].skillLevel >= 3);
 
-            if (skill.skillLevel > 0 && skill.skillCore.skillType == SkillCore.SkillType.Passive)
+            if (skill.skillLevel > 0 && skill.skillCore.skillType == SkillCore.SkillType.Passive && PassiveSkillHolder.instance != null)
             {
                 PassiveSkillHolder.instance.AddPassiveSkill(skill, listSkillUI[i]);
             }
         }
+        RefreshUnlockStates();
     }
 
     public bool TryGetSkill(string skillId, out GSkillCore skill, out SkillUI skillUI)
@@ -225,14 +267,10 @@ public class SkillTree : MonoBehaviour
         }
 
 
-        if (listSkill[position].skillLevel < 3)
-        {
-            SkillUIManager.instance.skillAction[0].SetActive(true);
-        }
-        else
+        SkillUIManager.instance.skillAction[0].SetActive(false);
+        if (listSkill[position].skillLevel >= 3)
         {
             SkillUIManager.instance.upgradeOrUnlock.text = "Max Upgrade";
-            SkillUIManager.instance.skillAction[0].SetActive(false);
         }
         
 

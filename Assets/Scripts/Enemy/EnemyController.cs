@@ -10,6 +10,7 @@ public class EnemyController : EnemyCore, IDamage
 
     private void Update()
     {
+        TickElementalStatuses();
         var curState = GetState(_characterState);
         if (curState == null)
         {
@@ -71,9 +72,23 @@ public class EnemyController : EnemyCore, IDamage
             return;
         }
 
-        float damage = atk + maxAtk * bonusDmg;
-        currentHp -= (int)damage;
-        hpBar.value = currentHp;
+        float shockMultiplier = IsShocked ? 1.2f : 1f;
+        int damage = Mathf.Max(0, Mathf.RoundToInt((atk + maxAtk * bonusDmg) * shockMultiplier));
+        if (damage == 0)
+        {
+            return;
+        }
+        currentHp -= damage;
+        Color hitColor = IsBurning
+            ? new Color(1f, .32f, .08f, 1f)
+            : IsShocked
+                ? new Color(.2f, .68f, 1f, 1f)
+                : new Color(1f, .78f, .2f, 1f);
+        CombatFeedback.ShowHit(transform.position, damage, hitColor);
+        if (hpBar != null)
+        {
+            hpBar.value = currentHp;
+        }
         if (currentHp <= 0)
         {
             BeginDeath();

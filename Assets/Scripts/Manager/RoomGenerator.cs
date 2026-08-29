@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class RoomGenerator : MonoBehaviour
 {
-    private enum GeneratedRoomType { Start, Normal, Shop, End, Boss }
+    private enum GeneratedRoomType { Start, Normal, Elite, Healing, Treasure, Shop, End, Boss }
 
     [Header("Layout")]
     [SerializeField, Min(2)] private int distanceToEnd = 4;
@@ -196,6 +196,20 @@ public class RoomGenerator : MonoBehaviour
             }
         }
 
+
+        List<Vector2Int> specialCandidates = new List<Vector2Int>();
+        foreach (KeyValuePair<Vector2Int, GeneratedRoomType> room in result)
+        {
+            if (room.Value == GeneratedRoomType.Normal)
+            {
+                specialCandidates.Add(room.Key);
+            }
+        }
+        Shuffle(specialCandidates, random);
+        if (specialCandidates.Count > 0) result[specialCandidates[0]] = GeneratedRoomType.Elite;
+        if (specialCandidates.Count > 1) result[specialCandidates[1]] = GeneratedRoomType.Healing;
+        if (specialCandidates.Count > 2) result[specialCandidates[2]] = GeneratedRoomType.Treasure;
+
         return result;
     }
 
@@ -261,10 +275,11 @@ public class RoomGenerator : MonoBehaviour
         if (controller != null)
         {
             controller.roomId = currentRoomId++;
+            controller.Configure(ToRoomCategory(roomType), GetObjective(roomType, random));
         }
         listRoom.Add(room);
 
-        if (roomType == GeneratedRoomType.Normal && trapPool != null && TrapManager.trapGridName.Count > 0 && random.NextDouble() < trapRoomChance)
+        if ((roomType == GeneratedRoomType.Normal || roomType == GeneratedRoomType.Elite) && trapPool != null && TrapManager.trapGridName.Count > 0 && random.NextDouble() < trapRoomChance)
         {
             int trapIndex = random.Next(0, TrapManager.trapGridName.Count);
             GameObject trap = trapPool.GetObject(TrapManager.trapGridName[trapIndex]);
@@ -284,6 +299,45 @@ public class RoomGenerator : MonoBehaviour
             case GeneratedRoomType.End: return endRoom;
             case GeneratedRoomType.Boss: return bossRoom;
             default: return instatiateRoom;
+        }
+    }
+
+    private static RoomCategory ToRoomCategory(GeneratedRoomType roomType)
+    {
+        switch (roomType)
+        {
+            case GeneratedRoomType.Start: return RoomCategory.Start;
+            case GeneratedRoomType.Elite: return RoomCategory.Elite;
+            case GeneratedRoomType.Healing: return RoomCategory.Healing;
+            case GeneratedRoomType.Treasure: return RoomCategory.Treasure;
+            case GeneratedRoomType.Shop: return RoomCategory.Shop;
+            case GeneratedRoomType.End: return RoomCategory.Exit;
+            case GeneratedRoomType.Boss: return RoomCategory.Boss;
+            default: return RoomCategory.Combat;
+        }
+    }
+
+    private static EncounterObjective GetObjective(GeneratedRoomType roomType, System.Random random)
+    {
+        if (roomType == GeneratedRoomType.Elite || roomType == GeneratedRoomType.Boss)
+        {
+            return EncounterObjective.Elimination;
+        }
+        if (roomType != GeneratedRoomType.Normal)
+        {
+            return EncounterObjective.None;
+        }
+        return (EncounterObjective)random.Next((int)EncounterObjective.Elimination, (int)EncounterObjective.Ritual + 1);
+    }
+
+    private static void Shuffle<T>(IList<T> list, System.Random random)
+    {
+        for (int i = list.Count - 1; i > 0; i--)
+        {
+            int swapIndex = random.Next(0, i + 1);
+            T temp = list[i];
+            list[i] = list[swapIndex];
+            list[swapIndex] = temp;
         }
     }
 }

@@ -160,9 +160,18 @@ public class PlayerController : Core, IDamage
     public void TakeDamage(int atk, int maxAtk, float bonusDmg)
     {
         float damage = atk + maxAtk * bonusDmg;
-       // yield return new WaitForSeconds(.1f);
-        currentHp -= (int)damage;
-        Debug.Log("hit");
+        TakeDirectDamage(Mathf.Max(1, Mathf.RoundToInt(damage)), true);
+    }
+
+    public void TakeDirectDamage(int damage, bool canKill)
+    {
+        currentHp -= Mathf.Max(0, damage);
+        if (!canKill && currentHp <= 0)
+        {
+            currentHp = 1;
+            return;
+        }
+
         if (currentHp <= 0)
         {
             this.PostEvent(EventID.OnPlayerDead);
@@ -223,6 +232,23 @@ public class PlayerController : Core, IDamage
     {
         const float levelUpStatRatio = .02f;
         UsingItem(levelUpStatRatio, levelUpStatRatio, 0f, true);
+    }
+
+    public void ApplyPermanentBonus(float hpRatio, float mpRatio, float attackRatio, float speedRatio)
+    {
+        int hpGain = Mathf.RoundToInt(maxHp * hpRatio);
+        float mpGain = maxMp * mpRatio;
+        int attackGain = Mathf.RoundToInt(maxAtk * attackRatio);
+        float speedGain = maxSpd * speedRatio;
+
+        maxHp = Mathf.Max(1, maxHp + hpGain);
+        currentHp = Mathf.Clamp(currentHp + hpGain, 1, maxHp);
+        maxMp = Mathf.Max(0f, maxMp + mpGain);
+        currentMp = Mathf.Clamp(currentMp + mpGain, 0f, maxMp);
+        maxAtk = Mathf.Max(1, maxAtk + attackGain);
+        currentAtk = Mathf.Clamp(currentAtk + attackGain, 1, maxAtk);
+        maxSpd = Mathf.Max(.1f, maxSpd + speedGain);
+        currentSpd = Mathf.Clamp(currentSpd + speedGain, .1f, maxSpd);
     }
 
     internal void Save()

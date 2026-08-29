@@ -26,10 +26,12 @@ public class Explosion : SkillCore
     {
         yield return new WaitForSeconds(.3f);
         Collider2D[] hit = Physics2D.OverlapCircleAll(targetPosition, dmgRange, layerToDamage);
+        int damage = ScaleDamage(atk[level - 1]);
         foreach (Collider2D c in hit)
         {
             IDamage damageable = c.GetComponent<IDamage>();
-            damageable?.TakeDamage((int)atk[level-1], (int)atk[level-1], 0);
+            damageable?.TakeDamage(damage, damage, 0);
+            ApplyElement(c, ElementType.Fire, damage);
         }
     }
 }

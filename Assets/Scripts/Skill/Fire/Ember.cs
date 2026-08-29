@@ -26,11 +26,13 @@ public class Ember : SkillCore
             GameObject skill = Instantiate(skillAnim, pos, Quaternion.identity);
             skill.transform.localScale = new Vector3(scale, 2, 1);
             Collider2D[] hit = Physics2D.OverlapCircleAll(pos, dmgRange, layerToDamage);
+            int damage = ScaleDamage(atk[level - 1]);
 
             foreach (Collider2D c in hit)
             {
                 IDamage damageable = c.GetComponent<IDamage>();
-                damageable?.TakeDamage((int)atk[level - 1], (int)atk[level - 1], 0);
+                damageable?.TakeDamage(damage, damage, 0);
+                ApplyElement(c, ElementType.Fire, damage);
             }
             player.currentMp -= mpUse[level - 1];
             return true;

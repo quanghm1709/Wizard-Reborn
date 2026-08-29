@@ -15,8 +15,10 @@ public class ThunderBird : SkillCore
                 int enemyToDamage = Random.Range(0, player.enemyInRange.Count);
 
                 GameObject g = Instantiate(skillAnim, player.transform.position, Quaternion.identity);
-                g.GetComponent<SkillProjectile>().target = player.enemyInRange[enemyToDamage];
-                g.GetComponent<SkillProjectile>().damage = atk[level - 1] * player.currentAtk;
+                SkillProjectile projectile = g.GetComponent<SkillProjectile>();
+                projectile.target = player.enemyInRange[enemyToDamage];
+                projectile.damage = ScaleDamage(atk[level - 1] * player.currentAtk);
+                projectile.element = ElementType.Electro;
             }
 
             player.currentMp -= mpUse[level - 1];

@@ -20,7 +20,7 @@ public class EnemyGenerator : MonoBehaviour
         instance = this;
     }
 
-    public IEnumerator GenerateEnemy(Vector3 room, int totalWave, RoomController roomController)
+    public IEnumerator GenerateEnemy(Vector3 room, int totalWave, RoomController roomController, bool elite = false)
     {
         if (isGenerating)
         {
@@ -34,7 +34,7 @@ public class EnemyGenerator : MonoBehaviour
         for (int waveIndex = 0; waveIndex < waveCount; waveIndex++)
         {
             yield return new WaitForSeconds(waveIndex == 0 ? 1f : 1.5f);
-            SpawnWave(room, roomController);
+            SpawnWave(room, roomController, elite);
             yield return new WaitUntil(() => activeEnemy.Count == 0);
         }
 
@@ -45,10 +45,57 @@ public class EnemyGenerator : MonoBehaviour
         }
     }
 
-    private void SpawnWave(Vector3 room, RoomController roomController)
+    public IEnumerator GenerateTimedEncounter(Vector3 room, float duration, bool ritual, RoomController roomController, bool elite = false)
+    {
+        if (isGenerating)
+        {
+            yield break;
+        }
+
+        isGenerating = true;
+        currentRoom = roomController;
+        float progress = 0f;
+        float spawnCooldown = 0f;
+        Transform player = GameObject.Find("Player")?.transform;
+
+        while (progress < duration && currentRoom == roomController)
+        {
+            bool canProgress = !ritual || (player != null && Vector2.Distance(player.position, roomController.ObjectiveCenter) <= 3.5f);
+            if (canProgress)
+            {
+                progress += Time.deltaTime;
+                roomController.UpdateObjectiveProgress(progress / duration);
+            }
+
+            spawnCooldown -= Time.deltaTime;
+            if (spawnCooldown <= 0f && activeEnemy.Count < 8)
+            {
+                SpawnEnemies(room, roomController, elite, elite ? 2 : 3);
+                spawnCooldown = 5f;
+            }
+            yield return null;
+        }
+
+        DeactivateActiveEnemies();
+        isGenerating = false;
+        if (currentRoom == roomController && roomController != null)
+        {
+            roomController.CompleteCombatRoom();
+        }
+    }
+
+    private void SpawnWave(Vector3 room, RoomController roomController, bool elite)
     {
         int totalEnemy = Random.Range(3, 5) + FloorManager.currentFloor / 3;
+        if (elite)
+        {
+            totalEnemy = Mathf.Max(1, totalEnemy / 2);
+        }
+        SpawnEnemies(room, roomController, elite, totalEnemy);
+    }
 
+    private void SpawnEnemies(Vector3 room, RoomController roomController, bool elite, int totalEnemy)
+    {
         for (int i = 0; i < totalEnemy; i++)
         {
             float rand = Random.Range(0f, 1f);
@@ -75,6 +122,7 @@ public class EnemyGenerator : MonoBehaviour
             EnemyCore enemyCore = enemy.GetComponent<EnemyCore>();
             enemyCore.SetOwningRoom(roomController);
             enemyCore.ResetData();
+            enemyCore.SetElite(elite);
 
             activeEnemy.Add(enemy);
         }
@@ -94,6 +142,11 @@ public class EnemyGenerator : MonoBehaviour
         isGenerating = false;
         currentRoom = null;
 
+        DeactivateActiveEnemies();
+    }
+
+    private void DeactivateActiveEnemies()
+    {
         for (int i = activeEnemy.Count - 1; i >= 0; i--)
         {
             GameObject enemy = activeEnemy[i];

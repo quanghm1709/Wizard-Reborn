@@ -27,6 +27,14 @@ public class SkillUIManager : MonoBehaviour
     private void Start()
     {
         RegisterEvent();
+        if (skillPoint != null)
+        {
+            skillPoint.gameObject.SetActive(false);
+        }
+        if (skillAction != null && skillAction.Length > 0 && skillAction[0] != null)
+        {
+            skillAction[0].SetActive(false);
+        }
         //foreach(SkillTree tree in skillTrees)
         //{
         //    tree.LoadSkill();
@@ -50,7 +58,7 @@ public class SkillUIManager : MonoBehaviour
     }
     public void UpgradeSkill()
     {
-        this.PostEvent(EventID.OnSkillUpgradeClick);
+        // Skill upgrades are now selected from the level-up popup.
     }
 
     public void OpenSwapSkill()

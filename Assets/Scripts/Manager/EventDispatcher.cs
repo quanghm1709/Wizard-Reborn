@@ -16,6 +16,7 @@ public enum EventID
 	OnPlayerEnterGate,
 	OnPlayerDead,
 	OnPlayerLevelUp,
+	OnRoomReward,
 }
 
 public class EventDispatcher : MonoBehaviour
