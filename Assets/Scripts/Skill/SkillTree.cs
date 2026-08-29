@@ -244,7 +244,7 @@ public class SkillTree : MonoBehaviour
     {
         currentSkill = position;
 
-        SkillUIManager.instance.description.text = listSkill[position].skillCore.skillDescription;
+        SkillUIManager.instance.description.text = EnglishTextCatalog.GetSkillDescription(listSkill[position].skillCore);
 
         LoadUI(position);
     }

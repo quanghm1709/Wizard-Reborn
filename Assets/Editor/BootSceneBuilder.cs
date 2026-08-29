@@ -52,7 +52,7 @@ public static class BootSceneBuilder
         spinner.color = new Color(.67f, .48f, 1f, 1f);
         SetRect(spinner.rectTransform, new Vector2(.075f, .54f), new Vector2(.17f, .86f));
 
-        Text status = CreateText("Status", panel.transform, "Đang chuẩn bị trò chơi...", 25, FontStyle.Normal, TextAnchor.MiddleLeft);
+        Text status = CreateText("Status", panel.transform, "Preparing the game...", 25, FontStyle.Normal, TextAnchor.MiddleLeft);
         status.color = new Color(.86f, .86f, .94f, 1f);
         SetRect(status.rectTransform, new Vector2(.18f, .54f), new Vector2(.92f, .86f));
 
@@ -60,7 +60,7 @@ public static class BootSceneBuilder
         Image progressFill = CreateImage("Progress Fill", progressTrack.transform, new Color(.58f, .32f, .95f, 1f), Vector2.zero, new Vector2(.04f, 1f));
         progressFill.raycastTarget = false;
 
-        Text offlineHint = CreateText("Offline Hint", panel.transform, "Mất kết nối sẽ không ngăn bạn vào game", 17, FontStyle.Normal, TextAnchor.MiddleCenter);
+        Text offlineHint = CreateText("Offline Hint", panel.transform, "Connection issues will never block game access", 17, FontStyle.Normal, TextAnchor.MiddleCenter);
         offlineHint.color = new Color(.58f, .58f, .72f, 1f);
         SetRect(offlineHint.rectTransform, new Vector2(.08f, .07f), new Vector2(.92f, .25f));
 

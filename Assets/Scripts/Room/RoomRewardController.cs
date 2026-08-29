@@ -55,27 +55,27 @@ public sealed class RoomRewardController : MonoBehaviour
         {
             new GameplayChoice
             {
-                title = "Hồi phục",
-                description = "Hồi 20% HP tối đa.",
+                title = "Recovery",
+                description = "Restore 20% max HP.",
                 accent = new Color(.48f, .12f, .18f, 1f),
                 onSelected = () => player.UsingItem(.2f, 0f, 0f, false)
             },
             new GameplayChoice
             {
-                title = "Nạp ma lực",
-                description = "Hồi 30% MP tối đa.",
+                title = "Mana Recharge",
+                description = "Restore 30% max MP.",
                 accent = new Color(.14f, .25f, .62f, 1f),
                 onSelected = () => player.UsingItem(0f, .3f, 0f, false)
             },
             new GameplayChoice
             {
-                title = "Túi vàng",
-                description = $"Nhận {goldReward} vàng{(bonusObjective ? " nhờ hoàn thành mục tiêu phụ" : "")}.",
+                title = "Gold Pouch",
+                description = $"Gain {goldReward} gold{(bonusObjective ? " for completing the bonus objective" : "")}.",
                 accent = new Color(.62f, .46f, .1f, 1f),
                 onSelected = () => GoldManager.playerGold += goldReward
             }
         };
-        GameplayChoiceUI.Instance.RequestChoices("Phần thưởng căn phòng", "Chọn một lợi thế trước khi đi tiếp", choices);
+        GameplayChoiceUI.Instance.RequestChoices("Room Reward", "Choose one advantage before moving on", choices);
     }
 
     private void ShowRecoveryReward()
@@ -84,27 +84,27 @@ public sealed class RoomRewardController : MonoBehaviour
         {
             new GameplayChoice
             {
-                title = "Hồi đầy sinh lực",
-                description = "Hồi toàn bộ HP.",
+                title = "Full Recovery",
+                description = "Restore all HP.",
                 accent = new Color(.46f, .12f, .2f, 1f),
                 onSelected = () => player.currentHp = player.maxHp
             },
             new GameplayChoice
             {
-                title = "Hồi đầy ma lực",
-                description = "Hồi toàn bộ MP.",
+                title = "Full Mana",
+                description = "Restore all MP.",
                 accent = new Color(.12f, .24f, .62f, 1f),
                 onSelected = () => player.currentMp = player.maxMp
             },
             new GameplayChoice
             {
-                title = "Sức sống lâu dài",
-                description = "+5% HP tối đa.",
+                title = "Enduring Vitality",
+                description = "+5% max HP.",
                 accent = new Color(.32f, .45f, .18f, 1f),
                 onSelected = () => player.ApplyPermanentBonus(.05f, 0f, 0f, 0f)
             }
         };
-        GameplayChoiceUI.Instance.RequestChoices("Suối hồi phục", "Chọn một hiệu ứng", choices);
+        GameplayChoiceUI.Instance.RequestChoices("Healing Spring", "Choose one effect", choices);
     }
 
     private void ShowRelicReward(RoomCategory category)
@@ -130,16 +130,16 @@ public sealed class RoomRewardController : MonoBehaviour
             int gold = category == RoomCategory.Boss ? 30 : 15;
             choices.Add(new GameplayChoice
             {
-                title = "Kho báu vàng",
-                description = $"Nhận {gold} vàng.",
+                title = "Gold Cache",
+                description = $"Gain {gold} gold.",
                 accent = new Color(.62f, .46f, .1f, 1f),
                 onSelected = () => GoldManager.playerGold += gold
             });
         }
 
         GameplayChoiceUI.Instance.RequestChoices(
-            category == RoomCategory.Boss ? "Chiến lợi phẩm Boss" : "Di vật",
-            "Di vật tồn tại trong toàn bộ lần thám hiểm",
+            category == RoomCategory.Boss ? "Boss Spoils" : "Relic",
+            "Relics last for the entire run",
             choices);
     }
 

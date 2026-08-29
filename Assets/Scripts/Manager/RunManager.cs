@@ -172,21 +172,21 @@ public sealed class RunManager : MonoBehaviour
         switch (relic)
         {
             case RelicType.BurningHeart:
-                return Info(relic, "Trái Tim Cháy", "Burn tồn tại lâu hơn 50%.", new Color(.75f, .2f, .08f, 1f));
+                return Info(relic, "Burning Heart", "Burn lasts 50% longer.", new Color(.75f, .2f, .08f, 1f));
             case RelicType.StaticBattery:
-                return Info(relic, "Pin Tĩnh Điện", "Gây Shock hồi 3% MP tối đa.", new Color(.18f, .38f, .78f, 1f));
+                return Info(relic, "Static Battery", "Inflicting Shock restores 3% max MP.", new Color(.18f, .38f, .78f, 1f));
             case RelicType.GlassWand:
-                return Info(relic, "Đũa Thủy Tinh", "+40% sát thương phép, đổi lại giảm 20% HP tối đa.", new Color(.62f, .25f, .72f, 1f));
+                return Info(relic, "Glass Wand", "+40% spell damage, but -20% max HP.", new Color(.62f, .25f, .72f, 1f));
             case RelicType.BloodContract:
-                return Info(relic, "Khế Ước Máu", "+25% ATK, mất 5% HP sau mỗi phòng.", new Color(.6f, .08f, .12f, 1f));
+                return Info(relic, "Blood Pact", "+25% ATK, lose 5% HP after each room.", new Color(.6f, .08f, .12f, 1f));
             case RelicType.EchoCrystal:
-                return Info(relic, "Tinh Thể Vọng Âm", "Kỹ năng active đầu tiên mỗi phòng được thi triển hai lần.", new Color(.32f, .62f, .8f, 1f));
+                return Info(relic, "Echo Crystal", "The first active skill used in each room is cast twice.", new Color(.32f, .62f, .8f, 1f));
             case RelicType.ChainCore:
-                return Info(relic, "Lõi Dẫn Truyền", "Overload gây thêm 50% sát thương.", new Color(.25f, .48f, .86f, 1f));
+                return Info(relic, "Chain Core", "Overload deals 50% more damage.", new Color(.25f, .48f, .86f, 1f));
             case RelicType.VitalCore:
-                return Info(relic, "Lõi Sinh Mệnh", "+20% HP tối đa.", new Color(.48f, .14f, .2f, 1f));
+                return Info(relic, "Vital Core", "+20% max HP.", new Color(.48f, .14f, .2f, 1f));
             default:
-                return Info(relic, "Giếng Ma Lực", "+20% MP tối đa.", new Color(.18f, .25f, .7f, 1f));
+                return Info(relic, "Mana Well", "+20% max MP.", new Color(.18f, .25f, .7f, 1f));
         }
     }
 

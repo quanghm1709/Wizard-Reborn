@@ -1,0 +1,5 @@
+E:/Unity/Wizard Reborn/Wizard-Reborn/.utmp/RelWithDebInfo/5j5n2717/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/Unity/Wizard Reborn/Wizard-Reborn/.utmp/RelWithDebInfo/5j5n2717/arm64-v8a/CMakeFiles/rebuild_cache.dir
+E:/Unity/Wizard Reborn/Wizard-Reborn/.utmp/RelWithDebInfo/5j5n2717/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+E:/Unity/Wizard Reborn/Wizard-Reborn/.utmp/RelWithDebInfo/5j5n2717/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+E:/Unity/Wizard Reborn/Wizard-Reborn/.utmp/RelWithDebInfo/5j5n2717/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

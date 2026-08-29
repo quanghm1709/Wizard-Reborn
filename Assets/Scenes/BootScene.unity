@@ -638,7 +638,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0110ang chu\u1EA9n b\u1ECB tr\xF2 ch\u01A1i..."
+  m_Text: Preparing the game...
 --- !u!1 &1698609374
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,8 +819,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "M\u1EA5t k\u1EBFt n\u1ED1i s\u1EBD kh\xF4ng ng\u0103n b\u1EA1n v\xE0o
-    game"
+  m_Text: Connection issues will never block game access
 --- !u!222 &1965110185
 CanvasRenderer:
   m_ObjectHideFlags: 0

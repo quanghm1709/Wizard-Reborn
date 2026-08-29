@@ -93,7 +93,7 @@ public sealed class BootLoader : MonoBehaviour
     private IEnumerator Start()
     {
         float bootStartedAt = Time.realtimeSinceStartup;
-        SetStatus("Đang chuẩn bị trò chơi...");
+        SetStatus("Preparing the game...");
         SetProgress(.04f, true);
 
         AsyncOperation homeLoad = null;
@@ -129,8 +129,8 @@ public sealed class BootLoader : MonoBehaviour
 
         SetProgress(1f, true);
         SetStatus(FirebaseRuntimeState.IsReady
-            ? "Hoàn tất"
-            : "Tiếp tục ở chế độ ngoại tuyến");
+            ? "Ready"
+            : "Continuing offline");
         yield return new WaitForSecondsRealtime(.2f);
 
         if (homeLoad != null)
@@ -160,7 +160,7 @@ public sealed class BootLoader : MonoBehaviour
     {
         FirebaseRuntimeState.State = FirebaseInitializationState.Initializing;
         FirebaseRuntimeState.LastMessage = "Checking Firebase dependencies";
-        SetStatus("Đang khởi tạo dịch vụ...");
+        SetStatus("Initializing services...");
 
         Task<DependencyStatus> dependencyTask;
         try
@@ -186,7 +186,7 @@ public sealed class BootLoader : MonoBehaviour
             FirebaseRuntimeState.State = FirebaseInitializationState.TimedOut;
             FirebaseRuntimeState.LastMessage = "Firebase initialization timed out; game continued offline";
             Debug.LogWarning(FirebaseRuntimeState.LastMessage);
-            SetStatus("Không thể kết nối, đang vào game...");
+            SetStatus("Unable to connect. Entering the game...");
             completingFirebaseInBackground = true;
             StartCoroutine(CompleteFirebaseInBackground(dependencyTask));
             yield break;

@@ -234,7 +234,7 @@ public sealed class GameplayChoiceUI : MonoBehaviour
         frameOutline.effectDistance = new Vector2(3f, -3f);
 
         Text eyebrow = CreateText("Eyebrow", frame.transform, 17, TextAnchor.MiddleCenter);
-        eyebrow.text = "CHỌN NÂNG CẤP";
+        eyebrow.text = "CHOOSE AN UPGRADE";
         eyebrow.fontStyle = FontStyle.Bold;
         eyebrow.color = new Color(.72f, .6f, 1f, 1f);
         SetRect(eyebrow.rectTransform, new Vector2(.39f, .89f), new Vector2(.61f, .96f), Vector2.zero, Vector2.zero);
@@ -328,7 +328,7 @@ public sealed class GameplayChoiceUI : MonoBehaviour
         }
 
         Text footer = CreateText("Footer", frame.transform, 17, TextAnchor.MiddleCenter);
-        footer.text = "NHẤP VÀO THẺ  •  HOẶC PHÍM 1 / 2 / 3";
+        footer.text = "CLICK A CARD  •  OR PRESS 1 / 2 / 3";
         footer.color = new Color(.52f, .54f, .68f, 1f);
         SetRect(footer.rectTransform, new Vector2(.25f, .035f), new Vector2(.75f, .115f), Vector2.zero, Vector2.zero);
 

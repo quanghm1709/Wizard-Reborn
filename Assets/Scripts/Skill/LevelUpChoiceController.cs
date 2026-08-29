@@ -62,8 +62,8 @@ public sealed class LevelUpChoiceController : MonoBehaviour
             {
                 title = candidate.skill.skillCore.skillName,
                 description = candidate.skill.skillLevel == 0
-                    ? $"Mở kỹ năng\n{candidate.skill.skillCore.skillDescription}"
-                    : $"Cấp {candidate.skill.skillLevel} → {candidate.skill.skillLevel + 1}\n{candidate.skill.skillCore.skillDescription}",
+                    ? $"Unlock Skill\n{EnglishTextCatalog.GetSkillDescription(candidate.skill.skillCore)}"
+                    : $"Level {candidate.skill.skillLevel} → {candidate.skill.skillLevel + 1}\n{EnglishTextCatalog.GetSkillDescription(candidate.skill.skillCore)}",
                 icon = candidate.skillUI != null ? candidate.skillUI.skillIcon : null,
                 accent = candidate.tree.TreePosition == 0
                     ? new Color(.2f, .38f, .72f, 1f)
@@ -81,8 +81,8 @@ public sealed class LevelUpChoiceController : MonoBehaviour
 
         AddFallbackChoices(choices);
         GameplayChoiceUI.Instance.RequestChoices(
-            $"Lên cấp {level}",
-            "Chọn một nâng cấp cho lần thám hiểm này",
+            $"Level Up {level}",
+            "Choose one upgrade for this run",
             choices);
     }
 
@@ -102,8 +102,8 @@ public sealed class LevelUpChoiceController : MonoBehaviour
         {
             choices.Add(new GameplayChoice
             {
-                title = "Sinh lực",
-                description = "+8% HP tối đa và hồi lượng HP tương ứng",
+                title = "Vitality",
+                description = "+8% max HP and restore the same amount",
                 accent = new Color(.55f, .16f, .22f, 1f),
                 onSelected = () =>
                 {
@@ -116,8 +116,8 @@ public sealed class LevelUpChoiceController : MonoBehaviour
         {
             choices.Add(new GameplayChoice
             {
-                title = "Ma lực",
-                description = "+10% MP tối đa và hồi lượng MP tương ứng",
+                title = "Mana",
+                description = "+10% max MP and restore the same amount",
                 accent = new Color(.18f, .28f, .68f, 1f),
                 onSelected = () =>
                 {
@@ -130,8 +130,8 @@ public sealed class LevelUpChoiceController : MonoBehaviour
         {
             choices.Add(new GameplayChoice
             {
-                title = "Sức mạnh phép",
-                description = "+6% sức tấn công",
+                title = "Arcane Power",
+                description = "+6% attack power",
                 accent = new Color(.62f, .32f, .12f, 1f),
                 onSelected = () =>
                 {
