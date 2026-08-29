@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "299819674710",
+    "project_id": "wizard-reborn",
+    "storage_bucket": "wizard-reborn.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299819674710:android:55d0ffde468e3078631ff7",
+        "android_client_info": {
+          "package_name": "com.QuengGameStudio.com.unity.mobile2D"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBe86A5E5cR893TWJ9S3tUetcBiQ7GOt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
